@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>観光スタンプラリー</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8b5cf6">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf5ff 0%, #eff6ff 50%, #f0fdfa 100%);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 448px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 1rem 0;
+        }
+
+        .app-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+
+        .app-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-subtitle {
+            font-size: 1.125rem;
+            color: #64748b;
+        }
+
+        .user-welcome {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .user-welcome .username {
+            font-weight: 500;
+            color: #7c3aed;
+        }
+
+        .location-status {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .location-status.loading {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .location-status.success {
+            font-size: 0.875rem;
+            color: #059669;
+        }
+
+        .location-status svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 448px;
+            padding: 0 1rem 1rem;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #64748b;
+            transition: all 0.2s;
+            border-radius: 0.5rem;
+        }
+
+        .tab.active {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .tab-content {
+            min-height: 400px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #14b8a6, #3b82f6);
+            color: white;
+            border-radius: 0.75rem 0.75rem 0 0;
+            padding: 1rem;
+            margin: -1rem -1rem 1rem -1rem;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-title svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .card-description {
+            color: rgba(20, 184, 166, 0.1);
+            font-size: 0.875rem;
+        }
+
+        .tourist-spot {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .tourist-spot:hover {
+            background: linear-gradient(135deg, #faf5ff, #eff6ff);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tourist-spot:active {
+            transform: scale(0.98);
+        }
+
+        .spot-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .spot-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spot-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: white;
+        }
+
+        .spot-info h4 {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .spot-info p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .spot-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge.points {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+            border: none;
+        }
+
+        .badge.points.outline {
+            background: none;
+            border: 1px solid #a855f7;
+            color: #7c3aed;
+        }
+
+        .badge.visits {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .stamp-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stamp-button.available {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+        }
+
+        .stamp-button.available:hover {
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+        }
+
+        .stamp-button.revisit {
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: white;
+        }
+
+        .stamp-button.revisit:hover {
+            background: linear-gradient(135deg, #2563eb, #059669);
+        }
+
+        .stamp-button.disabled {
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .stamp-button svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .visit-count {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            border: none;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-header svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .profile-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .profile-description {
+            color: rgba(139, 92, 246, 0.1);
+            font-size: 0.875rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.25rem;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 0.25rem;
+            transition: width 0.3s;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .stat-item.purple {
+            background: linear-gradient(135deg, #faf5ff, #eff6ff);
+        }
+
+        .stat-item.green {
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+        }
+
+        .stat-item.orange {
+            background: linear-gradient(135deg, #fff7ed, #fef3c7);
+        }
+
+        .stat-item.yellow {
+            background: linear-gradient(135deg, #fefce8, #fef3c7);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-number.purple { color: #7c3aed; }
+        .stat-number.green { color: #059669; }
+        .stat-number.orange { color: #ea580c; }
+        .stat-number.yellow { color: #ca8a04; }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .category-progress {
+            margin-bottom: 0.75rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .category-count {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 0.5rem;
+            background: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            border-radius: 0.25rem;
+            transition: width 0.3s;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .badge-item {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+        }
+
+        .badge-item.green {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #bbf7d0;
+        }
+
+        .badge-item.orange {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border-color: #fdba74;
+        }
+
+        .badge-item.blue {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+        }
+
+        .badge-item.purple {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border-color: #c4b5fd;
+        }
+
+        .badge-item.yellow {
+            background: linear-gradient(135deg, #fefce8, #fef3c7);
+            border-color: #fde047;
+        }
+
+        .badge-item.red {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-color: #fca5a5;
+        }
+
+        .badge-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .badge-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-label.green { color: #166534; }
+        .badge-label.orange { color: #9a3412; }
+        .badge-label.blue { color: #1e40af; }
+        .badge-label.purple { color: #7c2d12; }
+        .badge-label.yellow { color: #a16207; }
+        .badge-label.red { color: #991b1b; }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, white, #faf5ff, #eff6ff);
+            border-radius: 0.75rem;
+            padding: 0;
+            max-width: 24rem;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+            padding: 0;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 8rem;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1f2937;
+        }
+
+        .section-title svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .section-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .section-icon svg {
+            width: 0.75rem;
+            height: 0.75rem;
+        }
+
+        .section-content {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #374151;
+        }
+
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .highlight-tag {
+            padding: 0.25rem 0.5rem;
+            background: linear-gradient(135deg, #faf5ff, #eff6ff);
+            border: 1px solid #c4b5fd;
+            color: #7c2d12;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .points-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #fef3c7;
+            border-radius: 1rem;
+        }
+
+        .points-display svg {
+            width: 1rem;
+            height: 1rem;
+            color: #f59e0b;
+        }
+
+        .points-text {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #92400e;
+        }
+
+        .permission-screen, .username-setup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #faf5ff, #eff6ff, #f0fdfa);
+        }
+
+        .setup-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 0;
+            max-width: 28rem;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: none;
+        }
+
+        .setup-header {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 1rem 1rem 0 0;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .setup-icon {
+            width: 3rem;
+            height: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .setup-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+
+        .setup-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .setup-description {
+            color: rgba(59, 130, 246, 0.1);
+            font-size: 0.875rem;
+        }
+
+        .setup-body {
+            padding: 1.5rem;
+        }
+
+        .feature-list {
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item.blue {
+            background: #eff6ff;
+        }
+
+        .feature-item.green {
+            background: #f0fdf4;
+        }
+
+        .feature-item.purple {
+            background: #faf5ff;
+        }
+
+        .feature-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.125rem;
+            flex-shrink: 0;
+        }
+
+        .feature-icon.blue { color: #3b82f6; }
+        .feature-icon.green { color: #10b981; }
+        .feature-icon.purple { color: #8b5cf6; }
+
+        .feature-content h4 {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-content h4.blue { color: #1e3a8a; }
+        .feature-content h4.green { color: #065f46; }
+        .feature-content h4.purple { color: #581c87; }
+
+        .feature-content p {
+            font-size: 0.875rem;
+        }
+
+        .feature-content p.blue { color: #1e40af; }
+        .feature-content p.green { color: #047857; }
+        .feature-content p.purple { color: #7c2d12; }
+
+        .button-section {
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .primary-button {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .primary-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .primary-button.loading {
+            background: linear-gradient(135deg, #10b981, #059669);
+            cursor: not-allowed;
+        }
+
+        .primary-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .secondary-button {
+            width: 100%;
+            background: none;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .secondary-button:hover {
+            background: #f9fafb;
+        }
+
+        .secondary-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .notice {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .username-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+
+        .input-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .example-section {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .example-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .example-button {
+            padding: 0.25rem 0.75rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-button:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        .start-button {
+            width: 100%;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .start-button:hover {
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+        }
+
+        .start-button:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .start-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 1.5rem;
+        }
+
+        .loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #faf5ff, #eff6ff, #f0fdfa);
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 4rem;
+            height: 4rem;
+            border: 4px solid #8b5cf6;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .loading-text {
+            color: #64748b;
+        }
+
+        .history-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+        }
+
+        .summary-item.teal {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border-color: #5eead4;
+        }
+
+        .summary-item.blue {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+        }
+
+        .summary-item.purple {
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border-color: #c4b5fd;
+        }
+
+        .summary-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-number.teal { color: #0d9488; }
+        .summary-number.blue { color: #2563eb; }
+        .summary-number.purple { color: #7c3aed; }
+
+        .summary-label {
+            font-size: 0.75rem;
+        }
+
+        .summary-label.teal { color: #134e4a; }
+        .summary-label.blue { color: #1e3a8a; }
+        .summary-label.purple { color: #581c87; }
+
+        .history-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-header svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #8b5cf6;
+        }
+
+        .visit-list {
+            max-height: 24rem;
+            overflow-y: auto;
+        }
+
+        .visit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, white, #f9fafb);
+            border-radius: 0.75rem;
+            border: 1px solid #f1f5f9;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .visit-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .visit-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #14b8a6, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .visit-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: white;
+        }
+
+        .visit-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .visit-name {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .visit-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .visit-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .visit-meta-item svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .visit-points {
+            flex-shrink: 0;
+        }
+
+        .points-badge {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde047;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .category-stats {
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .category-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+
+        .category-stat-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .category-stat-count {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .settings-section {
+            margin-bottom: 1rem;
+        }
+
+        .settings-header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 0.75rem 0.75rem 0 0;
+            padding: 1rem;
+            margin: -1rem -1rem 1rem -1rem;
+        }
+
+        .settings-content {
+            padding-top: 1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .setting-label {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .setting-value {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .setting-value.outline {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .setting-value.blue {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .danger-section {
+            border: 1px solid #fecaca;
+        }
+
+        .danger-header {
+            background: linear-gradient(135deg, #ef4444, #ec4899);
+        }
+
+        .danger-button {
+            width: 100%;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .danger-button:hover {
+            background: #dc2626;
+        }
+
+        .danger-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .app-info {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .app-info p {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p:last-child {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-outline {
+            background: none;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-outline:hover {
+            background: #f9fafb;
+        }
+
+        .offline-banner {
+            width: 100%;
+            background: #ef4444;
+            color: white;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .offline-banner svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">アプリを読み込み中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SVGアイコンの定義
+        const icons = {
+            mapPin: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+            camera: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+            star: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+            trophy: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>',
+            user: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>',
+            map: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>',
+            clock: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            navigation: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>',
+            heart: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+            wifi: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>',
+            wifiOff: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728m7.072-7.072L9.879 14.12M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>',
+            shield: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>',
+            checkCircle: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            xCircle: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            sparkles: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>',
+            arrowRight: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>',
+            history: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            calendar: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>',
+            rotateCcw: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>',
+            settings: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+            download: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>',
+            trash: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>',
+            bell: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'
+        };
+
+        // アプリケーションの状態管理
+        class AppState {
+            constructor() {
+                this.userData = {
+                    name: '太郎',
+                    spotVisitCounts: {},
+                    lastStampDates: {},
+                    visitHistory: [],
+                    totalPoints: 0,
+                    isUsernameSet: false
+                };
+                this.currentTab = 'map';
+                this.userLocation = null;
+                this.hasLocationPermission = false;
+                this.permissionRequested = false;
+                this.isLoading = true;
+                this.selectedSpot = null;
+                this.isOnline = navigator.onLine;
+                
+                this.loadUserData();
+                this.init();
+                this.setupOnlineListener();
+            }
+
+            setupOnlineListener() {
+                window.addEventListener('online', () => {
+                    this.isOnline = true;
+                    this.render();
+                });
+                window.addEventListener('offline', () => {
+                    this.isOnline = false;
+                    this.render();
+                });
+            }
+
+            loadUserData() {
+                const saved = localStorage.getItem('touristAppData');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    this.userData = { ...this.userData, ...data };
+                    // 総ポイントを再計算
+                    this.userData.totalPoints = this.userData.visitHistory.reduce((total, visit) => total + visit.points, 0);
+                }
+            }
+
+            saveUserData() {
+                localStorage.setItem('touristAppData', JSON.stringify(this.userData));
+            }
+
+            async init() {
+                // 位置情報の許可状態をチェック
+                if (navigator.geolocation) {
+                    try {
+                        const permission = await navigator.permissions.query({name: 'geolocation'});
+                        if (permission.state === 'granted') {
+                            this.hasLocationPermission = true;
+                            this.permissionRequested = true;
+                            this.getCurrentLocation();
+                        }
+                    } catch (e) {
+                        // permissions API がサポートされていない場合
+                    }
+                }
+
+                this.isLoading = false;
+                this.render();
+            }
+
+            getCurrentLocation() {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        this.userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        this.render();
+                    },
+                    () => {
+                        // 位置情報取得に失敗
+                    }
+                );
+            }
+
+            async requestLocationPermission() {
+                return new Promise((resolve) => {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            this.userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            this.hasLocationPermission = true;
+                            this.permissionRequested = true;
+                            resolve(true);
+                        },
+                        () => {
+                            this.hasLocationPermission = false;
+                            this.permissionRequested = true;
+                            resolve(false);
+                        }
+                    );
+                });
+            }
+
+            setUsername(username) {
+                this.userData.name = username;
+                this.userData.isUsernameSet = true;
+                this.saveUserData();
+                this.render();
+            }
+
+            stampSpot(spotId) {
+                const today = new Date().toDateString();
+                const lastStampDate = this.userData.lastStampDates[spotId];
+                
+                if (lastStampDate === today) {
+                    return false; // 今日は既にスタンプ済み
+                }
+
+                // 訪問回数を増やす
+                this.userData.spotVisitCounts[spotId] = (this.userData.spotVisitCounts[spotId] || 0) + 1;
+                this.userData.lastStampDates[spotId] = today;
+
+                // 履歴に追加
+                const spot = touristSpots.find(s => s.id === spotId);
+                const visit = {
+                    spotId,
+                    spotName: spot.name,
+                    category: spot.category,
+                    visitCount: this.userData.spotVisitCounts[spotId],
+                    points: spot.points,
+                    timestamp: new Date().toISOString()
+                };
+                
+                this.userData.visitHistory.push(visit);
+                this.userData.totalPoints += spot.points;
+
+                this.saveUserData();
+                this.render();
+                return true;
+            }
+
+            canStampToday(spotId) {
+                const today = new Date().toDateString();
+                return this.userData.lastStampDates[spotId] !== today;
+            }
+
+            getVisitCount(spotId) {
+                return this.userData.spotVisitCounts[spotId] || 0;
+            }
+
+            getTotalUniqueSpots() {
+                return Object.keys(this.userData.spotVisitCounts).length;
+            }
+
+            getAchievementPercentage() {
+                return Math.round((this.getTotalUniqueSpots() / touristSpots.length) * 100);
+            }
+
+            getCurrentRank() {
+                const points = this.userData.totalPoints;
+                if (points >= 15) return { name: 'Platinum', icon: '💎' };
+                if (points >= 10) return { name: 'Gold', icon: '🥇' };
+                if (points >= 6) return { name: 'Silver', icon: '🥈' };
+                if (points >= 3) return { name: 'Bronze', icon: '🥉' };
+                return { name: 'Beginner', icon: '🔰' };
+            }
+
+            isStamped(spotId) {
+                return this.getVisitCount(spotId) > 0;
+            }
+
+            render() {
+                const app = document.getElementById('app');
+                
+                if (this.isLoading) {
+                    app.innerHTML = `
+                        <div class="loading-screen">
+                            <div class="loading-content">
+                                <div class="loading-spinner"></div>
+                                <p class="loading-text">アプリを読み込み中...</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (!this.permissionRequested) {
+                    app.innerHTML = this.renderLocationPermissionScreen();
+                    return;
+                }
+
+                if (!this.userData.isUsernameSet) {
+                    app.innerHTML = this.renderUsernameSetupScreen();
+                    return;
+                }
+
+                app.innerHTML = this.renderMainApp();
+                this.attachEventListeners();
+            }
+
+            renderLocationPermissionScreen() {
+                return `
+                    <div class="permission-screen">
+                        <div class="setup-card">
+                            <div class="setup-header">
+                                <div class="setup-icon">
+                                    ${icons.navigation}
+                                </div>
+                                <h1 class="setup-title">位置情報の使用許可</h1>
+                                <p class="setup-description">スタンプの取得のために位置情報が必要です</p>
+                            </div>
+                            <div class="setup-body">
+                                <div class="feature-list">
+                                    <div class="feature-item blue">
+                                        <div class="feature-icon blue">${icons.shield}</div>
+                                        <div class="feature-content">
+                                            <h4 class="blue">プライバシー保護</h4>
+                                            <p class="blue">位置情報はスタンプ取得の確認にのみ使用され、外部に送信されることはありません。</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item green">
+                                        <div class="feature-icon green">${icons.mapPin}</div>
+                                        <div class="feature-content">
+                                            <h4 class="green">スタンプ取得</h4>
+                                            <p class="green">観光地の近くにいる時のみスタンプを取得できます。</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item purple">
+                                        <div class="feature-icon purple">${icons.navigation}</div>
+                                        <div class="feature-content">
+                                            <h4 class="purple">距離表示</h4>
+                                            <p class="purple">現在地から各観光地までの距離を表示します。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button class="primary-button" onclick="app.handleLocationPermission()">
+                                        ${icons.checkCircle}
+                                        位置情報の使用を許可
+                                    </button>
+                                    <button class="secondary-button" onclick="app.handleLocationDenied()">
+                                        ${icons.xCircle}
+                                        許可しない（一部機能が制限されます）
+                                    </button>
+                                </div>
+                                <div class="notice">
+                                    位置情報を許可しない場合、スタンプの取得や距離表示機能が利用できません。<br>
+                                    設定はブラウザの設定からいつでも変更できます。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <p>© 2024 観光スタンプラリー</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderUsernameSetupScreen() {
+                return `
+                    <div class="username-setup">
+                        <div class="setup-card">
+                            <div class="setup-header">
+                                <div class="setup-icon">
+                                    ${icons.sparkles}
+                                </div>
+                                <h1 class="setup-title">ユーザー名を設定</h1>
+                                <p class="setup-description">スタンプラリーで使用するお名前を教えてください</p>
+                            </div>
+                            <div class="setup-body">
+                                <div class="feature-list">
+                                    <div class="feature-item blue">
+                                        <div class="feature-icon blue">${icons.user}</div>
+                                        <div class="feature-content">
+                                            <h4 class="blue">プロフィール表示</h4>
+                                            <p class="blue">設定したお名前はプロフィール画面や実績表示で使用されます。</p>
+                                        </div>
+                                    </div>
+                                    <div class="feature-item green">
+                                        <div class="feature-icon green">${icons.sparkles}</div>
+                                        <div class="feature-content">
+                                            <h4 class="green">いつでも変更可能</h4>
+                                            <p class="green">ユーザー名は後から設定画面で変更することができます。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label for="usernameInput" style="font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem; display: block;">
+                                        ユーザー名 <span style="color: #ef4444;">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        class="username-input" 
+                                        placeholder="例: 山田太郎"
+                                        maxlength="20"
+                                        id="usernameInput"
+                                    >
+                                    <div class="input-meta">
+                                        <span>2文字以上20文字以内</span>
+                                        <span id="charCount">0/20文字</span>
+                                    </div>
+                                </div>
+                                <div class="example-section">
+                                    <h4 class="example-title">入力例</h4>
+                                    <div class="example-buttons">
+                                        <button class="example-button" onclick="app.setExampleName('山田太郎')">山田太郎</button>
+                                        <button class="example-button" onclick="app.setExampleName('観光好き')">観光好き</button>
+                                        <button class="example-button" onclick="app.setExampleName('旅人')">旅人</button>
+                                        <button class="example-button" onclick="app.setExampleName('スタンプ収集家')">スタンプ収集家</button>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button class="start-button" onclick="app.handleUsernameSubmit()" id="startButton" disabled>
+                                        <span>スタンプラリーを開始</span>
+                                        ${icons.arrowRight}
+                                    </button>
+                                </div>
+                                <div class="notice">
+                                    ユーザー名は他のユーザーには表示されません。<br>
+                                    個人を特定できる情報の入力はお控えください。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <p>© 2024 観光スタンプラリー</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderMainApp() {
+                return `
+                    ${!this.isOnline ? `
+                        <div class="offline-banner">
+                            ${icons.wifiOff}
+                            オフラインモードです
+                        </div>
+                    ` : ''}
+                    
+                    <div class="container">
+                        <div class="header">
+                            <div class="app-icon">
+                                ${icons.mapPin}
+                            </div>
+                            <h1 class="app-title">観光スタンプラリー</h1>
+                            <p class="app-subtitle">地域を巡ってスタンプを集めよう！</p>
+                            <div class="user-welcome">
+                                ようこそ、<span class="username">${this.userData.name}</span>さん
+                            </div>
+                            <div class="location-status ${this.userLocation ? 'success' : 'loading'}">
+                                ${this.userLocation ? `
+                                    ${icons.wifi}
+                                    位置情報取得済み
+                                ` : `
+                                    <div class="spinner"></div>
+                                    位置情報を取得中...
+                                `}
+                            </div>
+                        </div>
+                        
+                        <div class="main-content">
+                            <div class="tabs">
+                                <button class="tab ${this.currentTab === 'map' ? 'active' : ''}" onclick="app.switchTab('map')">
+                                    マップ
+                                </button>
+                                <button class="tab ${this.currentTab === 'nearby' ? 'active' : ''}" onclick="app.switchTab('nearby')">
+                                    近く
+                                </button>
+                                <button class="tab ${this.currentTab === 'profile' ? 'active' : ''}" onclick="app.switchTab('profile')">
+                                    プロフィール
+                                </button>
+                                <button class="tab ${this.currentTab === 'history' ? 'active' : ''}" onclick="app.switchTab('history')">
+                                    履歴
+                                </button>
+                                <button class="tab ${this.currentTab === 'settings' ? 'active' : ''}" onclick="app.switchTab('settings')">
+                                    設定
+                                </button>
+                            </div>
+
+                            <div class="tab-content">
+                                ${this.renderTabContent()}
+                            </div>
+                        </div>
+                    </div>
+                    ${this.selectedSpot ? this.renderModal() : ''}
+                `;
+            }
+
+            renderTabContent() {
+                switch (this.currentTab) {
+                    case 'map':
+                        return this.renderMapTab();
+                    case 'nearby':
+                        return this.renderNearbyTab();
+                    case 'profile':
+                        return this.renderProfileTab();
+                    case 'history':
+                        return this.renderHistoryTab();
+                    case 'settings':
+                        return this.renderSettingsTab();
+                    default:
+                        return '';
+                }
+            }
+
+            renderMapTab() {
+                return `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ${icons.map}
+                                観光地マップ
+                            </div>
+                            <div class="card-description">観光地をタップして詳細を確認</div>
+                        </div>
+                        <div style="margin: -1rem; margin-top: 0; padding: 1rem;">
+                            ${touristSpots.map(spot => `
+                                <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
+                                    <div class="spot-left">
+                                        <div class="spot-icon">
+                                            ${icons.camera}
+                                        </div>
+                                        <div class="spot-info">
+                                            <h4>${spot.name}</h4>
+                                            <p>${spot.category}</p>
+                                        </div>
+                                    </div>
+                                    <div class="spot-right">
+                                        <div class="badge points ${this.isStamped(spot.id) ? '' : 'outline'}">
+                                            ${spot.points}pt
+                                        </div>
+                                        ${this.getVisitCount(spot.id) > 0 ? `
+                                            <div class="badge visits">
+                                                ${this.getVisitCount(spot.id)}回
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderNearbyTab() {
+                const nearbySpots = touristSpots.slice(0, 3);
+                
+                return `
+                    <h2 class="section-header">
+                        ${icons.mapPin}
+                        近くの観光地
+                    </h2>
+                    ${nearbySpots.map(spot => `
+                        <div class="card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                                        <h3 style="font-weight: 700; color: #1f2937;">${spot.name}</h3>
+                                        ${this.userLocation ? `
+                                            <div class="badge" style="background: none; border: 1px solid #d1d5db; color: #64748b; font-size: 0.75rem;">
+                                                約 ${Math.floor(Math.random() * 500) + 100}m
+                                            </div>
+                                        ` : ''}
+                                        ${this.getVisitCount(spot.id) > 0 ? `
+                                            <div class="badge visits">
+                                                ${this.getVisitCount(spot.id)}回
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <p style="font-size: 0.875rem; line-height: 1.5; color: #64748b;">${spot.description}</p>
+                                </div>
+                                <div class="badge" style="margin-left: 0.5rem; border: none; background: linear-gradient(135deg, #faf5ff, #eff6ff); color: #7c2d12;">
+                                    ${this.getCategoryName(spot.category)}
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="points-display">
+                                        ${icons.star}
+                                        <span class="points-text">${spot.points}pt</span>
+                                    </div>
+                                </div>
+                                ${this.renderStampButton(spot.id)}
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            renderProfileTab() {
+                const currentRank = this.getCurrentRank();
+                const totalUniqueSpots = this.getTotalUniqueSpots();
+                const achievement = this.getAchievementPercentage();
+
+                return `
+                    <div class="card profile-card">
+                        <div class="profile-header">
+                            ${icons.trophy}
+                            <div>
+                                <div class="profile-title">達成度 ${achievement}%</div>
+                                <div class="profile-description">
+                                    ${this.userData.totalPoints} ポイント • ${currentRank.name} ${currentRank.icon}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${achievement}%"></div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: rgba(139, 92, 246, 0.1);">
+                            ${totalUniqueSpots} / ${touristSpots.length} スポット訪問済み
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                            <div class="card-title">
+                                ${icons.user}
+                                ${this.userData.name}
+                            </div>
+                            <div class="card-description">
+                                達成度 ${achievement}% • ${this.userData.totalPoints} ポイント
+                            </div>
+                        </div>
+                        <div class="settings-content">
+                            <div class="setting-item">
+                                <span class="setting-label">訪問スポット数</span>
+                                <span style="font-weight: 700;">${totalUniqueSpots} / ${touristSpots.length}</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">総訪問回数</span>
+                                <span style="font-weight: 700;">${this.userData.visitHistory.length}回</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">達成率</span>
+                                <span style="font-weight: 700; color: #059669;">${achievement}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #10b981, #3b82f6);">
+                            <div class="card-title">
+                                ${icons.star}
+                                統計情報
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item purple">
+                                <div class="stat-number purple">${this.userData.totalPoints}</div>
+                                <div class="stat-label">総ポイント</div>
+                            </div>
+                            <div class="stat-item green">
+                                <div class="stat-number green">${totalUniqueSpots}</div>
+                                <div class="stat-label">訪問スポット</div>
+                            </div>
+                            <div class="stat-item orange">
+                                <div class="stat-number orange">${this.userData.visitHistory.length}</div>
+                                <div class="stat-label">総訪問回数</div>
+                            </div>
+                            <div class="stat-item yellow">
+                                <div class="stat-number yellow">${achievement}%</div>
+                                <div class="stat-label">達成度</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #ec4899, #a855f7);">
+                            <div class="card-title">
+                                ${icons.mapPin}
+                                カテゴリ別達成状況
+                            </div>
+                        </div>
+                        ${['自然', '文化', '景観', '温泉'].map(category => {
+                            const categorySpots = touristSpots.filter(spot => this.getCategoryName(spot.category) === category);
+                            const visitedSpots = categorySpots.filter(spot => this.userData.spotVisitCounts[spot.id] > 0);
+                            const percentage = categorySpots.length > 0 ? (visitedSpots.length / categorySpots.length) * 100 : 0;
+
+                            return `
+                                <div class="category-progress">
+                                    <div class="category-header">
+                                        <span class="category-name">${category}</span>
+                                        <span class="category-count">${visitedSpots.length}/${categorySpots.length}</span>
+                                    </div>
+                                    <div class="progress-track">
+                                        <div class="progress-bar-fill" style="width: ${percentage}%"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                            <div class="card-title">
+                                ${icons.trophy}
+                                獲得バッジ
+                            </div>
+                        </div>
+                        <div class="badges-grid">
+                            ${this.userData.visitHistory.length > 0 ? `
+                                <div class="badge-item green">
+                                    <div class="badge-emoji">🎯</div>
+                                    <div class="badge-label green">初回訪問</div>
+                                </div>
+                            ` : ''}
+                            ${currentRank && this.userData.totalPoints >= 3 ? `
+                                <div class="badge-item orange">
+                                    <div class="badge-emoji">${currentRank.icon}</div>
+                                    <div class="badge-label orange">${currentRank.name}</div>
+                                </div>
+                            ` : ''}
+                            ${totalUniqueSpots >= 3 ? `
+                                <div class="badge-item blue">
+                                    <div class="badge-emoji">⭐</div>
+                                    <div class="badge-label blue">3スポット</div>
+                                </div>
+                            ` : ''}
+                            ${achievement >= 50 ? `
+                                <div class="badge-item purple">
+                                    <div class="badge-emoji">👑</div>
+                                    <div class="badge-label purple">50%達成</div>
+                                </div>
+                            ` : ''}
+                            ${totalUniqueSpots === touristSpots.length ? `
+                                <div class="badge-item yellow">
+                                    <div class="badge-emoji">🏆</div>
+                                    <div class="badge-label yellow">全制覇</div>
+                                </div>
+                            ` : ''}
+                            ${this.userData.visitHistory.length >= 10 ? `
+                                <div class="badge-item red">
+                                    <div class="badge-emoji">🗺️</div>
+                                    <div class="badge-label red">探検家</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${this.userData.visitHistory.length === 0 ? `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">🎯</div>
+                                <p>観光地を訪問してバッジを獲得しよう！</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            renderHistoryTab() {
+                const sortedHistory = [...this.userData.visitHistory].reverse();
+                const spotCounts = {};
+                
+                Object.entries(this.userData.spotVisitCounts).forEach(([spotId, count]) => {
+                    const spot = touristSpots.find(s => s.id === spotId);
+                    if (spot) {
+                        spotCounts[spotId] = { spot, count };
+                    }
+                });
+
+                return `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ${icons.history}
+                                訪問履歴
+                            </div>
+                            <div class="card-description">今までに訪問した観光地の記録 (${this.userData.visitHistory.length}回訪問)</div>
+                        </div>
+                        
+                        <div class="history-summary">
+                            <div class="summary-item teal">
+                                <div class="summary-number teal">${this.userData.visitHistory.length}</div>
+                                <div class="summary-label teal">総訪問回数</div>
+                            </div>
+                            <div class="summary-item blue">
+                                <div class="summary-number blue">${this.getTotalUniqueSpots()}</div>
+                                <div class="summary-label blue">訪問スポット</div>
+                            </div>
+                            <div class="summary-item purple">
+                                <div class="summary-number purple">${this.userData.totalPoints}</div>
+                                <div class="summary-label purple">総ポイント</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${Object.values(spotCounts).length > 0 ? `
+                        <div class="card">
+                            <div class="history-section">
+                                <h4 class="section-header">
+                                    ${icons.rotateCcw}
+                                    観光地別訪問回数
+                                </h4>
+                                ${Object.values(spotCounts)
+                                    .sort((a, b) => b.count - a.count)
+                                    .map(({ spot, count }) => `
+                                        <div class="visit-item">
+                                            <div class="visit-icon">
+                                                ${icons.camera}
+                                            </div>
+                                            <div class="visit-info">
+                                                <h4 class="visit-name">${spot.name}</h4>
+                                                <div class="badge" style="background: ${this.getCategoryBg(spot.category)}; color: ${this.getCategoryColor(spot.category)}; border: 1px solid ${this.getCategoryBorder(spot.category)}; font-size: 0.75rem;">
+                                                    ${this.getCategoryName(spot.category)}
+                                                </div>
+                                            </div>
+                                            <div style="text-align: right;">
+                                                <div style="font-size: 1.125rem; font-weight: 700; color: #7c3aed;">${count}</div>
+                                                <div style="font-size: 0.75rem; color: #64748b;">回訪問</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="card">
+                        <div class="history-section">
+                            <h4 class="section-header">最近の訪問履歴</h4>
+                            ${sortedHistory.length > 0 ? `
+                                <div class="visit-list">
+                                    ${sortedHistory.slice(0, 10).map(visit => `
+                                        <div class="visit-item">
+                                            <div class="visit-icon">
+                                                ${icons.camera}
+                                            </div>
+                                            <div class="visit-info">
+                                                <h4 class="visit-name">${visit.spotName}</h4>
+                                                <div class="visit-meta">
+                                                    <div class="visit-meta-item">
+                                                        ${icons.calendar}
+                                                        ${new Date(visit.timestamp).toLocaleDateString('ja-JP')}
+                                                    </div>
+                                                    <div class="visit-meta-item">
+                                                        ${icons.rotateCcw}
+                                                        ${visit.visitCount}回目
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="visit-points">
+                                                <div class="points-badge">+${visit.points}pt</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">📍</div>
+                                    <p style="font-size: 1.125rem; font-weight: 500; color: #64748b; margin-bottom: 0.5rem;">まだ訪問履歴がありません</p>
+                                    <p style="font-size: 0.875rem; color: #64748b;">観光地を訪問してスタンプを集めましょう！</p>
+                                </div>
+                            `}
+                        </div>
+
+                        <div class="category-stats">
+                            <h4 class="section-header">カテゴリ別訪問状況</h4>
+                            <div class="category-grid">
+                                ${['自然', '文化', '景観', '温泉'].map(category => {
+                                    const categoryVisits = this.userData.visitHistory.filter(visit => {
+                                        const spot = touristSpots.find(s => s.id === visit.spotId);
+                                        return spot && this.getCategoryName(spot.category) === category;
+                                    });
+
+                                    return `
+                                        <div class="category-stat">
+                                            <span class="category-stat-name">${category}</span>
+                                            <span class="category-stat-count">${categoryVisits.length}回</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderSettingsTab() {
+                const achievement = this.getAchievementPercentage();
+                const totalUniqueSpots = this.getTotalUniqueSpots();
+
+                return `
+                    <h2 class="section-header">
+                        ${icons.settings}
+                        設定
+                    </h2>
+
+                    <div class="card settings-section">
+                        <div class="settings-header">
+                            <div class="card-title">
+                                ${icons.user}
+                                ユーザー設定
+                            </div>
+                            <div class="card-description">プロフィール情報の管理</div>
+                        </div>
+                        <div class="settings-content">
+                            <div class="setting-item">
+                                <span class="setting-label">現在の達成度</span>
+                                <span class="setting-value">${achievement}%</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">訪問スポット数</span>
+                                <span class="setting-value outline">${totalUniqueSpots}スポット</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">総訪問回数</span>
+                                <span class="setting-value blue">${this.userData.visitHistory.length}回</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #6b7280, #4b5563);">
+                            <div class="card-title">
+                                ${icons.download}
+                                データ管理
+                            </div>
+                            <div class="card-description">データのバックアップと復元</div>
+                        </div>
+                        <button class="btn btn-outline" onclick="app.exportData()" style="width: 100%;">
+                            ${icons.download}
+                            データをエクスポート
+                        </button>
+                    </div>
+
+                    <div class="card settings-section danger-section">
+                        <div class="settings-header danger-header">
+                            <div class="card-title">
+                                ${icons.trash}
+                                危険な操作
+                            </div>
+                            <div class="card-description">注意して操作してください</div>
+                        </div>
+                        <button class="danger-button" onclick="app.resetData()">
+                            ${icons.trash}
+                            全データをリセット
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="app-info">
+                            <p>観光スタンプラリー</p>
+                            <p>バージョン 1.0.0</p>
+                            <p>© 2024 Tourism App</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderStampButton(spotId) {
+                const visitCount = this.getVisitCount(spotId);
+                const canStamp = this.canStampToday(spotId);
+                
+                let buttonClass, buttonText, buttonIcon;
+                if (visitCount === 0) {
+                    buttonClass = canStamp ? 'available' : 'disabled';
+                    buttonText = canStamp ? 'スタンプ' : '今日は取得済み';
+                    buttonIcon = canStamp ? icons.mapPin : icons.clock;
+                } else {
+                    buttonClass = canStamp ? 'revisit' : 'disabled';
+                    buttonText = canStamp ? '再訪問' : '今日は取得済み';
+                    buttonIcon = canStamp ? icons.mapPin : icons.clock;
+                }
+
+                return `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+                        <button class="stamp-button ${buttonClass}" 
+                                onclick="app.handleStamp('${spotId}')"
+                                ${!canStamp ? 'disabled' : ''}>
+                            ${buttonIcon}
+                            ${buttonText}
+                        </button>
+                        ${visitCount > 0 ? `<div class="visit-count">${visitCount}回訪問</div>` : ''}
+                    </div>
+                `;
+            }
+
+            renderModal() {
+                const spot = touristSpots.find(s => s.id === this.selectedSpot);
+                if (!spot) return '';
+
+                return `
+                    <div class="modal" onclick="app.closeModal(event)">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="modal-header">
+                                    <div class="modal-title">
+                                        ${spot.name}
+                                        <div class="badge" style="background: linear-gradient(135deg, #faf5ff, #eff6ff); color: #7c2d12; border: none;">
+                                            ${this.getCategoryName(spot.category)}
+                                        </div>
+                                    </div>
+                                    <button class="close-button" onclick="app.closeModal()">&times;</button>
+                                </div>
+                                <p style="color: #64748b; margin-bottom: 1.5rem;">${spot.description}</p>
+                                
+                                <img src="/placeholder.svg?height=128&width=384" alt="${spot.name}" class="modal-image">
+                                
+                                <div class="modal-section">
+                                    <h4 class="section-title">
+                                        <div class="section-icon">ℹ️</div>
+                                        詳細情報
+                                    </h4>
+                                    <p class="section-content">${spot.detailedDescription}</p>
+                                </div>
+
+                                <div class="modal-section">
+                                    <h4 class="section-title">
+                                        <div class="section-icon">${icons.navigation}</div>
+                                        アクセス
+                                    </h4>
+                                    <p class="section-content">${spot.accessInfo}</p>
+                                </div>
+
+                                <div class="modal-section">
+                                    <h4 class="section-title">
+                                        <div class="section-icon">${icons.clock}</div>
+                                        営業時間
+                                    </h4>
+                                    <p class="section-content">${spot.openingHours}</p>
+                                </div>
+
+                                <div class="modal-section">
+                                    <h4 class="section-title">
+                                        <div class="section-icon">${icons.heart}</div>
+                                        おすすめポイント
+                                    </h4>
+                                    <div class="highlights">
+                                        ${spot.highlights.map(highlight => `
+                                            <div class="highlight-tag">${highlight}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="points-display">
+                                        ${icons.star}
+                                        <span class="points-text">${spot.points}ポイント</span>
+                                    </div>
+                                    ${this.renderStampButton(this.selectedSpot)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getCategoryName(category) {
+                const names = {
+                    nature: '自然',
+                    culture: '文化',
+                    scenery: '景観',
+                    hotspring: '温泉'
+                };
+                return names[category] || category;
+            }
+
+            getCategoryBg(category) {
+                const colors = {
+                    nature: '#dcfce7',
+                    culture: '#dbeafe',
+                    scenery: '#f3e8ff',
+                    hotspring: '#fed7aa'
+                };
+                return colors[category] || '#f3f4f6';
+            }
+
+            getCategoryColor(category) {
+                const colors = {
+                    nature: '#166534',
+                    culture: '#1e40af',
+                    scenery: '#7c2d12',
+                    hotspring: '#9a3412'
+                };
+                return colors[category] || '#374151';
+            }
+
+            getCategoryBorder(category) {
+                const colors = {
+                    nature: '#bbf7d0',
+                    culture: '#93c5fd',
+                    scenery: '#c4b5fd',
+                    hotspring: '#fdba74'
+                };
+                return colors[category] || '#d1d5db';
+            }
+
+            // イベントハンドラー
+            async handleLocationPermission() {
+                const button = document.querySelector('.primary-button');
+                button.innerHTML = `
+                    <div class="spinner"></div>
+                    位置情報を取得中...
+                `;
+                button.classList.add('loading');
+
+                const granted = await this.requestLocationPermission();
+                if (granted) {
+                    this.render();
+                } else {
+                    alert('位置情報の許可が必要です。ブラウザの設定から許可してください。');
+                    button.innerHTML = `
+                        ${icons.checkCircle}
+                        位置情報の使用を許可
+                    `;
+                    button.classList.remove('loading');
+                }
+            }
+
+            handleLocationDenied() {
+                this.permissionRequested = true;
+                this.hasLocationPermission = false;
+                this.render();
+            }
+
+            setExampleName(name) {
+                const input = document.getElementById('usernameInput');
+                const charCount = document.getElementById('charCount');
+                const startButton = document.getElementById('startButton');
+                
+                input.value = name;
+                charCount.textContent = `${name.length}/20文字`;
+                startButton.disabled = name.length < 2;
+            }
+
+            handleUsernameSubmit() {
+                const input = document.getElementById('usernameInput');
+                const username = input.value.trim();
+                
+                if (username.length < 2) {
+                    alert('ユーザー名は2文字以上で入力してください。');
+                    return;
+                }
+                
+                if (username.length > 20) {
+                    alert('ユーザー名は20文字以内で入力してください。');
+                    return;
+                }
+
+                this.setUsername(username);
+            }
+
+            switchTab(tab) {
+                this.currentTab = tab;
+                this.render();
+            }
+
+            showSpotDetails(spotId) {
+                this.selectedSpot = spotId;
+                this.render();
+            }
+
+            closeModal(event) {
+                if (!event || event.target.classList.contains('modal') || event.target.classList.contains('close-button')) {
+                    this.selectedSpot = null;
+                    this.render();
+                }
+            }
+
+            handleStamp(spotId) {
+                if (this.canStampToday(spotId)) {
+                    const success = this.stampSpot(spotId);
+                    if (success) {
+                        const spot = touristSpots.find(s => s.id === spotId);
+                        const newVisitCount = this.getVisitCount(spotId);
+                        if (newVisitCount === 1) {
+                            alert(`🎉 ${spot.name}のスタンプを取得しました！\n${spot.points}ポイント獲得！`);
+                        } else {
+                            alert(`🎉 ${spot.name}のスタンプを取得しました！\n${spot.points}ポイント獲得！\n（${newVisitCount}回目の訪問）`);
+                        }
+                    }
+                }
+            }
+
+            exportData() {
+                const dataStr = JSON.stringify(this.userData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `stamp-rally-backup-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            resetData() {
+                if (confirm('すべてのデータがリセットされます。よろしいですか？')) {
+                    localStorage.removeItem('touristAppData');
+                    location.reload();
+                }
+            }
+
+            attachEventListeners() {
+                // ユーザー名入力のイベントリスナー
+                const usernameInput = document.getElementById('usernameInput');
+                const charCount = document.getElementById('charCount');
+                const startButton = document.getElementById('startButton');
+                
+                if (usernameInput) {
+                    usernameInput.addEventListener('input', (e) => {
+                        const length = e.target.value.length;
+                        charCount.textContent = `${length}/20文字`;
+                        startButton.disabled = length < 2;
+                    });
+                    
+                    usernameInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter' && !startButton.disabled) {
+                            this.handleUsernameSubmit();
+                        }
+                    });
+                }
+            }
+        }
+
+        // 観光スポットデータ
+        const touristSpots = [
+            {
+                id: 'spot1',
+                name: '美しい湖',
+                category: 'nature',
+                description: '透明度の高い美しい湖で、四季折々の景色を楽しめます。',
+                detailedDescription: '標高1200mに位置する神秘的な湖。エメラルドグリーンの湖面が美しく、周囲の山々が鏡のように映り込みます。春は新緑、夏は深緑、秋は紅葉、冬は雪景色と、一年を通して異なる表情を見せてくれます。',
+                accessInfo: 'JR○○駅からバスで30分、○○湖入口下車徒歩15分',
+                openingHours: '24時間開放（冬季は積雪のため注意）',
+                highlights: ['絶景', '写真撮影', 'ハイキング', '自然'],
+                address: '〒123-4567 観光県観光市湖畔町1-1',
+                points: 2,
+                lat: 35.6762,
+                lng: 139.6503
+            },
+            {
+                id: 'spot2',
+                name: '歴史的な神社',
+                category: 'culture',
+                description: '1000年以上の歴史を持つ由緒ある神社です。',
+                detailedDescription: '平安時代に創建された歴史ある神社。本殿は国の重要文化財に指定されており、美しい彫刻と朱塗りの建物が印象的です。境内には樹齢800年を超える御神木があり、パワースポットとしても人気です。',
+                accessInfo: 'JR○○駅から徒歩10分',
+                openingHours: '6:00-18:00（参拝は24時間可能）',
+                highlights: ['歴史', '文化財', 'パワースポット', '御朱印'],
+                address: '〒123-4567 観光県観光市神社町2-2',
+                points: 1,
+                lat: 35.6762,
+                lng: 139.6503
+            },
+            {
+                id: 'spot3',
+                name: '展望台',
+                category: 'scenery',
+                description: '市内を一望できる絶景スポットです。',
+                detailedDescription: '標高500mの山頂にある展望台。360度のパノラマビューが楽しめ、晴れた日には遠くの山々まで見渡すことができます。夜景も美しく、カップルのデートスポットとしても人気。展望台にはカフェも併設されています。',
+                accessInfo: 'ロープウェイで山頂駅まで8分、徒歩3分',
+                openingHours: '9:00-21:00（ロープウェイ運行時間）',
+                highlights: ['絶景', '夜景', 'カフェ', 'デート'],
+                address: '〒123-4567 観光県観光市山頂町3-3',
+                points: 2,
+                lat: 35.6762,
+                lng: 139.6503
+            },
+            {
+                id: 'spot4',
+                name: '温泉街',
+                category: 'hotspring',
+                description: '古くから愛される温泉街で、心身ともにリフレッシュできます。',
+                detailedDescription: '江戸時代から続く歴史ある温泉街。泉質は美肌効果があるとされるアルカリ性単純温泉で、多くの旅館や日帰り温泉施設があります。温泉街には昔ながらの射的場や温泉まんじゅうの店が軒を連ね、レトロな雰囲気を楽しめます。',
+                accessInfo: 'JR○○駅からバスで20分',
+                openingHours: '各施設により異なる',
+                highlights: ['温泉', 'グルメ', 'レトロ', 'リラックス'],
+                address: '〒123-4567 観光県観光市温泉町4-4',
+                points: 1,
+                lat: 35.6762,
+                lng: 139.6503
+            },
+            {
+                id: 'spot5',
+                name: '桜並木',
+                category: 'nature',
+                description: '春には美しい桜が咲き誇る人気のスポットです。',
+                detailedDescription: '約2kmにわたって続く桜並木。ソメイヨシノを中心に約500本の桜が植えられており、満開時には桜のトンネルができます。夜間はライトアップも行われ、幻想的な夜桜を楽しむことができます。桜祭りの期間中は多くの屋台も出店します。',
+                accessInfo: 'JR○○駅から徒歩5分',
+                openingHours: '24時間開放（ライトアップは18:00-22:00）',
+                highlights: ['桜', 'ライトアップ', '祭り', '散歩'],
+                address: '〒123-4567 観光県観光市桜町5-5',
+                points: 2,
+                lat: 35.6762,
+                lng: 139.6503
+            }
+        ];
+
+        // アプリケーションの初期化
+        const app = new AppState();
+    </script>
+</body>
+</html>
