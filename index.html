@@ -1324,6 +1324,159 @@
             width: 1.25rem;
             height: 1.25rem;
         }
+
+        /* スタンプ台のスタイル */
+        .stamp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 480px) {
+            .stamp-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .stamp-stand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .stamp-stand-circle {
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%;
+            background: #fff; 
+            border: 3px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin: 0 auto; 
+            position: relative; 
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .stamp-stand-collected {
+            border-color: #e11d48;
+            box-shadow: 0 0 0 4px rgba(253, 164, 175, 0.5);
+        }
+
+        .stamp-stand-img {
+            width: 80px; 
+            height: 80px; 
+            opacity: 0.2;
+            filter: grayscale(100%);
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .stamp-stand-collected .stamp-stand-img {
+            opacity: 1; 
+            filter: none;
+            animation: stamp-pop 0.35s cubic-bezier(.33,1.7,.67,1) 1;
+        }
+
+        @keyframes stamp-pop {
+            0%   { transform: scale(0.5) rotate(-8deg);}
+            60%  { transform: scale(1.08) rotate(5deg);}
+            80%  { transform: scale(0.95) rotate(-3deg);}
+            100% { transform: scale(1)   rotate(0);}
+        }
+
+        .stamp-stand-label {
+            display: block; 
+            text-align: center; 
+            margin-top: 0.5rem;
+            font-size: 0.92rem; 
+            color: #4b5563; 
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        .stamp-stand-collected .stamp-stand-label {
+            color: #e11d48; 
+            font-weight: bold;
+        }
+
+        .stamp-stand-btn {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: transparent; 
+            border: none; 
+            cursor: pointer; 
+            z-index: 2;
+        }
+
+        .stamp-stand-btn:focus { 
+            outline: 2px solid #6366f1; 
+        }
+
+        .stamp-unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .stamp-unavailable .stamp-stand-circle {
+            cursor: not-allowed;
+        }
+
+        .distance-badge {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .distance-badge.near {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .distance-badge.far {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .stamp-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stamp-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .stamp-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stamp-stat-number.blue { color: #3b82f6; }
+        .stamp-stat-number.green { color: #10b981; }
+        .stamp-stat-number.purple { color: #8b5cf6; }
+
+        .stamp-stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
     </style>
 </head>
 <body>
@@ -1364,6 +1517,97 @@
             bell: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'
         };
 
+
+        // 観光スポットデータ（元のデータを保持）
+        const touristSpots = [
+            {
+                id: 'spot1',
+                name: '辰鼓楼',
+                imageUrl: './images/shinkoro_stamp.png',
+                location: { lat: 35.46215626, lng: 134.87431924 },
+                category: 'culture',
+                description: '出石の代名詞と呼べる建築物',
+                detailedDescription: '標高1200mに位置する神秘的な湖。エメラルドグリーンの湖面が美しく、周囲の山々が鏡のように映り込みます。春は新緑、夏は深緑、秋は紅葉、冬は雪景色と、一年を通して異なる表情を見せてくれます。',
+                accessInfo: 'JR○○駅からバスで30分、○○湖入口下車徒歩15分',
+                openingHours: '24時間開放（冬季は積雪のため注意）',
+                highlights: ['絶景', '写真撮影', 'ハイキング', '自然'],
+                address: '〒123-4567 観光県観光市湖畔町1-1',
+                mapLink: "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
+                points: 1,
+            },
+            {
+                id: 'spot2',
+                name: '出石城跡',
+                imageUrl: './images/joseki_stamp.png',
+                location: { lat: 35.46059, lng: 134.87461 },
+                category: 'culture',
+                description: '説明未定',
+                detailedDescription: '平安時代に創建された歴史ある神社。本殿は国の重要文化財に指定されており、美しい彫刻と朱塗りの建物が印象的です。境内には樹齢800年を超える御神木があり、パワースポットとしても人気です。',
+                accessInfo: 'JR○○駅から徒歩10分',
+                openingHours: '6:00-18:00（参拝は24時間可能）',
+                highlights: ['歴史', '文化財', 'パワースポット', '御朱印'],
+                address: '〒123-4567 観光県観光市神社町2-2',
+                mapLink: "https://maps.app.goo.gl/rjvib5be2Y8pm2D9A",
+                points: 1,
+            },
+            {
+                id: 'spot3',
+                name: '家老屋敷',
+                imageUrl: './images/karoyashiki_stamp.png',
+                location: { lat: 35.46190, lng: 134.87319 },
+                category: 'scenery',
+                description: '市内を一望できる絶景スポットです。',
+                detailedDescription: '標高500mの山頂にある展望台。360度のパノラマビューが楽しめ、晴れた日には遠くの山々まで見渡すことができます。夜景も美しく、カップルのデートスポットとしても人気。展望台にはカフェも併設されています。',
+                accessInfo: 'ロープウェイで山頂駅まで8分、徒歩3分',
+                openingHours: '9:00-21:00（ロープウェイ運行時間）',
+                highlights: ['絶景', '夜景', 'カフェ', 'デート'],
+                address: '〒123-4567 観光県観光市山頂町3-3',
+                points: 2,
+            },
+            {
+                id: 'spot4',
+                name: '出石永楽館',
+                imageUrl: './images/eirakukan_stamp.png',
+                location: { lat: 35.461953, lng: 134.871503 },
+                category: 'culture',
+                description: '明治時代に建てられた芝居小屋',
+                detailedDescription: '江戸時代から続く歴史ある温泉街。泉質は美肌効果があるとされるアルカリ性単純温泉で、多くの旅館や日帰り温泉施設があります。温泉街には昔ながらの射的場や温泉まんじゅうの店が軒を連ね、レトロな雰囲気を楽しめます。',
+                accessInfo: 'JR○○駅からバスで20分',
+                openingHours: '各施設により異なる',
+                highlights: ['温泉', 'グルメ', 'レトロ', 'リラックス'],
+                address: '〒123-4567 観光県観光市温泉町4-4',
+                mapLink: "https://maps.app.goo.gl/4KVAbEH2a8eGxmSAA",
+                points: 1,
+            },
+            {
+                id: 'spot5',
+                name: '出石明治館',
+                imageUrl: './images/meijikan_stamp.png',
+                location: { lat: 35.46211, lng: 134.876885 },
+                category: 'history',
+                description: '春には美しい桜が咲き誇る人気のスポットです。',
+                detailedDescription: '約2kmにわたって続く桜並木。ソメイヨシノを中心に約500本の桜が植えられており、満開時には桜のトンネルができます。夜間はライトアップも行われ、幻想的な夜桜を楽しむことができます。桜祭りの期間中は多くの屋台も出店します。',
+                accessInfo: 'JR○○駅から徒歩5分',
+                openingHours: '24時間開放（ライトアップは18:00-22:00）',
+                highlights: ['桜', 'ライトアップ', '祭り', '散歩'],
+                address: '〒123-4567 観光県観光市桜町5-5',
+                mapLink: "https://maps.app.goo.gl/uqXLP2SFSwAEr4MH6",
+                points: 2,
+            }
+        ];
+
+        // 距離計算関数（ハーバーサイン公式）
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371000; // 地球の半径（メートル）
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
         // アプリケーションの状態管理
         class AppState {
             constructor() {
@@ -1373,7 +1617,8 @@
                     lastStampDates: {},
                     visitHistory: [],
                     totalPoints: 0,
-                    isUsernameSet: false
+                    isUsernameSet: false,
+                    stampCollection: {} // スタンプ収集データ
                 };
                 this.currentTab = 'map';
                 this.userLocation = null;
@@ -1473,6 +1718,92 @@
                 this.userData.isUsernameSet = true;
                 this.saveUserData();
                 this.render();
+            }
+
+            // スタンプ収集機能
+            collectStamp(stampId) {
+                if (!this.userLocation) {
+                    alert('位置情報が取得できていません');
+                    return false;
+                }
+
+                const stamp = touristSpots.find(s => s.id === stampId);
+                if (!stamp) return false;
+
+                // 距離チェック（150m以内）
+                const distance = calculateDistance(
+                    this.userLocation.lat, this.userLocation.lng,
+                    stamp.location.lat, stamp.location.lng
+                );
+
+                if (distance > 150) {
+                    alert(`${stamp.name}から${Math.round(distance)}m離れています。150m以内に近づいてください。`);
+                    return false;
+                }
+
+                // 今日既に取得済みかチェック
+                const today = new Date().toDateString();
+                if (this.userData.stampCollection[stampId] === today) {
+                    alert('今日は既にこのスタンプを取得済みです');
+                    return false;
+                }
+
+                // スタンプ取得
+                this.userData.stampCollection[stampId] = today;
+                this.userData.totalPoints += stamp.points;
+
+                // 履歴に追加
+                const visit = {
+                    spotId: stampId,
+                    spotName: stamp.name,
+                    category: stamp.category,
+                    points: stamp.points,
+                    timestamp: new Date().toISOString()
+                };
+                
+                this.userData.visitHistory.push(visit);
+                this.saveUserData();
+                this.render();
+
+                // 取得アニメーション効果
+                setTimeout(() => {
+                    alert(`🎉 ${stamp.name}のスタンプを取得しました！\n+${stamp.points}ポイント`);
+                }, 100);
+
+                return true;
+            }
+
+            isStampCollected(stampId) {
+                return !!this.userData.stampCollection[stampId];
+            }
+
+            canCollectStamp(stampId) {
+                if (!this.userLocation) return false;
+
+                const stamp = touristSpots.find(s => s.id === stampId);
+                if (!stamp) return false;
+
+                const distance = calculateDistance(
+                    this.userLocation.lat, this.userLocation.lng,
+                    stamp.location.lat, stamp.location.lng
+                );
+
+                const today = new Date().toDateString();
+                const alreadyCollectedToday = this.userData.stampCollection[stampId] === today;
+
+                return distance <= 150 && !alreadyCollectedToday;
+            }
+
+            getStampDistance(stampId) {
+                if (!this.userLocation) return null;
+
+                const stamp = touristSpots.find(s => s.id === stampId);
+                if (!stamp) return null;
+
+                return calculateDistance(
+                    this.userLocation.lat, this.userLocation.lng,
+                    stamp.location.lat, stamp.location.lng
+                );
             }
 
             stampSpot(spotId) {
@@ -1810,47 +2141,72 @@
             }
 
             renderNearbyTab() {
-                const nearbySpots = touristSpots.slice(0, 3);
-                
+                const collectedCount = Object.keys(this.userData.stampCollection).length;
+                const totalStamps = touristSpots.length;
+                const achievementRate = Math.round((collectedCount / totalStamps) * 100);
+
                 return `
-                    <h2 class="section-header">
-                        ${icons.mapPin}
-                        近くの観光地
-                    </h2>
-                    ${nearbySpots.map(spot => `
-                        <div class="card">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
-                                <div style="flex: 1;">
-                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <h3 style="font-weight: 700; color: #1f2937;">${spot.name}</h3>
-                                        ${this.userLocation ? `
-                                            <div class="badge" style="background: none; border: 1px solid #d1d5db; color: #64748b; font-size: 0.75rem;">
-                                                約 ${Math.floor(Math.random() * 500) + 100}m
-                                            </div>
-                                        ` : ''}
-                                        ${this.getVisitCount(spot.id) > 0 ? `
-                                            <div class="badge visits">
-                                                ${this.getVisitCount(spot.id)}回
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                    <p style="font-size: 0.875rem; line-height: 1.5; color: #64748b;">${spot.description}</p>
-                                </div>
-                                <div class="badge" style="margin-left: 0.5rem; border: none; background: linear-gradient(135deg, #faf5ff, #eff6ff); color: #7c2d12;">
-                                    ${this.getCategoryName(spot.category)}
-                                </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                ${icons.mapPin}
+                                スタンプ獲得
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div class="points-display">
-                                        ${icons.star}
-                                        <span class="points-text">${spot.points}pt</span>
-                                    </div>
-                                </div>
-                                ${this.renderStampButton(spot.id)}
-                            </div>
+                            <div class="card-description">観光地から150m以内でスタンプを押せます</div>
                         </div>
-                    `).join('')}
+                        
+                        ${!this.userLocation ? `
+                            <div style="text-align: center; padding: 2rem; color: #64748b;">
+                                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                                <p>位置情報を取得中...</p>
+                                <p style="font-size: 0.875rem; margin-top: 0.5rem;">位置情報が必要です</p>
+                            </div>
+                        ` : `
+                            <div class="stamp-stats">
+                                <div class="stamp-stat">
+                                    <div class="stamp-stat-number blue">${collectedCount}</div>
+                                    <div class="stamp-stat-label">取得済み</div>
+                                </div>
+                                <div class="stamp-stat">
+                                    <div class="stamp-stat-number green">${this.userData.totalPoints}</div>
+                                    <div class="stamp-stat-label">ポイント</div>
+                                </div>
+                                <div class="stamp-stat">
+                                    <div class="stamp-stat-number purple">${achievementRate}%</div>
+                                    <div class="stamp-stat-label">達成率</div>
+                                </div>
+                            </div>
+
+                            <div class="stamp-grid">
+                                ${touristSpots.map(stamp => {
+                                    const isCollected = this.isStampCollected(stamp.id);
+                                    const canCollect = this.canCollectStamp(stamp.id);
+                                    const distance = this.getStampDistance(stamp.id);
+                                    
+                                    return `
+                                        <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}">
+                                            <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}" 
+                                                 onclick="${canCollect ? `app.collectStamp('${stamp.id}')` : ''}">
+                                                <img src="${stamp.imageUrl}" 
+                                                     alt="${stamp.name}" 
+                                                     class="stamp-stand-img"
+                                                     onerror="this.src='/placeholder.svg?height=80&width=80'">
+                                                ${canCollect && !isCollected ? `
+                                                    <button class="stamp-stand-btn" onclick="app.collectStamp('${stamp.id}')"></button>
+                                                ` : ''}
+                                            </div>
+                                            <span class="stamp-stand-label">${stamp.name}</span>
+                                            ${distance !== null ? `
+                                                <div class="distance-badge ${distance <= 150 ? 'near' : 'far'}">
+                                                    ${Math.round(distance)}m
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `}
+                    </div>
                 `;
             }
 
@@ -2098,7 +2454,7 @@
                                                     </div>
                                                     <div class="visit-meta-item">
                                                         ${icons.rotateCcw}
-                                                        ${visit.visitCount}回目
+                                                        ${visit.visitCount || 1}回目
                                                     </div>
                                                 </div>
                                             </div>
@@ -2475,80 +2831,6 @@
                 }
             }
         }
-
-        // 観光スポットデータ
-        const touristSpots = [
-            {
-                id: 'spot1',
-                name: '美しい湖',
-                category: 'nature',
-                description: '透明度の高い美しい湖で、四季折々の景色を楽しめます。',
-                detailedDescription: '標高1200mに位置する神秘的な湖。エメラルドグリーンの湖面が美しく、周囲の山々が鏡のように映り込みます。春は新緑、夏は深緑、秋は紅葉、冬は雪景色と、一年を通して異なる表情を見せてくれます。',
-                accessInfo: 'JR○○駅からバスで30分、○○湖入口下車徒歩15分',
-                openingHours: '24時間開放（冬季は積雪のため注意）',
-                highlights: ['絶景', '写真撮影', 'ハイキング', '自然'],
-                address: '〒123-4567 観光県観光市湖畔町1-1',
-                points: 2,
-                lat: 35.6762,
-                lng: 139.6503
-            },
-            {
-                id: 'spot2',
-                name: '歴史的な神社',
-                category: 'culture',
-                description: '1000年以上の歴史を持つ由緒ある神社です。',
-                detailedDescription: '平安時代に創建された歴史ある神社。本殿は国の重要文化財に指定されており、美しい彫刻と朱塗りの建物が印象的です。境内には樹齢800年を超える御神木があり、パワースポットとしても人気です。',
-                accessInfo: 'JR○○駅から徒歩10分',
-                openingHours: '6:00-18:00（参拝は24時間可能）',
-                highlights: ['歴史', '文化財', 'パワースポット', '御朱印'],
-                address: '〒123-4567 観光県観光市神社町2-2',
-                points: 1,
-                lat: 35.6762,
-                lng: 139.6503
-            },
-            {
-                id: 'spot3',
-                name: '展望台',
-                category: 'scenery',
-                description: '市内を一望できる絶景スポットです。',
-                detailedDescription: '標高500mの山頂にある展望台。360度のパノラマビューが楽しめ、晴れた日には遠くの山々まで見渡すことができます。夜景も美しく、カップルのデートスポットとしても人気。展望台にはカフェも併設されています。',
-                accessInfo: 'ロープウェイで山頂駅まで8分、徒歩3分',
-                openingHours: '9:00-21:00（ロープウェイ運行時間）',
-                highlights: ['絶景', '夜景', 'カフェ', 'デート'],
-                address: '〒123-4567 観光県観光市山頂町3-3',
-                points: 2,
-                lat: 35.6762,
-                lng: 139.6503
-            },
-            {
-                id: 'spot4',
-                name: '温泉街',
-                category: 'hotspring',
-                description: '古くから愛される温泉街で、心身ともにリフレッシュできます。',
-                detailedDescription: '江戸時代から続く歴史ある温泉街。泉質は美肌効果があるとされるアルカリ性単純温泉で、多くの旅館や日帰り温泉施設があります。温泉街には昔ながらの射的場や温泉まんじゅうの店が軒を連ね、レトロな雰囲気を楽しめます。',
-                accessInfo: 'JR○○駅からバスで20分',
-                openingHours: '各施設により異なる',
-                highlights: ['温泉', 'グルメ', 'レトロ', 'リラックス'],
-                address: '〒123-4567 観光県観光市温泉町4-4',
-                points: 1,
-                lat: 35.6762,
-                lng: 139.6503
-            },
-            {
-                id: 'spot5',
-                name: '桜並木',
-                category: 'nature',
-                description: '春には美しい桜が咲き誇る人気のスポットです。',
-                detailedDescription: '約2kmにわたって続く桜並木。ソメイヨシノを中心に約500本の桜が植えられており、満開時には桜のトンネルができます。夜間はライトアップも行われ、幻想的な夜桜を楽しむことができます。桜祭りの期間中は多くの屋台も出店します。',
-                accessInfo: 'JR○○駅から徒歩5分',
-                openingHours: '24時間開放（ライトアップは18:00-22:00）',
-                highlights: ['桜', 'ライトアップ', '祭り', '散歩'],
-                address: '〒123-4567 観光県観光市桜町5-5',
-                points: 2,
-                lat: 35.6762,
-                lng: 139.6503
-            }
-        ];
 
         // アプリケーションの初期化
         const app = new AppState();
