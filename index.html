@@ -439,17 +439,17 @@
         }
 
         .stamp-stand-circle {
-            width: 90px; 
-            height: 90px; 
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: #fff; 
+            background: #fff;
             border: 3px solid #e0e0e0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            display: flex; 
-            align-items: center; 
+            display: flex;
+            align-items: center;
             justify-content: center;
-            margin: 0 auto; 
-            position: relative; 
+            margin: 0 auto;
+            position: relative;
             overflow: hidden;
             transition: border-color 0.3s, box-shadow 0.3s;
             cursor: pointer;
@@ -461,15 +461,15 @@
         }
 
         .stamp-stand-img {
-            width: 80px; 
-            height: 80px; 
+            width: 80px;
+            height: 80px;
             opacity: 0.2;
             filter: grayscale(100%);
             transition: filter 0.3s, opacity 0.3s;
         }
 
         .stamp-stand-collected .stamp-stand-img {
-            opacity: 1; 
+            opacity: 1;
             filter: none;
             animation: stamp-pop 0.35s cubic-bezier(.33,1.7,.67,1) 1;
         }
@@ -482,34 +482,34 @@
         }
 
         .stamp-stand-label {
-            display: block; 
-            text-align: center; 
+            display: block;
+            text-align: center;
             margin-top: 0.5rem;
-            font-size: 0.92rem; 
-            color: #4b5563; 
+            font-size: 0.92rem;
+            color: #4b5563;
             font-weight: 500;
             letter-spacing: 0.01em;
         }
 
         .stamp-stand-collected .stamp-stand-label {
-            color: #e11d48; 
+            color: #e11d48;
             font-weight: bold;
         }
 
         .stamp-stand-btn {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: transparent; 
-            border: none; 
-            cursor: pointer; 
+            background: transparent;
+            border: none;
+            cursor: pointer;
             z-index: 2;
         }
 
-        .stamp-stand-btn:focus { 
-            outline: 2px solid #6366f1; 
+        .stamp-stand-btn:focus {
+            outline: 2px solid #6366f1;
         }
 
         .stamp-unavailable {
@@ -1720,22 +1720,53 @@
             },
             {
                 id: 'spot6',
-                name: '城崎温泉',
+                name: '城崎マリンワールド',
                 imageUrl: './images/',
                 location: { lat: 35.65557026, lng: 134.8246191 },
                 region: 'kinosaki',
-                category: 'spring',
+                category: 'sea',
                 description: '日本海を望む水族館',
                 detailedDescription: '日本海を望む水族館。イルカやアシカのショー、ペンギン散歩、海中トンネルでのダイナミックな魚たちの観察、体験型のタッチプールが魅力。雄大な景色と触れ合いが融合した、家族からカップルまで楽しめる癒しと感動のスポット。',
                 accessInfo: '全但バス 日和山（マリンワールド）バス停で下車すぐ',
                 openingHours: '9時30分〜16時30分',
                 highlights: ['', '', '', ''],
                 address: '〒669-6192 兵庫県豊岡市瀬戸1090番地',
-                points: 3,
+                mapLink: "https://maps.app.goo.gl/L2hnjNS7Yqf1pDHd8",
+                points: 1,
             },
             {
                 id: 'spot7',
                 name: '城崎温泉',
+                imageUrl: './images/',
+                location: { lat: 35.62388838 , lng: 134.8131944 },
+                region: 'kinosaki',
+                category: 'spring',
+                description: 'カップルや家族、一人旅でも楽しめる風情豊かな温泉街',
+                detailedDescription: '風情豊かな温泉街で、7つの外湯めぐりが楽しめる。木造の情緒ある街並みを浴衣でそぞろ歩き、足湯や川沿いの風景、グルメも満喫。カップルや家族、ひとり旅にもぴったりな癒しの古湯。',
+                accessInfo: 'JR城崎温泉駅下車すぐ',
+                openingHours: '外湯により異なる',
+                highlights: ['', '', '', ''],
+                address: '〒669-6103 兵庫県豊岡市城崎町今津283 (城崎温泉駅)',
+                points: 1,
+            },
+            {
+                id: 'spot8',
+                name: '城崎文芸館',
+                imageUrl: './images/',
+                location: { lat: 35.62530315 , lng: 134.8106886 },
+                region: 'kinosaki',
+                category: '',
+                description: '',
+                detailedDescription: '',
+                accessInfo: '',
+                openingHours: '',
+                highlights: ['', '', '', ''],
+                address: '〒66- 兵庫県豊岡市',
+                points: 3,
+            },
+            {
+                id: 'spot9',
+                name: '',
                 imageUrl: './images/',
                 location: { lat:1 , lng:1  },
                 region: 'kinosaki',
@@ -1797,7 +1828,7 @@
                 this.selectedSpot = null;
                 this.isOnline = navigator.onLine;
                 this.openAccordions = new Set(); // 開いているアコーディオンを管理
-                
+
                 this.loadUserData();
                 this.init();
                 this.setupOnlineListener();
@@ -1956,7 +1987,7 @@
                     points: stamp.points,
                     timestamp: new Date().toISOString()
                 };
-                
+
                 this.userData.visitHistory.push(visit);
                 this.saveUserData();
                 this.render();
@@ -2026,7 +2057,7 @@
             stampSpot(spotId) {
                 const today = new Date().toDateString();
                 const lastStampDate = this.userData.lastStampDates[spotId];
-                
+
                 if (lastStampDate === today) {
                     return false; // 今日は既にスタンプ済み
                 }
@@ -2045,7 +2076,7 @@
                     points: spot.points,
                     timestamp: new Date().toISOString()
                 };
-                
+
                 this.userData.visitHistory.push(visit);
                 this.userData.totalPoints += spot.points;
 
@@ -2086,7 +2117,7 @@
 
             render() {
                 const app = document.getElementById('app');
-                
+
                 if (this.isLoading) {
                     app.innerHTML = `
                         <div class="loading-screen">
@@ -2203,9 +2234,9 @@
                                     <label for="usernameInput" style="font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem; display: block;">
                                         ユーザー名 <span style="color: #ef4444;">*</span>
                                     </label>
-                                    <input 
-                                        type="text" 
-                                        class="username-input" 
+                                    <input
+                                        type="text"
+                                        class="username-input"
                                         placeholder="例: 山田太郎"
                                         maxlength="20"
                                         id="usernameInput"
@@ -2251,7 +2282,7 @@
                             オフラインモードです
                         </div>
                     ` : ''}
-                    
+
                     <div class="container">
                         <div class="header">
                             <div class="app-icon">
@@ -2272,7 +2303,7 @@
                                 `}
                             </div>
                         </div>
-                        
+
                         <div class="main-content">
                             <div class="tabs">
                                 <button class="tab ${this.currentTab === 'map' ? 'active' : ''}" onclick="app.switchTab('map')">
@@ -2329,12 +2360,12 @@
                             <div class="card-description">地域別に観光地を確認できます</div>
                         </div>
                     </div>
-                    
+
                     ${Object.entries(regions).map(([regionId, region]) => {
                         const regionSpots = touristSpots.filter(spot => spot.region === regionId);
                         const achievement = this.getRegionAchievement(regionId);
                         const isOpen = this.openAccordions.has(regionId);
-                        
+
                         return `
                             <div class="accordion">
                                 <div class="accordion-header ${isOpen ? 'active' : ''}" onclick="app.toggleAccordion('${regionId}')">
@@ -2403,7 +2434,7 @@
                             </div>
                             <div class="card-description">観光地から150m以内でスタンプを押せます</div>
                         </div>
-                        
+
                         ${!this.userLocation ? `
                             <div style="text-align: center; padding: 2rem; color: #64748b;">
                                 <div class="spinner" style="margin: 0 auto 1rem;"></div>
@@ -2432,7 +2463,7 @@
                         const regionSpots = touristSpots.filter(spot => spot.region === regionId);
                         const achievement = this.getRegionAchievement(regionId);
                         const isOpen = this.openAccordions.has(regionId);
-                        
+
                         return `
                             <div class="accordion">
                                 <div class="accordion-header ${isOpen ? 'active' : ''}" onclick="app.toggleAccordion('${regionId}')">
@@ -2460,10 +2491,10 @@
 
                                                     return `
                                                         <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}">
-                                                            <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}" 
+                                                            <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}"
                                                                  ${canCollect ? `onclick="app.collectStamp('${stamp.id}')"` : ''}>
-                                                                <img src="${stamp.imageUrl}" 
-                                                                     alt="${stamp.name}" 
+                                                                <img src="${stamp.imageUrl}"
+                                                                     alt="${stamp.name}"
                                                                      class="stamp-stand-img"
                                                                      onerror="this.src='/placeholder.svg?height=80&width=80'">
                                                             </div>
@@ -2634,7 +2665,7 @@
                             </div>
                             <div class="card-description">今までに訪問した観光地の記録 (${this.userData.visitHistory.length}回訪問)</div>
                         </div>
-                        
+
                         <div class="history-summary">
                             <div class="summary-item teal">
                                 <div class="summary-number teal">${this.userData.visitHistory.length}</div>
@@ -2800,9 +2831,9 @@
                                     <button class="close-button" onclick="app.closeModal()">&times;</button>
                                 </div>
                                 <p style="color: #64748b; margin-bottom: 1.5rem;">${spot.description}</p>
-                                
+
                                 <img src="/placeholder.svg?height=128&width=384" alt="${spot.name}" class="modal-image">
-                                
+
                                 <div class="modal-section">
                                     <h4 class="section-title">
                                         <div class="section-icon">ℹ️</div>
@@ -2946,7 +2977,7 @@
                 const input = document.getElementById('usernameInput');
                 const charCount = document.getElementById('charCount');
                 const startButton = document.getElementById('startButton');
-                
+
                 input.value = name;
                 charCount.textContent = `${name.length}/20文字`;
                 startButton.disabled = name.length < 2;
@@ -2955,12 +2986,12 @@
             handleUsernameSubmit() {
                 const input = document.getElementById('usernameInput');
                 const username = input.value.trim();
-                
+
                 if (username.length < 2) {
                     alert('ユーザー名は2文字以上で入力してください。');
                     return;
                 }
-                
+
                 if (username.length > 20) {
                     alert('ユーザー名は20文字以内で入力してください。');
                     return;
@@ -3009,14 +3040,14 @@
                 const usernameInput = document.getElementById('usernameInput');
                 const charCount = document.getElementById('charCount');
                 const startButton = document.getElementById('startButton');
-                
+
                 if (usernameInput) {
                     usernameInput.addEventListener('input', (e) => {
                         const length = e.target.value.length;
                         charCount.textContent = `${length}/20文字`;
                         startButton.disabled = length < 2;
                     });
-                    
+
                     usernameInput.addEventListener('keypress', (e) => {
                         if (e.key === 'Enter' && !startButton.disabled) {
                             this.handleUsernameSubmit();
