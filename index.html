@@ -195,6 +195,90 @@
             font-size: 0.875rem;
         }
 
+        /* アコーディオンスタイル */
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .accordion-stats {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .accordion-achievement {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        .accordion-header:not(.active) .accordion-achievement {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .accordion-arrow {
+            transition: transform 0.2s;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .accordion-header.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 0 0.75rem 0.75rem;
+            margin-top: -0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .accordion-body {
+            padding: 1rem;
+        }
+
         .tourist-spot {
             width: 100%;
             display: flex;
@@ -333,6 +417,160 @@
             margin-top: 0.25rem;
         }
 
+        /* スタンプ台のスタイル */
+        .stamp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 480px) {
+            .stamp-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .stamp-stand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .stamp-stand-circle {
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%;
+            background: #fff; 
+            border: 3px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin: 0 auto; 
+            position: relative; 
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .stamp-stand-collected {
+            border-color: #e11d48;
+            box-shadow: 0 0 0 4px rgba(253, 164, 175, 0.5);
+        }
+
+        .stamp-stand-img {
+            width: 80px; 
+            height: 80px; 
+            opacity: 0.2;
+            filter: grayscale(100%);
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .stamp-stand-collected .stamp-stand-img {
+            opacity: 1; 
+            filter: none;
+            animation: stamp-pop 0.35s cubic-bezier(.33,1.7,.67,1) 1;
+        }
+
+        @keyframes stamp-pop {
+            0%   { transform: scale(0.5) rotate(-8deg);}
+            60%  { transform: scale(1.08) rotate(5deg);}
+            80%  { transform: scale(0.95) rotate(-3deg);}
+            100% { transform: scale(1)   rotate(0);}
+        }
+
+        .stamp-stand-label {
+            display: block; 
+            text-align: center; 
+            margin-top: 0.5rem;
+            font-size: 0.92rem; 
+            color: #4b5563; 
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        .stamp-stand-collected .stamp-stand-label {
+            color: #e11d48; 
+            font-weight: bold;
+        }
+
+        .stamp-stand-btn {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: transparent; 
+            border: none; 
+            cursor: pointer; 
+            z-index: 2;
+        }
+
+        .stamp-stand-btn:focus { 
+            outline: 2px solid #6366f1; 
+        }
+
+        .stamp-unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .stamp-unavailable .stamp-stand-circle {
+            cursor: not-allowed;
+        }
+
+        .distance-badge {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .distance-badge.near {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .distance-badge.far {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .stamp-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stamp-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .stamp-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stamp-stat-number.blue { color: #3b82f6; }
+        .stamp-stat-number.green { color: #10b981; }
+        .stamp-stat-number.purple { color: #8b5cf6; }
+
+        .stamp-stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* その他のスタイルは元のコードと同じ */
         .profile-card {
             background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             color: white;
@@ -1324,159 +1562,6 @@
             width: 1.25rem;
             height: 1.25rem;
         }
-
-        /* スタンプ台のスタイル */
-        .stamp-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (min-width: 480px) {
-            .stamp-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .stamp-stand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        .stamp-stand-circle {
-            width: 90px; 
-            height: 90px; 
-            border-radius: 50%;
-            background: #fff; 
-            border: 3px solid #e0e0e0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin: 0 auto; 
-            position: relative; 
-            overflow: hidden;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-
-        .stamp-stand-collected {
-            border-color: #e11d48;
-            box-shadow: 0 0 0 4px rgba(253, 164, 175, 0.5);
-        }
-
-        .stamp-stand-img {
-            width: 80px; 
-            height: 80px; 
-            opacity: 0.2;
-            filter: grayscale(100%);
-            transition: filter 0.3s, opacity 0.3s;
-        }
-
-        .stamp-stand-collected .stamp-stand-img {
-            opacity: 1; 
-            filter: none;
-            animation: stamp-pop 0.35s cubic-bezier(.33,1.7,.67,1) 1;
-        }
-
-        @keyframes stamp-pop {
-            0%   { transform: scale(0.5) rotate(-8deg);}
-            60%  { transform: scale(1.08) rotate(5deg);}
-            80%  { transform: scale(0.95) rotate(-3deg);}
-            100% { transform: scale(1)   rotate(0);}
-        }
-
-        .stamp-stand-label {
-            display: block; 
-            text-align: center; 
-            margin-top: 0.5rem;
-            font-size: 0.92rem; 
-            color: #4b5563; 
-            font-weight: 500;
-            letter-spacing: 0.01em;
-        }
-
-        .stamp-stand-collected .stamp-stand-label {
-            color: #e11d48; 
-            font-weight: bold;
-        }
-
-        .stamp-stand-btn {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: transparent; 
-            border: none; 
-            cursor: pointer; 
-            z-index: 2;
-        }
-
-        .stamp-stand-btn:focus { 
-            outline: 2px solid #6366f1; 
-        }
-
-        .stamp-unavailable {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .stamp-unavailable .stamp-stand-circle {
-            cursor: not-allowed;
-        }
-
-        .distance-badge {
-            background: #f3f4f6;
-            color: #6b7280;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-
-        .distance-badge.near {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .distance-badge.far {
-            background: #fef2f2;
-            color: #991b1b;
-        }
-
-        .stamp-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stamp-stat {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .stamp-stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .stamp-stat-number.blue { color: #3b82f6; }
-        .stamp-stat-number.green { color: #10b981; }
-        .stamp-stat-number.purple { color: #8b5cf6; }
-
-        .stamp-stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
     </style>
 </head>
 <body>
@@ -1514,24 +1599,59 @@
             settings: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
             download: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>',
             trash: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>',
-            bell: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'
+            bell: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>',
+            chevronDown: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>'
         };
 
+        // 地域データの定義
+        const regions = {
+            toyooka: {
+                name: '豊岡地域',
+                center: { lat: 35.5456, lng: 134.8203 },
+                icon: '🏢'
+            },
+            izushi: {
+                name: '出石地域',
+                center: { lat: 35.4621, lng: 134.8743 },
+                icon: '🏯'
+            },
+            kinosaki: {
+                name: '城崎地域',
+                center: { lat: 35.6267, lng: 134.8007 },
+                icon: '♨️'
+            },
+            tanto: {
+                name: '但東地域',
+                center: { lat: 35.4833, lng: 134.9833 },
+                icon: '🌸'
+            },
+            hidaka: {
+                name: '日高地域',
+                center: { lat: 35.5167, lng: 134.7333 },
+                icon: '⛷️'
+            },
+            takeno: {
+                name: '竹野地域',
+                center: { lat: 35.6333, lng: 134.7167 },
+                icon: '🏖️'
+            }
+        };
 
-        // 観光スポットデータ（元のデータを保持）
+        // 観光スポットデータ（地域情報を追加）
         const touristSpots = [
             {
                 id: 'spot1',
                 name: '辰鼓楼',
                 imageUrl: './images/shinkoro_stamp.png',
                 location: { lat: 35.46215626, lng: 134.87431924 },
+                region: 'izushi',
                 category: 'culture',
                 description: '出石の代名詞と呼べる建築物',
-                detailedDescription: '標高1200mに位置する神秘的な湖。エメラルドグリーンの湖面が美しく、周囲の山々が鏡のように映り込みます。春は新緑、夏は深緑、秋は紅葉、冬は雪景色と、一年を通して異なる表情を見せてくれます。',
-                accessInfo: 'JR○○駅からバスで30分、○○湖入口下車徒歩15分',
-                openingHours: '24時間開放（冬季は積雪のため注意）',
-                highlights: ['絶景', '写真撮影', 'ハイキング', '自然'],
-                address: '〒123-4567 観光県観光市湖畔町1-1',
+                detailedDescription: '明治4年に建てられた時計台。出石のシンボルとして親しまれており、現在も正確な時を刻み続けています。',
+                accessInfo: 'JR豊岡駅からバスで30分、出石営業所下車徒歩5分',
+                openingHours: '24時間見学可能',
+                highlights: ['歴史', '建築', 'シンボル', '写真撮影'],
+                address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
                 points: 1,
             },
@@ -1540,13 +1660,14 @@
                 name: '出石城跡',
                 imageUrl: './images/joseki_stamp.png',
                 location: { lat: 35.46059, lng: 134.87461 },
+                region: 'izushi',
                 category: 'culture',
-                description: '説明未定',
-                detailedDescription: '平安時代に創建された歴史ある神社。本殿は国の重要文化財に指定されており、美しい彫刻と朱塗りの建物が印象的です。境内には樹齢800年を超える御神木があり、パワースポットとしても人気です。',
-                accessInfo: 'JR○○駅から徒歩10分',
-                openingHours: '6:00-18:00（参拝は24時間可能）',
-                highlights: ['歴史', '文化財', 'パワースポット', '御朱印'],
-                address: '〒123-4567 観光県観光市神社町2-2',
+                description: '但馬の小京都を見下ろす城跡',
+                detailedDescription: '慶長9年に小出吉英によって築かれた城。現在は石垣と櫓が残り、桜の名所としても知られています。',
+                accessInfo: 'JR豊岡駅からバスで30分、出石営業所下車徒歩10分',
+                openingHours: '24時間見学可能',
+                highlights: ['歴史', '城跡', '桜', '眺望'],
+                address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/rjvib5be2Y8pm2D9A",
                 points: 1,
             },
@@ -1555,13 +1676,14 @@
                 name: '家老屋敷',
                 imageUrl: './images/karoyashiki_stamp.png',
                 location: { lat: 35.46190, lng: 134.87319 },
-                category: 'scenery',
-                description: '市内を一望できる絶景スポットです。',
-                detailedDescription: '標高500mの山頂にある展望台。360度のパノラマビューが楽しめ、晴れた日には遠くの山々まで見渡すことができます。夜景も美しく、カップルのデートスポットとしても人気。展望台にはカフェも併設されています。',
-                accessInfo: 'ロープウェイで山頂駅まで8分、徒歩3分',
-                openingHours: '9:00-21:00（ロープウェイ運行時間）',
-                highlights: ['絶景', '夜景', 'カフェ', 'デート'],
-                address: '〒123-4567 観光県観光市山頂町3-3',
+                region: 'izushi',
+                category: 'culture',
+                description: '江戸時代の武家屋敷',
+                detailedDescription: '出石藩の家老屋敷として使われていた建物。当時の武家の生活を垣間見ることができます。',
+                accessInfo: 'JR豊岡駅からバスで30分、出石営業所下車徒歩8分',
+                openingHours: '9:30-17:00（入館は16:30まで）',
+                highlights: ['歴史', '武家屋敷', '文化', '建築'],
+                address: '〒668-0214 兵庫県豊岡市出石町内町',
                 points: 2,
             },
             {
@@ -1569,13 +1691,14 @@
                 name: '出石永楽館',
                 imageUrl: './images/eirakukan_stamp.png',
                 location: { lat: 35.461953, lng: 134.871503 },
+                region: 'izushi',
                 category: 'culture',
                 description: '明治時代に建てられた芝居小屋',
-                detailedDescription: '江戸時代から続く歴史ある温泉街。泉質は美肌効果があるとされるアルカリ性単純温泉で、多くの旅館や日帰り温泉施設があります。温泉街には昔ながらの射的場や温泉まんじゅうの店が軒を連ね、レトロな雰囲気を楽しめます。',
-                accessInfo: 'JR○○駅からバスで20分',
-                openingHours: '各施設により異なる',
-                highlights: ['温泉', 'グルメ', 'レトロ', 'リラックス'],
-                address: '〒123-4567 観光県観光市温泉町4-4',
+                detailedDescription: '明治34年に建てられた近畿最古の芝居小屋。現在も歌舞伎や落語などの公演が行われています。',
+                accessInfo: 'JR豊岡駅からバスで30分、出石営業所下車徒歩5分',
+                openingHours: '公演により異なる',
+                highlights: ['歴史', '芸能', '建築', '文化'],
+                address: '〒668-0214 兵庫県豊岡市出石町柳17-2',
                 mapLink: "https://maps.app.goo.gl/4KVAbEH2a8eGxmSAA",
                 points: 1,
             },
@@ -1584,15 +1707,61 @@
                 name: '出石明治館',
                 imageUrl: './images/meijikan_stamp.png',
                 location: { lat: 35.46211, lng: 134.876885 },
-                category: 'history',
-                description: '春には美しい桜が咲き誇る人気のスポットです。',
-                detailedDescription: '約2kmにわたって続く桜並木。ソメイヨシノを中心に約500本の桜が植えられており、満開時には桜のトンネルができます。夜間はライトアップも行われ、幻想的な夜桜を楽しむことができます。桜祭りの期間中は多くの屋台も出店します。',
-                accessInfo: 'JR○○駅から徒歩5分',
-                openingHours: '24時間開放（ライトアップは18:00-22:00）',
-                highlights: ['桜', 'ライトアップ', '祭り', '散歩'],
-                address: '〒123-4567 観光県観光市桜町5-5',
+                region: 'izushi',
+                category: 'culture',
+                description: '明治時代の洋風建築',
+                detailedDescription: '明治20年に郡役所として建てられた洋風建築。現在は観光案内所として利用されています。',
+                accessInfo: 'JR豊岡駅からバスで30分、出石営業所下車徒歩3分',
+                openingHours: '9:00-17:00',
+                highlights: ['明治建築', '洋風', '歴史', '観光案内'],
+                address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/uqXLP2SFSwAEr4MH6",
                 points: 2,
+            },
+            {
+                id: 'spot6',
+                name: '城崎温泉',
+                imageUrl: './images/',
+                location: { lat: 35.65557026, lng: 134.8246191 },
+                region: 'kinosaki',
+                category: 'spring',
+                description: '日本海を望む水族館',
+                detailedDescription: '日本海を望む水族館。イルカやアシカのショー、ペンギン散歩、海中トンネルでのダイナミックな魚たちの観察、体験型のタッチプールが魅力。雄大な景色と触れ合いが融合した、家族からカップルまで楽しめる癒しと感動のスポット。',
+                accessInfo: '全但バス 日和山（マリンワールド）バス停で下車すぐ',
+                openingHours: '9時30分〜16時30分',
+                highlights: ['', '', '', ''],
+                address: '〒669-6192 兵庫県豊岡市瀬戸1090番地',
+                points: 3,
+            },
+            {
+                id: 'spot7',
+                name: '城崎温泉',
+                imageUrl: './images/',
+                location: { lat:1 , lng:1  },
+                region: 'kinosaki',
+                category: '',
+                description: '',
+                detailedDescription: '',
+                accessInfo: '',
+                openingHours: '',
+                highlights: ['', '', '', ''],
+                address: '〒66- 兵庫県豊岡市',
+                points: 3,
+            },
+            {
+                id: 'spot',
+                name: '豊岡市役所',
+                imageUrl: '/placeholder.svg?height=80&width=80',
+                location: { lat: 35.5456, lng: 134.8203 },
+                region: 'toyooka',
+                category: 'culture',
+                description: '豊岡市の中心施設',
+                detailedDescription: '豊岡市の行政の中心となる市役所。現代的な建築が特徴です。',
+                accessInfo: 'JR豊岡駅から徒歩10分',
+                openingHours: '8:30-17:15（平日のみ）',
+                highlights: ['行政', '建築', '中心地'],
+                address: '〒668-8666 兵庫県豊岡市中央町2-4',
+                points: 1,
             }
         ];
 
@@ -1627,6 +1796,7 @@
                 this.isLoading = true;
                 this.selectedSpot = null;
                 this.isOnline = navigator.onLine;
+                this.openAccordions = new Set(); // 開いているアコーディオンを管理
                 
                 this.loadUserData();
                 this.init();
@@ -1684,12 +1854,37 @@
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         };
+                        // 最も近い地域のアコーディオンを開く
+                        this.setDefaultOpenAccordion();
                         this.render();
                     },
                     () => {
                         // 位置情報取得に失敗
                     }
                 );
+            }
+
+            // 最も近い地域のアコーディオンをデフォルトで開く
+            setDefaultOpenAccordion() {
+                if (!this.userLocation) return;
+
+                let closestRegion = null;
+                let minDistance = Infinity;
+
+                Object.entries(regions).forEach(([regionId, region]) => {
+                    const distance = calculateDistance(
+                        this.userLocation.lat, this.userLocation.lng,
+                        region.center.lat, region.center.lng
+                    );
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestRegion = regionId;
+                    }
+                });
+
+                if (closestRegion) {
+                    this.openAccordions.add(closestRegion);
+                }
             }
 
             async requestLocationPermission() {
@@ -1702,6 +1897,7 @@
                             };
                             this.hasLocationPermission = true;
                             this.permissionRequested = true;
+                            this.setDefaultOpenAccordion();
                             resolve(true);
                         },
                         () => {
@@ -1720,7 +1916,7 @@
                 this.render();
             }
 
-            // スタンプ収集機能
+            // スタンプ収集機能（修正版）
             collectStamp(stampId) {
                 if (!this.userLocation) {
                     alert('位置情報が取得できていません');
@@ -1804,6 +2000,27 @@
                     this.userLocation.lat, this.userLocation.lng,
                     stamp.location.lat, stamp.location.lng
                 );
+            }
+
+            // 地域別の達成率を計算
+            getRegionAchievement(regionId) {
+                const regionSpots = touristSpots.filter(spot => spot.region === regionId);
+                const collectedSpots = regionSpots.filter(spot => this.isStampCollected(spot.id));
+                return {
+                    collected: collectedSpots.length,
+                    total: regionSpots.length,
+                    percentage: regionSpots.length > 0 ? Math.round((collectedSpots.length / regionSpots.length) * 100) : 0
+                };
+            }
+
+            // アコーディオンの開閉
+            toggleAccordion(regionId) {
+                if (this.openAccordions.has(regionId)) {
+                    this.openAccordions.delete(regionId);
+                } else {
+                    this.openAccordions.add(regionId);
+                }
+                this.render();
             }
 
             stampSpot(spotId) {
@@ -2109,34 +2326,66 @@
                                 ${icons.map}
                                 観光地マップ
                             </div>
-                            <div class="card-description">観光地をタップして詳細を確認</div>
-                        </div>
-                        <div style="margin: -1rem; margin-top: 0; padding: 1rem;">
-                            ${touristSpots.map(spot => `
-                                <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
-                                    <div class="spot-left">
-                                        <div class="spot-icon">
-                                            ${icons.camera}
-                                        </div>
-                                        <div class="spot-info">
-                                            <h4>${spot.name}</h4>
-                                            <p>${spot.category}</p>
-                                        </div>
-                                    </div>
-                                    <div class="spot-right">
-                                        <div class="badge points ${this.isStamped(spot.id) ? '' : 'outline'}">
-                                            ${spot.points}pt
-                                        </div>
-                                        ${this.getVisitCount(spot.id) > 0 ? `
-                                            <div class="badge visits">
-                                                ${this.getVisitCount(spot.id)}回
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            `).join('')}
+                            <div class="card-description">地域別に観光地を確認できます</div>
                         </div>
                     </div>
+                    
+                    ${Object.entries(regions).map(([regionId, region]) => {
+                        const regionSpots = touristSpots.filter(spot => spot.region === regionId);
+                        const achievement = this.getRegionAchievement(regionId);
+                        const isOpen = this.openAccordions.has(regionId);
+                        
+                        return `
+                            <div class="accordion">
+                                <div class="accordion-header ${isOpen ? 'active' : ''}" onclick="app.toggleAccordion('${regionId}')">
+                                    <div class="accordion-title">
+                                        <span style="font-size: 1.5rem; margin-right: 0.5rem;">${region.icon}</span>
+                                        ${region.name}
+                                    </div>
+                                    <div class="accordion-stats">
+                                        <div class="accordion-achievement">
+                                            ${achievement.collected}/${achievement.total} (${achievement.percentage}%)
+                                        </div>
+                                        <div class="accordion-arrow">
+                                            ${icons.chevronDown}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-content ${isOpen ? 'active' : ''}">
+                                    <div class="accordion-body">
+                                        ${regionSpots.length > 0 ? regionSpots.map(spot => `
+                                            <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
+                                                <div class="spot-left">
+                                                    <div class="spot-icon">
+                                                        ${icons.camera}
+                                                    </div>
+                                                    <div class="spot-info">
+                                                        <h4>${spot.name}</h4>
+                                                        <p>${spot.description}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="spot-right">
+                                                    <div class="badge points ${this.isStampCollected(spot.id) ? '' : 'outline'}">
+                                                        ${spot.points}pt
+                                                    </div>
+                                                    ${this.isStampCollected(spot.id) ? `
+                                                        <div class="badge visits">
+                                                            取得済み
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                        `).join('') : `
+                                            <div class="empty-state">
+                                                <div class="empty-state-icon">📍</div>
+                                                <p>この地域にはまだ観光スポットが登録されていません</p>
+                                            </div>
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
                 `;
             }
 
@@ -2176,37 +2425,69 @@
                                     <div class="stamp-stat-label">達成率</div>
                                 </div>
                             </div>
-
-                            <div class="stamp-grid">
-                                ${touristSpots.map(stamp => {
-                                    const isCollected = this.isStampCollected(stamp.id);
-                                    const canCollect = this.canCollectStamp(stamp.id);
-                                    const distance = this.getStampDistance(stamp.id);
-                                    
-                                    return `
-                                        <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}">
-                                            <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}" 
-                                                 onclick="${canCollect ? `app.collectStamp('${stamp.id}')` : ''}">
-                                                <img src="${stamp.imageUrl}" 
-                                                     alt="${stamp.name}" 
-                                                     class="stamp-stand-img"
-                                                     onerror="this.src='/placeholder.svg?height=80&width=80'">
-                                                ${canCollect && !isCollected ? `
-                                                    <button class="stamp-stand-btn" onclick="app.collectStamp('${stamp.id}')"></button>
-                                                ` : ''}
-                                            </div>
-                                            <span class="stamp-stand-label">${stamp.name}</span>
-                                            ${distance !== null ? `
-                                                <div class="distance-badge ${distance <= 150 ? 'near' : 'far'}">
-                                                    ${Math.round(distance)}m
-                                                </div>
-                                            ` : ''}
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
                         `}
                     </div>
+
+                    ${Object.entries(regions).map(([regionId, region]) => {
+                        const regionSpots = touristSpots.filter(spot => spot.region === regionId);
+                        const achievement = this.getRegionAchievement(regionId);
+                        const isOpen = this.openAccordions.has(regionId);
+                        
+                        return `
+                            <div class="accordion">
+                                <div class="accordion-header ${isOpen ? 'active' : ''}" onclick="app.toggleAccordion('${regionId}')">
+                                    <div class="accordion-title">
+                                        <span style="font-size: 1.5rem; margin-right: 0.5rem;">${region.icon}</span>
+                                        ${region.name}
+                                    </div>
+                                    <div class="accordion-stats">
+                                        <div class="accordion-achievement">
+                                            ${achievement.collected}/${achievement.total} (${achievement.percentage}%)
+                                        </div>
+                                        <div class="accordion-arrow">
+                                            ${icons.chevronDown}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-content ${isOpen ? 'active' : ''}">
+                                    <div class="accordion-body">
+                                        ${regionSpots.length > 0 ? `
+                                            <div class="stamp-grid">
+                                                ${regionSpots.map(stamp => {
+                                                    const isCollected = this.isStampCollected(stamp.id);
+                                                    const canCollect = this.canCollectStamp(stamp.id);
+                                                    const distance = this.getStampDistance(stamp.id);
+
+                                                    return `
+                                                        <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}">
+                                                            <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}" 
+                                                                 ${canCollect ? `onclick="app.collectStamp('${stamp.id}')"` : ''}>
+                                                                <img src="${stamp.imageUrl}" 
+                                                                     alt="${stamp.name}" 
+                                                                     class="stamp-stand-img"
+                                                                     onerror="this.src='/placeholder.svg?height=80&width=80'">
+                                                            </div>
+                                                            <span class="stamp-stand-label">${stamp.name}</span>
+                                                            ${distance !== null ? `
+                                                                <div class="distance-badge ${distance <= 1000 ? 'near' : 'far'}">
+                                                                    ${Math.round(distance)}m
+                                                                </div>
+                                                            ` : ''}
+                                                        </div>
+                                                    `;
+                                                }).join('')}
+                                            </div>
+                                        ` : `
+                                            <div class="empty-state">
+                                                <div class="empty-state-icon">📍</div>
+                                                <p>この地域にはまだ観光スポットが登録されていません</p>
+                                            </div>
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
                 `;
             }
 
@@ -2230,7 +2511,7 @@
                             <div class="progress-fill" style="width: ${achievement}%"></div>
                         </div>
                         <p style="font-size: 0.875rem; color: rgba(139, 92, 246, 0.1);">
-                            ${totalUniqueSpots} / ${touristSpots.length} スポット訪問済み
+                            ${Object.keys(this.userData.stampCollection).length} / ${touristSpots.length} スポット訪問済み
                         </p>
                     </div>
 
@@ -2247,7 +2528,7 @@
                         <div class="settings-content">
                             <div class="setting-item">
                                 <span class="setting-label">訪問スポット数</span>
-                                <span style="font-weight: 700;">${totalUniqueSpots} / ${touristSpots.length}</span>
+                                <span style="font-weight: 700;">${Object.keys(this.userData.stampCollection).length} / ${touristSpots.length}</span>
                             </div>
                             <div class="setting-item">
                                 <span class="setting-label">総訪問回数</span>
@@ -2261,52 +2542,25 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header" style="background: linear-gradient(135deg, #10b981, #3b82f6);">
-                            <div class="card-title">
-                                ${icons.star}
-                                統計情報
-                            </div>
-                        </div>
-                        <div class="stats-grid">
-                            <div class="stat-item purple">
-                                <div class="stat-number purple">${this.userData.totalPoints}</div>
-                                <div class="stat-label">総ポイント</div>
-                            </div>
-                            <div class="stat-item green">
-                                <div class="stat-number green">${totalUniqueSpots}</div>
-                                <div class="stat-label">訪問スポット</div>
-                            </div>
-                            <div class="stat-item orange">
-                                <div class="stat-number orange">${this.userData.visitHistory.length}</div>
-                                <div class="stat-label">総訪問回数</div>
-                            </div>
-                            <div class="stat-item yellow">
-                                <div class="stat-number yellow">${achievement}%</div>
-                                <div class="stat-label">達成度</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
                         <div class="card-header" style="background: linear-gradient(135deg, #ec4899, #a855f7);">
                             <div class="card-title">
                                 ${icons.mapPin}
-                                カテゴリ別達成状況
+                                地域別達成状況
                             </div>
                         </div>
-                        ${['自然', '文化', '景観', '温泉'].map(category => {
-                            const categorySpots = touristSpots.filter(spot => this.getCategoryName(spot.category) === category);
-                            const visitedSpots = categorySpots.filter(spot => this.userData.spotVisitCounts[spot.id] > 0);
-                            const percentage = categorySpots.length > 0 ? (visitedSpots.length / categorySpots.length) * 100 : 0;
-
+                        ${Object.entries(regions).map(([regionId, region]) => {
+                            const achievement = this.getRegionAchievement(regionId);
                             return `
                                 <div class="category-progress">
                                     <div class="category-header">
-                                        <span class="category-name">${category}</span>
-                                        <span class="category-count">${visitedSpots.length}/${categorySpots.length}</span>
+                                        <span class="category-name">
+                                            <span style="margin-right: 0.5rem;">${region.icon}</span>
+                                            ${region.name}
+                                        </span>
+                                        <span class="category-count">${achievement.collected}/${achievement.total}</span>
                                     </div>
                                     <div class="progress-track">
-                                        <div class="progress-bar-fill" style="width: ${percentage}%"></div>
+                                        <div class="progress-bar-fill" style="width: ${achievement.percentage}%"></div>
                                     </div>
                                 </div>
                             `;
@@ -2333,7 +2587,7 @@
                                     <div class="badge-label orange">${currentRank.name}</div>
                                 </div>
                             ` : ''}
-                            ${totalUniqueSpots >= 3 ? `
+                            ${Object.keys(this.userData.stampCollection).length >= 3 ? `
                                 <div class="badge-item blue">
                                     <div class="badge-emoji">⭐</div>
                                     <div class="badge-label blue">3スポット</div>
@@ -2345,7 +2599,7 @@
                                     <div class="badge-label purple">50%達成</div>
                                 </div>
                             ` : ''}
-                            ${totalUniqueSpots === touristSpots.length ? `
+                            ${Object.keys(this.userData.stampCollection).length === touristSpots.length ? `
                                 <div class="badge-item yellow">
                                     <div class="badge-emoji">🏆</div>
                                     <div class="badge-label yellow">全制覇</div>
@@ -2370,14 +2624,6 @@
 
             renderHistoryTab() {
                 const sortedHistory = [...this.userData.visitHistory].reverse();
-                const spotCounts = {};
-                
-                Object.entries(this.userData.spotVisitCounts).forEach(([spotId, count]) => {
-                    const spot = touristSpots.find(s => s.id === spotId);
-                    if (spot) {
-                        spotCounts[spotId] = { spot, count };
-                    }
-                });
 
                 return `
                     <div class="card">
@@ -2395,7 +2641,7 @@
                                 <div class="summary-label teal">総訪問回数</div>
                             </div>
                             <div class="summary-item blue">
-                                <div class="summary-number blue">${this.getTotalUniqueSpots()}</div>
+                                <div class="summary-number blue">${Object.keys(this.userData.stampCollection).length}</div>
                                 <div class="summary-label blue">訪問スポット</div>
                             </div>
                             <div class="summary-item purple">
@@ -2404,36 +2650,6 @@
                             </div>
                         </div>
                     </div>
-
-                    ${Object.values(spotCounts).length > 0 ? `
-                        <div class="card">
-                            <div class="history-section">
-                                <h4 class="section-header">
-                                    ${icons.rotateCcw}
-                                    観光地別訪問回数
-                                </h4>
-                                ${Object.values(spotCounts)
-                                    .sort((a, b) => b.count - a.count)
-                                    .map(({ spot, count }) => `
-                                        <div class="visit-item">
-                                            <div class="visit-icon">
-                                                ${icons.camera}
-                                            </div>
-                                            <div class="visit-info">
-                                                <h4 class="visit-name">${spot.name}</h4>
-                                                <div class="badge" style="background: ${this.getCategoryBg(spot.category)}; color: ${this.getCategoryColor(spot.category)}; border: 1px solid ${this.getCategoryBorder(spot.category)}; font-size: 0.75rem;">
-                                                    ${this.getCategoryName(spot.category)}
-                                                </div>
-                                            </div>
-                                            <div style="text-align: right;">
-                                                <div style="font-size: 1.125rem; font-weight: 700; color: #7c3aed;">${count}</div>
-                                                <div style="font-size: 0.75rem; color: #64748b;">回訪問</div>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
 
                     <div class="card">
                         <div class="history-section">
@@ -2451,10 +2667,6 @@
                                                     <div class="visit-meta-item">
                                                         ${icons.calendar}
                                                         ${new Date(visit.timestamp).toLocaleDateString('ja-JP')}
-                                                    </div>
-                                                    <div class="visit-meta-item">
-                                                        ${icons.rotateCcw}
-                                                        ${visit.visitCount || 1}回目
                                                     </div>
                                                 </div>
                                             </div>
@@ -2474,18 +2686,21 @@
                         </div>
 
                         <div class="category-stats">
-                            <h4 class="section-header">カテゴリ別訪問状況</h4>
+                            <h4 class="section-header">地域別訪問状況</h4>
                             <div class="category-grid">
-                                ${['自然', '文化', '景観', '温泉'].map(category => {
-                                    const categoryVisits = this.userData.visitHistory.filter(visit => {
+                                ${Object.entries(regions).map(([regionId, region]) => {
+                                    const regionVisits = this.userData.visitHistory.filter(visit => {
                                         const spot = touristSpots.find(s => s.id === visit.spotId);
-                                        return spot && this.getCategoryName(spot.category) === category;
+                                        return spot && spot.region === regionId;
                                     });
 
                                     return `
                                         <div class="category-stat">
-                                            <span class="category-stat-name">${category}</span>
-                                            <span class="category-stat-count">${categoryVisits.length}回</span>
+                                            <span class="category-stat-name">
+                                                <span style="margin-right: 0.25rem;">${region.icon}</span>
+                                                ${region.name}
+                                            </span>
+                                            <span class="category-stat-count">${regionVisits.length}回</span>
                                         </div>
                                     `;
                                 }).join('')}
@@ -2497,7 +2712,7 @@
 
             renderSettingsTab() {
                 const achievement = this.getAchievementPercentage();
-                const totalUniqueSpots = this.getTotalUniqueSpots();
+                const totalUniqueSpots = Object.keys(this.userData.stampCollection).length;
 
                 return `
                     <h2 class="section-header">
@@ -2567,34 +2782,6 @@
                 `;
             }
 
-            renderStampButton(spotId) {
-                const visitCount = this.getVisitCount(spotId);
-                const canStamp = this.canStampToday(spotId);
-                
-                let buttonClass, buttonText, buttonIcon;
-                if (visitCount === 0) {
-                    buttonClass = canStamp ? 'available' : 'disabled';
-                    buttonText = canStamp ? 'スタンプ' : '今日は取得済み';
-                    buttonIcon = canStamp ? icons.mapPin : icons.clock;
-                } else {
-                    buttonClass = canStamp ? 'revisit' : 'disabled';
-                    buttonText = canStamp ? '再訪問' : '今日は取得済み';
-                    buttonIcon = canStamp ? icons.mapPin : icons.clock;
-                }
-
-                return `
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
-                        <button class="stamp-button ${buttonClass}" 
-                                onclick="app.handleStamp('${spotId}')"
-                                ${!canStamp ? 'disabled' : ''}>
-                            ${buttonIcon}
-                            ${buttonText}
-                        </button>
-                        ${visitCount > 0 ? `<div class="visit-count">${visitCount}回訪問</div>` : ''}
-                    </div>
-                `;
-            }
-
             renderModal() {
                 const spot = touristSpots.find(s => s.id === this.selectedSpot);
                 if (!spot) return '';
@@ -2607,7 +2794,7 @@
                                     <div class="modal-title">
                                         ${spot.name}
                                         <div class="badge" style="background: linear-gradient(135deg, #faf5ff, #eff6ff); color: #7c2d12; border: none;">
-                                            ${this.getCategoryName(spot.category)}
+                                            ${regions[spot.region]?.name || spot.region}
                                         </div>
                                     </div>
                                     <button class="close-button" onclick="app.closeModal()">&times;</button>
@@ -2657,7 +2844,29 @@
                                         ${icons.star}
                                         <span class="points-text">${spot.points}ポイント</span>
                                     </div>
-                                    ${this.renderStampButton(this.selectedSpot)}
+                                    ${this.userLocation ? `
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">
+                                                距離: ${Math.round(this.getStampDistance(spot.id))}m
+                                            </div>
+                                            ${this.canCollectStamp(spot.id) ? `
+                                                <button class="stamp-button available" onclick="app.collectStamp('${spot.id}')">
+                                                    ${icons.mapPin}
+                                                    スタンプ取得
+                                                </button>
+                                            ` : this.isStampCollected(spot.id) ? `
+                                                <button class="stamp-button disabled" disabled>
+                                                    ${icons.checkCircle}
+                                                    取得済み
+                                                </button>
+                                            ` : `
+                                                <button class="stamp-button disabled" disabled>
+                                                    ${icons.clock}
+                                                    範囲外
+                                                </button>
+                                            `}
+                                        </div>
+                                    ` : ''}
                                 </div>
                             </div>
                         </div>
@@ -2777,21 +2986,6 @@
                 }
             }
 
-            handleStamp(spotId) {
-                if (this.canStampToday(spotId)) {
-                    const success = this.stampSpot(spotId);
-                    if (success) {
-                        const spot = touristSpots.find(s => s.id === spotId);
-                        const newVisitCount = this.getVisitCount(spotId);
-                        if (newVisitCount === 1) {
-                            alert(`🎉 ${spot.name}のスタンプを取得しました！\n${spot.points}ポイント獲得！`);
-                        } else {
-                            alert(`🎉 ${spot.name}のスタンプを取得しました！\n${spot.points}ポイント獲得！\n（${newVisitCount}回目の訪問）`);
-                        }
-                    }
-                }
-            }
-
             exportData() {
                 const dataStr = JSON.stringify(this.userData, null, 2);
                 const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -2811,7 +3005,7 @@
             }
 
             attachEventListeners() {
-                // ユーザー名入力のイベントリスナー
+                //ユーザー名入力のイベントリスナー
                 const usernameInput = document.getElementById('usernameInput');
                 const charCount = document.getElementById('charCount');
                 const startButton = document.getElementById('startButton');
