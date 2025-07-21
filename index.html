@@ -1747,6 +1747,7 @@
                 openingHours: '外湯により異なる',
                 highlights: ['', '', '', ''],
                 address: '〒669-6103 兵庫県豊岡市城崎町今津283 (城崎温泉駅)',
+                mapLink: 'https://maps.app.goo.gl/D1zRR89spAfvSxs49',
                 points: 1,
             },
             {
@@ -1755,17 +1756,34 @@
                 imageUrl: './images/',
                 location: { lat: 35.62530315 , lng: 134.8106886 },
                 region: 'kinosaki',
-                category: '',
-                description: '',
-                detailedDescription: '',
-                accessInfo: '',
-                openingHours: '',
+                category: 'art',
+                description: '城崎温泉ゆかりの作家に関する展示を行う施設',
+                detailedDescription: '城崎温泉街の中心地にあり、城崎温泉ゆかりの作家に関する展示を行っている施設。1996年に開館し、2016年に展示内容をリニューアルしました。また、地元の伝統工芸である城崎麦わら細工の展示も行っており、前野治郎展などを通じてその魅力を伝えています。文学ファンや歴史愛好者にとって、城崎文芸館は訪れる価値のある文化施設です。',
+                accessInfo: 'JR城崎温泉駅より徒歩5分',
+                openingHours: '9時00分〜17時00分　水曜日 定休日',
                 highlights: ['', '', '', ''],
-                address: '〒66- 兵庫県豊岡市',
+                address: '〒669-6101 兵庫県豊岡市城崎町湯島357-1',
+                mapLink: 'https://maps.app.goo.gl/oDHWqkqWdKr9u6SN8',
                 points: 3,
             },
             {
                 id: 'spot9',
+                name: '極楽寺',
+                imageUrl: './images/',
+                location: { lat: 35.62390352 , lng: 134.805332  },
+                region: 'kinosaki',
+                category: '',
+                description: '',
+                detailedDescription: '城崎温泉郷の西南に位置する「極楽寺」は、1394年頃に金山明昶禅師によって創建され、阿弥陀如来を本尊とする静かな寺院です。境内には枯山水の石庭「清閑庭」があり、美しい禅宗のお寺です。',
+                accessInfo: 'JR城崎温泉駅より徒歩15分',
+                openingHours: '8時00分〜17時00分',
+                highlights: ['', '', '', ''],
+                address: '〒669-6101 兵庫県豊岡市城崎町湯島８０１',
+                mapLink: 'https://maps.app.goo.gl/HYU4VganVAzMqDjL9',
+                points: 3,
+            },
+            {
+                id: 'spot10',
                 name: '',
                 imageUrl: './images/',
                 location: { lat:1 , lng:1  },
@@ -1776,9 +1794,11 @@
                 accessInfo: '',
                 openingHours: '',
                 highlights: ['', '', '', ''],
-                address: '〒66- 兵庫県豊岡市',
+                address: '',
+                mapLink: '',
                 points: 3,
             },
+
             {
                 id: 'spot',
                 name: '豊岡市役所',
@@ -2841,6 +2861,15 @@
                                     </h4>
                                     <p class="section-content">${spot.detailedDescription}</p>
                                 </div>
+
+                                <div class="modal-section">
+                                    <h4 class="section-title">
+                                        <div class="section-icon">${icons.mapPin}</div>
+                                        住所
+                                    </h4>
+                                    <a href="${spot.mapLink}">${spot.address}</a>
+                                </div>
+
 
                                 <div class="modal-section">
                                     <h4 class="section-title">
