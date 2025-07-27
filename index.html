@@ -819,6 +819,12 @@
             border-color: #fca5a5;
         }
 
+        .badge-item.opacity-50 {
+          filter: grayscale(100%);
+          opacity: 0.45;
+          pointer-events: none;
+        }
+
         .badge-emoji {
             font-size: 1.5rem;
             margin-bottom: 0.25rem;
@@ -2135,7 +2141,7 @@
                     stamp.location.lat, stamp.location.lng
                 );
 
-                if (distance > 15000) {
+                if (distance > 150) {
                     alert(`${stamp.name}から${Math.round(distance)}m離れています。150m以内に近づいてください。`);
                     return false;
                 }
