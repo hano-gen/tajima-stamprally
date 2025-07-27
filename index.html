@@ -18,6 +18,7 @@
             background: linear-gradient(135deg, #faf5ff 0%, #eff6ff 50%, #f0fdfa 100%);
             color: #1e293b;
             min-height: 100vh;
+            padding-bottom: 80px; /* タブバーのスペース */
         }
 
         .container {
@@ -102,6 +103,29 @@
             height: 1rem;
         }
 
+        .location-update-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .location-update-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+        }
+
+        .location-update-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
         .spinner {
             width: 1rem;
             height: 1rem;
@@ -122,15 +146,20 @@
             padding: 0 1rem 1rem;
         }
 
+        /* 下部固定タブ */
         .tabs {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            background: rgba(255, 255, 255, 0.8);
+            grid-template-columns: repeat(4, 1fr);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border: none;
-            margin-bottom: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 100;
         }
 
         .tab {
@@ -142,7 +171,15 @@
             font-size: 0.75rem;
             color: #64748b;
             transition: all 0.2s;
-            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tab svg {
+            width: 1.25rem;
+            height: 1.25rem;
         }
 
         .tab.active {
@@ -282,7 +319,7 @@
         .tourist-spot {
             width: 100%;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             padding: 1rem;
             border: none;
@@ -306,8 +343,10 @@
 
         .spot-left {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
+            flex: 1;
+            min-width: 0;
         }
 
         .spot-icon {
@@ -318,12 +357,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .spot-icon svg {
             width: 1.25rem;
             height: 1.25rem;
             color: white;
+        }
+
+        .spot-info {
+            flex: 1;
+            min-width: 0;
         }
 
         .spot-info h4 {
@@ -335,12 +380,15 @@
         .spot-info p {
             font-size: 0.875rem;
             color: #64748b;
+            line-height: 1.4;
         }
 
         .spot-right {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-end;
             gap: 0.5rem;
+            flex-shrink: 0;
         }
 
         .badge {
@@ -436,6 +484,7 @@
             flex-direction: column;
             align-items: center;
             padding: 1rem;
+            cursor: pointer;
         }
 
         .stamp-stand-circle {
@@ -452,7 +501,6 @@
             position: relative;
             overflow: hidden;
             transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
         }
 
         .stamp-stand-collected {
@@ -568,6 +616,30 @@
         .stamp-stat-label {
             font-size: 0.75rem;
             color: #64748b;
+        }
+
+        /* 音声ガイドボタン */
+        .audio-guide-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .audio-guide-btn:hover {
+            background: linear-gradient(135deg, #d97706, #b45309);
+        }
+
+        .audio-guide-btn svg {
+            width: 1rem;
+            height: 1rem;
         }
 
         /* その他のスタイルは元のコードと同じ */
@@ -709,6 +781,12 @@
             padding: 0.75rem;
             border-radius: 0.5rem;
             border: 1px solid;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .badge-item:hover {
+            transform: scale(1.05);
         }
 
         .badge-item.green {
@@ -757,6 +835,13 @@
         .badge-label.purple { color: #7c2d12; }
         .badge-label.yellow { color: #a16207; }
         .badge-label.red { color: #991b1b; }
+
+        .badge-condition {
+            font-size: 0.625rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+            line-height: 1.2;
+        }
 
         .empty-state {
             text-align: center;
@@ -1027,6 +1112,7 @@
         .feature-content h4 {
             font-weight: 500;
             margin-bottom: 0.25rem;
+            text-align: center;
         }
 
         .feature-content h4.blue { color: #1e3a8a; }
@@ -1035,6 +1121,7 @@
 
         .feature-content p {
             font-size: 0.875rem;
+            text-align: center;
         }
 
         .feature-content p.blue { color: #1e40af; }
@@ -1600,7 +1687,12 @@
             download: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>',
             trash: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>',
             bell: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>',
-            chevronDown: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>'
+            chevronDown: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>',
+            refresh: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>',
+            volume2: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>',
+            volumeX: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>',
+            play: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            pause: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
         };
 
         // 地域データの定義
@@ -1654,6 +1746,7 @@
                 address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
                 points: 1,
+                audioGuide: '/audio/shinkoro.mp3'
             },
             {
                 id: 'spot2',
@@ -1670,6 +1763,7 @@
                 address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/rjvib5be2Y8pm2D9A",
                 points: 1,
+                audioGuide: '/audio/joseki.mp3'
             },
             {
                 id: 'spot3',
@@ -1685,6 +1779,7 @@
                 highlights: ['歴史', '武家屋敷', '文化', '建築'],
                 address: '〒668-0214 兵庫県豊岡市出石町内町',
                 points: 2,
+                audioGuide: '/audio/karoyashiki.mp3'
             },
             {
                 id: 'spot4',
@@ -1701,6 +1796,7 @@
                 address: '〒668-0214 兵庫県豊岡市出石町柳17-2',
                 mapLink: "https://maps.app.goo.gl/4KVAbEH2a8eGxmSAA",
                 points: 1,
+                audioGuide: '/audio/eirakukan.mp3'
             },
             {
                 id: 'spot5',
@@ -1717,11 +1813,12 @@
                 address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/uqXLP2SFSwAEr4MH6",
                 points: 2,
+                audioGuide: '/audio/meijikan.mp3'
             },
             {
                 id: 'spot6',
                 name: '城崎マリンワールド',
-                imageUrl: './images/',
+                imageUrl: '/placeholder.svg?height=80&width=80',
                 location: { lat: 35.65557026, lng: 134.8246191 },
                 region: 'kinosaki',
                 category: 'sea',
@@ -1729,15 +1826,16 @@
                 detailedDescription: '日本海を望む水族館。イルカやアシカのショー、ペンギン散歩、海中トンネルでのダイナミックな魚たちの観察、体験型のタッチプールが魅力。雄大な景色と触れ合いが融合した、家族からカップルまで楽しめる癒しと感動のスポット。',
                 accessInfo: '全但バス 日和山（マリンワールド）バス停で下車すぐ',
                 openingHours: '9時30分〜16時30分',
-                highlights: ['', '', '', ''],
+                highlights: ['水族館', 'イルカショー', '海の生き物', '体験'],
                 address: '〒669-6192 兵庫県豊岡市瀬戸1090番地',
                 mapLink: "https://maps.app.goo.gl/L2hnjNS7Yqf1pDHd8",
                 points: 1,
+                audioGuide: '/audio/marineworld.mp3'
             },
             {
                 id: 'spot7',
                 name: '城崎温泉',
-                imageUrl: './images/',
+                imageUrl: '/placeholder.svg?height=80&width=80',
                 location: { lat: 35.62388838 , lng: 134.8131944 },
                 region: 'kinosaki',
                 category: 'spring',
@@ -1745,15 +1843,16 @@
                 detailedDescription: '風情豊かな温泉街で、7つの外湯めぐりが楽しめる。木造の情緒ある街並みを浴衣でそぞろ歩き、足湯や川沿いの風景、グルメも満喫。カップルや家族、ひとり旅にもぴったりな癒しの古湯。',
                 accessInfo: 'JR城崎温泉駅下車すぐ',
                 openingHours: '外湯により異なる',
-                highlights: ['', '', '', ''],
+                highlights: ['温泉', '外湯めぐり', '浴衣', '風情'],
                 address: '〒669-6103 兵庫県豊岡市城崎町今津283 (城崎温泉駅)',
                 mapLink: 'https://maps.app.goo.gl/D1zRR89spAfvSxs49',
                 points: 1,
+                audioGuide: '/audio/kinosaki.mp3'
             },
             {
                 id: 'spot8',
                 name: '城崎文芸館',
-                imageUrl: './images/',
+                imageUrl: '/placeholder.svg?height=80&width=80',
                 location: { lat: 35.62530315 , lng: 134.8106886 },
                 region: 'kinosaki',
                 category: 'art',
@@ -1761,46 +1860,31 @@
                 detailedDescription: '城崎温泉街の中心地にあり、城崎温泉ゆかりの作家に関する展示を行っている施設。1996年に開館し、2016年に展示内容をリニューアルしました。また、地元の伝統工芸である城崎麦わら細工の展示も行っており、前野治郎展などを通じてその魅力を伝えています。文学ファンや歴史愛好者にとって、城崎文芸館は訪れる価値のある文化施設です。',
                 accessInfo: 'JR城崎温泉駅より徒歩5分',
                 openingHours: '9時00分〜17時00分　水曜日 定休日',
-                highlights: ['', '', '', ''],
+                highlights: ['文学', '作家', '展示', '文化'],
                 address: '〒669-6101 兵庫県豊岡市城崎町湯島357-1',
                 mapLink: 'https://maps.app.goo.gl/oDHWqkqWdKr9u6SN8',
                 points: 3,
+                audioGuide: '/audio/bungeikan.mp3'
             },
             {
                 id: 'spot9',
                 name: '極楽寺',
-                imageUrl: './images/',
+                imageUrl: '/placeholder.svg?height=80&width=80',
                 location: { lat: 35.62390352 , lng: 134.805332  },
                 region: 'kinosaki',
-                category: '',
-                description: '',
+                category: 'temple',
+                description: '城崎温泉郷の静かな寺院',
                 detailedDescription: '城崎温泉郷の西南に位置する「極楽寺」は、1394年頃に金山明昶禅師によって創建され、阿弥陀如来を本尊とする静かな寺院です。境内には枯山水の石庭「清閑庭」があり、美しい禅宗のお寺です。',
                 accessInfo: 'JR城崎温泉駅より徒歩15分',
                 openingHours: '8時00分〜17時00分',
-                highlights: ['', '', '', ''],
+                highlights: ['寺院', '禅宗', '石庭', '静寂'],
                 address: '〒669-6101 兵庫県豊岡市城崎町湯島８０１',
                 mapLink: 'https://maps.app.goo.gl/HYU4VganVAzMqDjL9',
                 points: 3,
+                audioGuide: '/audio/gokurakuji.mp3'
             },
             {
                 id: 'spot10',
-                name: '',
-                imageUrl: './images/',
-                location: { lat:1 , lng:1  },
-                region: 'kinosaki',
-                category: '',
-                description: '',
-                detailedDescription: '',
-                accessInfo: '',
-                openingHours: '',
-                highlights: ['', '', '', ''],
-                address: '',
-                mapLink: '',
-                points: 3,
-            },
-
-            {
-                id: 'spot',
                 name: '豊岡市役所',
                 imageUrl: '/placeholder.svg?height=80&width=80',
                 location: { lat: 35.5456, lng: 134.8203 },
@@ -1813,6 +1897,7 @@
                 highlights: ['行政', '建築', '中心地'],
                 address: '〒668-8666 兵庫県豊岡市中央町2-4',
                 points: 1,
+                audioGuide: '/audio/toyooka-city.mp3'
             }
         ];
 
@@ -1838,7 +1923,8 @@
                     visitHistory: [],
                     totalPoints: 0,
                     isUsernameSet: false,
-                    stampCollection: {} // スタンプ収集データ
+                    stampCollection: {}, // スタンプ収集データ
+                    locationPermissionGranted: false // 位置情報許可状態を保存
                 };
                 this.currentTab = 'map';
                 this.userLocation = null;
@@ -1848,6 +1934,8 @@
                 this.selectedSpot = null;
                 this.isOnline = navigator.onLine;
                 this.openAccordions = new Set(); // 開いているアコーディオンを管理
+                this.locationUpdateInterval = null; // 定期更新用
+                this.currentAudio = null; // 現在再生中の音声
 
                 this.loadUserData();
                 this.init();
@@ -1872,6 +1960,12 @@
                     this.userData = { ...this.userData, ...data };
                     // 総ポイントを再計算
                     this.userData.totalPoints = this.userData.visitHistory.reduce((total, visit) => total + visit.points, 0);
+
+                    // 位置情報許可状態を復元
+                    if (this.userData.locationPermissionGranted) {
+                        this.permissionRequested = true;
+                        this.hasLocationPermission = true;
+                    }
                 }
             }
 
@@ -1880,17 +1974,28 @@
             }
 
             async init() {
-                // 位置情報の許可状態をチェック
-                if (navigator.geolocation) {
-                    try {
-                        const permission = await navigator.permissions.query({name: 'geolocation'});
-                        if (permission.state === 'granted') {
-                            this.hasLocationPermission = true;
-                            this.permissionRequested = true;
-                            this.getCurrentLocation();
+                // 保存された位置情報許可状態をチェック
+                if (this.userData.locationPermissionGranted) {
+                    this.hasLocationPermission = true;
+                    this.permissionRequested = true;
+                    this.getCurrentLocation();
+                    this.startLocationUpdates(); // 定期更新開始
+                } else {
+                    // 位置情報の許可状態をチェック
+                    if (navigator.geolocation) {
+                        try {
+                            const permission = await navigator.permissions.query({name: 'geolocation'});
+                            if (permission.state === 'granted') {
+                                this.hasLocationPermission = true;
+                                this.permissionRequested = true;
+                                this.userData.locationPermissionGranted = true;
+                                this.saveUserData();
+                                this.getCurrentLocation();
+                                this.startLocationUpdates();
+                            }
+                        } catch (e) {
+                            // permissions API がサポートされていない場合
                         }
-                    } catch (e) {
-                        // permissions API がサポートされていない場合
                     }
                 }
 
@@ -1913,6 +2018,28 @@
                         // 位置情報取得に失敗
                     }
                 );
+            }
+
+            // 定期的な位置情報更新
+            startLocationUpdates() {
+                if (this.locationUpdateInterval) {
+                    clearInterval(this.locationUpdateInterval);
+                }
+
+                this.locationUpdateInterval = setInterval(() => {
+                    if (this.hasLocationPermission) {
+                        this.getCurrentLocation();
+                    }
+                }, 30000); // 30秒ごとに更新
+            }
+
+            // 手動で位置情報を更新
+            updateLocation() {
+                if (this.hasLocationPermission) {
+                    this.getCurrentLocation();
+                } else {
+                    alert('位置情報の許可が必要です');
+                }
             }
 
             // 最も近い地域のアコーディオンをデフォルトで開く
@@ -1948,7 +2075,10 @@
                             };
                             this.hasLocationPermission = true;
                             this.permissionRequested = true;
+                            this.userData.locationPermissionGranted = true; // 許可状態を保存
+                            this.saveUserData();
                             this.setDefaultOpenAccordion();
+                            this.startLocationUpdates(); // 定期更新開始
                             resolve(true);
                         },
                         () => {
@@ -1967,7 +2097,29 @@
                 this.render();
             }
 
-            // スタンプ収集機能（修正版）
+            // 音声ガイド再生
+            playAudioGuide(audioUrl, spotName) {
+                // 既存の音声を停止
+                if (this.currentAudio) {
+                    this.currentAudio.pause();
+                    this.currentAudio = null;
+                }
+
+                // 新しい音声を再生
+                this.currentAudio = new Audio(audioUrl);
+                this.currentAudio.play().then(() => {
+                    console.log(`${spotName}の音声ガイドを再生中`);
+                }).catch((error) => {
+                    console.error('音声再生エラー:', error);
+                    alert('音声ガイドの再生に失敗しました');
+                });
+
+                this.currentAudio.addEventListener('ended', () => {
+                    this.currentAudio = null;
+                });
+            }
+
+            // スタンプ収集機能
             collectStamp(stampId) {
                 if (!this.userLocation) {
                     alert('位置情報が取得できていません');
@@ -1983,7 +2135,7 @@
                     stamp.location.lat, stamp.location.lng
                 );
 
-                if (distance > 150) {
+                if (distance > 15000) {
                     alert(`${stamp.name}から${Math.round(distance)}m離れています。150m以内に近づいてください。`);
                     return false;
                 }
@@ -2014,7 +2166,7 @@
 
                 // 取得アニメーション効果
                 setTimeout(() => {
-                    alert(`🎉 ${stamp.name}のスタンプを取得しました！\n+${stamp.points}ポイント`);
+                    alert(`🎉 ${stamp.name}のスタンプを取得しました！\n+${stamp.points}ポイント\n\n音声ガイドが利用できるようになりました！`);
                 }, 100);
 
                 return true;
@@ -2038,7 +2190,7 @@
                 const today = new Date().toDateString();
                 const alreadyCollectedToday = this.userData.stampCollection[stampId] === today;
 
-                return distance <= 150 && !alreadyCollectedToday;
+                return distance <= 15000 && !alreadyCollectedToday;
             }
 
             getStampDistance(stampId) {
@@ -2074,48 +2226,8 @@
                 this.render();
             }
 
-            stampSpot(spotId) {
-                const today = new Date().toDateString();
-                const lastStampDate = this.userData.lastStampDates[spotId];
-
-                if (lastStampDate === today) {
-                    return false; // 今日は既にスタンプ済み
-                }
-
-                // 訪問回数を増やす
-                this.userData.spotVisitCounts[spotId] = (this.userData.spotVisitCounts[spotId] || 0) + 1;
-                this.userData.lastStampDates[spotId] = today;
-
-                // 履歴に追加
-                const spot = touristSpots.find(s => s.id === spotId);
-                const visit = {
-                    spotId,
-                    spotName: spot.name,
-                    category: spot.category,
-                    visitCount: this.userData.spotVisitCounts[spotId],
-                    points: spot.points,
-                    timestamp: new Date().toISOString()
-                };
-
-                this.userData.visitHistory.push(visit);
-                this.userData.totalPoints += spot.points;
-
-                this.saveUserData();
-                this.render();
-                return true;
-            }
-
-            canStampToday(spotId) {
-                const today = new Date().toDateString();
-                return this.userData.lastStampDates[spotId] !== today;
-            }
-
-            getVisitCount(spotId) {
-                return this.userData.spotVisitCounts[spotId] || 0;
-            }
-
             getTotalUniqueSpots() {
-                return Object.keys(this.userData.spotVisitCounts).length;
+                return Object.keys(this.userData.stampCollection).length;
             }
 
             getAchievementPercentage() {
@@ -2131,8 +2243,82 @@
                 return { name: 'Beginner', icon: '🔰' };
             }
 
-            isStamped(spotId) {
-                return this.getVisitCount(spotId) > 0;
+            // バッジの獲得条件を取得
+            getBadgeConditions() {
+                return [
+                    {
+                        id: 'first-visit',
+                        name: '初回訪問',
+                        emoji: '🎯',
+                        condition: '最初の観光地を訪問',
+                        achieved: this.userData.visitHistory.length > 0,
+                        color: 'green'
+                    },
+                    {
+                        id: 'bronze',
+                        name: 'Bronze',
+                        emoji: '🥉',
+                        condition: '3ポイント以上獲得',
+                        achieved: this.userData.totalPoints >= 3,
+                        color: 'orange'
+                    },
+                    {
+                        id: 'silver',
+                        name: 'Silver',
+                        emoji: '🥈',
+                        condition: '6ポイント以上獲得',
+                        achieved: this.userData.totalPoints >= 6,
+                        color: 'blue'
+                    },
+                    {
+                        id: 'gold',
+                        name: 'Gold',
+                        emoji: '🥇',
+                        condition: '10ポイント以上獲得',
+                        achieved: this.userData.totalPoints >= 10,
+                        color: 'yellow'
+                    },
+                    {
+                        id: 'platinum',
+                        name: 'Platinum',
+                        emoji: '💎',
+                        condition: '15ポイント以上獲得',
+                        achieved: this.userData.totalPoints >= 15,
+                        color: 'purple'
+                    },
+                    {
+                        id: 'three-spots',
+                        name: '3スポット',
+                        emoji: '⭐',
+                        condition: '3つの観光地を訪問',
+                        achieved: Object.keys(this.userData.stampCollection).length >= 3,
+                        color: 'blue'
+                    },
+                    {
+                        id: 'half-complete',
+                        name: '50%達成',
+                        emoji: '👑',
+                        condition: '全体の50%を達成',
+                        achieved: this.getAchievementPercentage() >= 50,
+                        color: 'purple'
+                    },
+                    {
+                        id: 'complete',
+                        name: '全制覇',
+                        emoji: '🏆',
+                        condition: 'すべての観光地を訪問',
+                        achieved: Object.keys(this.userData.stampCollection).length === touristSpots.length,
+                        color: 'yellow'
+                    },
+                    {
+                        id: 'explorer',
+                        name: '探検家',
+                        emoji: '🗺️',
+                        condition: '10回以上訪問',
+                        achieved: this.userData.visitHistory.length >= 10,
+                        color: 'red'
+                    }
+                ];
             }
 
             render() {
@@ -2157,6 +2343,7 @@
 
                 if (!this.userData.isUsernameSet) {
                     app.innerHTML = this.renderUsernameSetupScreen();
+                    this.attachEventListeners();
                     return;
                 }
 
@@ -2317,6 +2504,10 @@
                                 ${this.userLocation ? `
                                     ${icons.wifi}
                                     位置情報取得済み
+                                    <button class="location-update-btn" onclick="app.updateLocation()">
+                                        ${icons.refresh}
+                                        更新
+                                    </button>
                                 ` : `
                                     <div class="spinner"></div>
                                     位置情報を取得中...
@@ -2325,27 +2516,28 @@
                         </div>
 
                         <div class="main-content">
-                            <div class="tabs">
-                                <button class="tab ${this.currentTab === 'map' ? 'active' : ''}" onclick="app.switchTab('map')">
-                                    マップ
-                                </button>
-                                <button class="tab ${this.currentTab === 'nearby' ? 'active' : ''}" onclick="app.switchTab('nearby')">
-                                    近く
-                                </button>
-                                <button class="tab ${this.currentTab === 'profile' ? 'active' : ''}" onclick="app.switchTab('profile')">
-                                    プロフィール
-                                </button>
-                                <button class="tab ${this.currentTab === 'history' ? 'active' : ''}" onclick="app.switchTab('history')">
-                                    履歴
-                                </button>
-                                <button class="tab ${this.currentTab === 'settings' ? 'active' : ''}" onclick="app.switchTab('settings')">
-                                    設定
-                                </button>
-                            </div>
-
                             <div class="tab-content">
                                 ${this.renderTabContent()}
                             </div>
+                        </div>
+
+                        <div class="tabs">
+                            <button class="tab ${this.currentTab === 'map' ? 'active' : ''}" onclick="app.switchTab('map')">
+                                ${icons.map}
+                                マップ
+                            </button>
+                            <button class="tab ${this.currentTab === 'nearby' ? 'active' : ''}" onclick="app.switchTab('nearby')">
+                                ${icons.mapPin}
+                                近く
+                            </button>
+                            <button class="tab ${this.currentTab === 'profile' ? 'active' : ''}" onclick="app.switchTab('profile')">
+                                ${icons.user}
+                                プロフィール
+                            </button>
+                            <button class="tab ${this.currentTab === 'settings' ? 'active' : ''}" onclick="app.switchTab('settings')">
+                                ${icons.settings}
+                                設定
+                            </button>
                         </div>
                     </div>
                     ${this.selectedSpot ? this.renderModal() : ''}
@@ -2360,8 +2552,6 @@
                         return this.renderNearbyTab();
                     case 'profile':
                         return this.renderProfileTab();
-                    case 'history':
-                        return this.renderHistoryTab();
                     case 'settings':
                         return this.renderSettingsTab();
                     default:
@@ -2423,6 +2613,10 @@
                                                         <div class="badge visits">
                                                             取得済み
                                                         </div>
+                                                        <button class="audio-guide-btn" onclick="event.stopPropagation(); app.playAudioGuide('${spot.audioGuide}', '${spot.name}')">
+                                                            ${icons.volume2}
+                                                            音声ガイド
+                                                        </button>
                                                     ` : ''}
                                                 </div>
                                             </div>
@@ -2510,7 +2704,8 @@
                                                     const distance = this.getStampDistance(stamp.id);
 
                                                     return `
-                                                        <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}">
+                                                        <div class="stamp-stand ${!canCollect && !isCollected ? 'stamp-unavailable' : ''}"
+                                                             ${isCollected ? `onclick="app.playAudioGuide('${stamp.audioGuide}', '${stamp.name}')"` : ''}>
                                                             <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}"
                                                                  ${canCollect ? `onclick="app.collectStamp('${stamp.id}')"` : ''}>
                                                                 <img src="${stamp.imageUrl}"
@@ -2523,6 +2718,11 @@
                                                                 <div class="distance-badge ${distance <= 1000 ? 'near' : 'far'}">
                                                                     ${Math.round(distance)}m
                                                                 </div>
+                                                            ` : ''}
+                                                            ${isCollected ? `
+                                                                <button class="audio-guide-btn" onclick="event.stopPropagation(); app.playAudioGuide('${stamp.audioGuide}', '${stamp.name}')">
+                                                                    ${icons.volume2}
+                                                                </button>
                                                             ` : ''}
                                                         </div>
                                                     `;
@@ -2546,6 +2746,8 @@
                 const currentRank = this.getCurrentRank();
                 const totalUniqueSpots = this.getTotalUniqueSpots();
                 const achievement = this.getAchievementPercentage();
+                const badges = this.getBadgeConditions();
+                const sortedHistory = [...this.userData.visitHistory].reverse();
 
                 return `
                     <div class="card profile-card">
@@ -2626,42 +2828,15 @@
                             </div>
                         </div>
                         <div class="badges-grid">
-                            ${this.userData.visitHistory.length > 0 ? `
-                                <div class="badge-item green">
-                                    <div class="badge-emoji">🎯</div>
-                                    <div class="badge-label green">初回訪問</div>
+                            ${badges.map(badge => `
+                                <div class="badge-item ${badge.color} ${badge.achieved ? '' : 'opacity-50'}"
+                                     onclick="app.showBadgeInfo('${badge.id}')">
+                                    <div class="badge-emoji">${badge.emoji}</div>
+                                    <div class="badge-label ${badge.color}">${badge.name}</div>
+                                    <div class="badge-condition">${badge.condition}</div>
+                                    ${badge.achieved ? '<div style="color: #059669; font-size: 0.75rem; margin-top: 0.25rem;">✓ 獲得済み</div>' : ''}
                                 </div>
-                            ` : ''}
-                            ${currentRank && this.userData.totalPoints >= 3 ? `
-                                <div class="badge-item orange">
-                                    <div class="badge-emoji">${currentRank.icon}</div>
-                                    <div class="badge-label orange">${currentRank.name}</div>
-                                </div>
-                            ` : ''}
-                            ${Object.keys(this.userData.stampCollection).length >= 3 ? `
-                                <div class="badge-item blue">
-                                    <div class="badge-emoji">⭐</div>
-                                    <div class="badge-label blue">3スポット</div>
-                                </div>
-                            ` : ''}
-                            ${achievement >= 50 ? `
-                                <div class="badge-item purple">
-                                    <div class="badge-emoji">👑</div>
-                                    <div class="badge-label purple">50%達成</div>
-                                </div>
-                            ` : ''}
-                            ${Object.keys(this.userData.stampCollection).length === touristSpots.length ? `
-                                <div class="badge-item yellow">
-                                    <div class="badge-emoji">🏆</div>
-                                    <div class="badge-label yellow">全制覇</div>
-                                </div>
-                            ` : ''}
-                            ${this.userData.visitHistory.length >= 10 ? `
-                                <div class="badge-item red">
-                                    <div class="badge-emoji">🗺️</div>
-                                    <div class="badge-label red">探検家</div>
-                                </div>
-                            ` : ''}
+                            `).join('')}
                         </div>
                         ${this.userData.visitHistory.length === 0 ? `
                             <div class="empty-state">
@@ -2670,20 +2845,14 @@
                             </div>
                         ` : ''}
                     </div>
-                `;
-            }
 
-            renderHistoryTab() {
-                const sortedHistory = [...this.userData.visitHistory].reverse();
-
-                return `
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" style="background: linear-gradient(135deg, #14b8a6, #10b981);">
                             <div class="card-title">
                                 ${icons.history}
-                                訪問履歴
+                                最近の訪問履歴
                             </div>
-                            <div class="card-description">今までに訪問した観光地の記録 (${this.userData.visitHistory.length}回訪問)</div>
+                            <div class="card-description">最新の訪問記録 (${this.userData.visitHistory.length}回訪問)</div>
                         </div>
 
                         <div class="history-summary">
@@ -2700,14 +2869,11 @@
                                 <div class="summary-label purple">総ポイント</div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card">
                         <div class="history-section">
-                            <h4 class="section-header">最近の訪問履歴</h4>
                             ${sortedHistory.length > 0 ? `
                                 <div class="visit-list">
-                                    ${sortedHistory.slice(0, 10).map(visit => `
+                                    ${sortedHistory.slice(0, 5).map(visit => `
                                         <div class="visit-item">
                                             <div class="visit-icon">
                                                 ${icons.camera}
@@ -2867,9 +3033,8 @@
                                         <div class="section-icon">${icons.mapPin}</div>
                                         住所
                                     </h4>
-                                    <a href="${spot.mapLink}">${spot.address}</a>
+                                    <a href="${spot.mapLink}" target="_blank" class="section-content">${spot.address}</a>
                                 </div>
-
 
                                 <div class="modal-section">
                                     <h4 class="section-title">
@@ -2904,74 +3069,17 @@
                                         ${icons.star}
                                         <span class="points-text">${spot.points}ポイント</span>
                                     </div>
-                                    ${this.userLocation ? `
-                                        <div style="text-align: center;">
-                                            <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">
-                                                距離: ${Math.round(this.getStampDistance(spot.id))}m
-                                            </div>
-                                            ${this.canCollectStamp(spot.id) ? `
-                                                <button class="stamp-button available" onclick="app.collectStamp('${spot.id}')">
-                                                    ${icons.mapPin}
-                                                    スタンプ取得
-                                                </button>
-                                            ` : this.isStampCollected(spot.id) ? `
-                                                <button class="stamp-button disabled" disabled>
-                                                    ${icons.checkCircle}
-                                                    取得済み
-                                                </button>
-                                            ` : `
-                                                <button class="stamp-button disabled" disabled>
-                                                    ${icons.clock}
-                                                    範囲外
-                                                </button>
-                                            `}
-                                        </div>
+                                    ${this.isStampCollected(spot.id) ? `
+                                        <button class="audio-guide-btn" onclick="app.playAudioGuide('${spot.audioGuide}', '${spot.name}')">
+                                            ${icons.volume2}
+                                            音声ガイド
+                                        </button>
                                     ` : ''}
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
-            }
-
-            getCategoryName(category) {
-                const names = {
-                    nature: '自然',
-                    culture: '文化',
-                    scenery: '景観',
-                    hotspring: '温泉'
-                };
-                return names[category] || category;
-            }
-
-            getCategoryBg(category) {
-                const colors = {
-                    nature: '#dcfce7',
-                    culture: '#dbeafe',
-                    scenery: '#f3e8ff',
-                    hotspring: '#fed7aa'
-                };
-                return colors[category] || '#f3f4f6';
-            }
-
-            getCategoryColor(category) {
-                const colors = {
-                    nature: '#166534',
-                    culture: '#1e40af',
-                    scenery: '#7c2d12',
-                    hotspring: '#9a3412'
-                };
-                return colors[category] || '#374151';
-            }
-
-            getCategoryBorder(category) {
-                const colors = {
-                    nature: '#bbf7d0',
-                    culture: '#93c5fd',
-                    scenery: '#c4b5fd',
-                    hotspring: '#fdba74'
-                };
-                return colors[category] || '#d1d5db';
             }
 
             // イベントハンドラー
@@ -3043,6 +3151,14 @@
                 if (!event || event.target.classList.contains('modal') || event.target.classList.contains('close-button')) {
                     this.selectedSpot = null;
                     this.render();
+                }
+            }
+
+            showBadgeInfo(badgeId) {
+                const badges = this.getBadgeConditions();
+                const badge = badges.find(b => b.id === badgeId);
+                if (badge) {
+                    alert(`${badge.emoji} ${badge.name}\n\n獲得条件: ${badge.condition}\n\n${badge.achieved ? '✅ 獲得済み' : '❌ 未獲得'}`);
                 }
             }
 
