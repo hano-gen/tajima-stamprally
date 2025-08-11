@@ -668,8 +668,9 @@
         }
 
         .profile-description {
-            color: rgba(139, 92, 246, 0.1);
             font-size: 0.875rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
         }
 
         .progress-bar {
@@ -817,12 +818,6 @@
         .badge-item.red {
             background: linear-gradient(135deg, #fef2f2, #fecaca);
             border-color: #fca5a5;
-        }
-
-        .badge-item.opacity-50 {
-          filter: grayscale(100%);
-          opacity: 0.45;
-          pointer-events: none;
         }
 
         .badge-emoji {
@@ -1752,7 +1747,7 @@
                 address: '〒668-0214 兵庫県豊岡市出石町内町',
                 mapLink: "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
                 points: 1,
-                audioGuide: '/audio/shinkoro.mp3'
+                audioGuide: './audio/shinkoro.mp3'
             },
             {
                 id: 'spot2',
@@ -1903,7 +1898,6 @@
                 highlights: ['行政', '建築', '中心地'],
                 address: '〒668-8666 兵庫県豊岡市中央町2-4',
                 points: 1,
-                audioGuide: '/audio/toyooka-city.mp3'
             }
         ];
 
@@ -2196,7 +2190,7 @@
                 const today = new Date().toDateString();
                 const alreadyCollectedToday = this.userData.stampCollection[stampId] === today;
 
-                return distance <= 15000 && !alreadyCollectedToday;
+                return distance <= 150 && !alreadyCollectedToday;
             }
 
             getStampDistance(stampId) {
@@ -2475,7 +2469,7 @@
                                     </button>
                                 </div>
                                 <div class="notice">
-                                    ユーザー名は他のユーザーには表示されません。<br>
+                                    ユーザー名は他のユーザーには表示されませんが、<br>
                                     個人を特定できる情報の入力はお控えください。
                                 </div>
                             </div>
@@ -2519,6 +2513,7 @@
                                     位置情報を取得中...
                                 `}
                             </div>
+                            <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">位置情報は30秒毎に更新されます</p>
                         </div>
 
                         <div class="main-content">
@@ -2604,7 +2599,7 @@
                                             <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
                                                 <div class="spot-left">
                                                     <div class="spot-icon">
-                                                        ${icons.camera}
+                                                        ${icons.mapPin}
                                                     </div>
                                                     <div class="spot-info">
                                                         <h4>${spot.name}</h4>
@@ -2766,10 +2761,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${achievement}%"></div>
-                        </div>
-                        <p style="font-size: 0.875rem; color: rgba(139, 92, 246, 0.1);">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${achievement}%"></div>
+                            </div>
+                        <p style="font-size: 0.875rem;">
                             ${Object.keys(this.userData.stampCollection).length} / ${touristSpots.length} スポット訪問済み
                         </p>
                     </div>
@@ -2779,9 +2774,6 @@
                             <div class="card-title">
                                 ${icons.user}
                                 ${this.userData.name}
-                            </div>
-                            <div class="card-description">
-                                達成度 ${achievement}% • ${this.userData.totalPoints} ポイント
                             </div>
                         </div>
                         <div class="settings-content">
@@ -2858,7 +2850,6 @@
                                 ${icons.history}
                                 最近の訪問履歴
                             </div>
-                            <div class="card-description">最新の訪問記録 (${this.userData.visitHistory.length}回訪問)</div>
                         </div>
 
                         <div class="history-summary">
@@ -2882,7 +2873,7 @@
                                     ${sortedHistory.slice(0, 5).map(visit => `
                                         <div class="visit-item">
                                             <div class="visit-icon">
-                                                ${icons.camera}
+                                                ${icons.mapPin}
                                             </div>
                                             <div class="visit-info">
                                                 <h4 class="visit-name">${visit.spotName}</h4>
