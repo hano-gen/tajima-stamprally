@@ -7,6 +7,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#D64545">
 
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="豊岡スタンプ">
+    <link rel="apple-touch-icon" href="/placeholder.svg?height=180&width=180">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
@@ -556,15 +562,55 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .course-thumbnail {
+        /* Course Carousel Styles */
+        .course-carousel {
+            position: relative;
             width: 100%;
             height: 150px;
+            overflow: hidden;
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        .carousel-container {
+            display: flex;
+            width: 500%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-slide {
+            width: 20%;
+            height: 100%;
             background: linear-gradient(135deg, var(--brand-primary), #c53030);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 2rem;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .carousel-indicator {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .carousel-indicator.active {
+            background: white;
         }
 
         .course-content {
@@ -907,6 +953,11 @@
             align-items: center;
             padding: 1rem;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stamp-stand:hover:not(.stamp-unavailable) {
+            transform: scale(1.05);
         }
 
         .stamp-stand-circle {
@@ -940,6 +991,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
         }
 
         .stamp-stand-collected .stamp-stand-img {
@@ -1019,9 +1073,9 @@
             margin-bottom: 0.25rem;
         }
 
-        .stamp-stat-number.blue { color: #3b82f6; }
-        .stamp-stat-number.green { color: #10b981; }
-        .stamp-stat-number.purple { color: #8b5cf6; }
+        .stamp-stat-number.accent   { color: var(--pri-600, #C83B3B); }
+        .stamp-stat-number.success  { color: var(--ok-600,  #15803D); }
+        .stamp-stat-number.plum { color: var(--plum-600,#7C2D58); }
 
         .stamp-stat-label {
             font-size: 0.75rem;
@@ -1072,6 +1126,18 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #666;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
         }
 
         .modal-body {
@@ -1231,131 +1297,12 @@
             color: #666;
         }
 
-        /* Play View Styles */
-        .play-header {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--brand-primary), #c53030);
-            transition: width 0.3s;
-        }
-
-        .progress-text {
-            font-size: 0.875rem;
-            color: #666;
-            text-align: center;
-        }
-
+        /* Map Styles */
         .map-container {
             height: 400px;
             border-radius: 0.5rem;
             overflow: hidden;
-            margin-bottom: 1rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .bottom-sheet {
-            background: white;
-            border-radius: 1rem 1rem 0 0;
-            padding: 1.5rem;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .current-poi {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .poi-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .distance-label {
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .distance-label.available {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .distance-label.unavailable {
-            background: #fecaca;
-            color: #991b1b;
-        }
-
-        .stamp-btn {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: all 0.2s;
-        }
-
-        .stamp-btn.available {
-            background: var(--brand-primary);
-            color: white;
-        }
-
-        .stamp-btn.available:hover {
-            background: #c53030;
-        }
-
-        .stamp-btn:disabled {
-            background: #d1d5db;
-            color: #9ca3af;
-            cursor: not-allowed;
-        }
-
-        .sticky-actions {
-            position: fixed;
-            bottom: 90px;
-            right: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            z-index: 100;
-        }
-
-        .sticky-btn {
-            background: white;
-            border: 2px solid var(--brand-primary);
-            color: var(--brand-primary);
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-        }
-
-        .sticky-btn:hover {
-            background: var(--brand-primary);
-            color: white;
         }
 
         /* Profile Styles */
@@ -1452,6 +1399,11 @@
         .badge-item.red {
             background: linear-gradient(135deg, #fef2f2, #fecaca);
             border-color: #fca5a5;
+        }
+
+        .badge-item.grayscale {
+            filter: grayscale(100%);
+            opacity: 0.6;
         }
 
         .badge-emoji {
@@ -1795,6 +1747,10 @@
                         </div>
                         <div class="card-description" id="map-description">地域別に観光地を確認できます</div>
                     </div>
+                    <!-- Map Container -->
+                    <div id="map-container" class="map-container">
+                        <!-- Leaflet map will be initialized here -->
+                    </div>
                 </div>
 
                 <!-- Map content will be populated by JavaScript -->
@@ -1818,15 +1774,15 @@
                     <!-- Stats Section -->
                     <div id="stamp-stats" class="stamp-stats">
                         <div class="stamp-stat">
-                            <div class="stamp-stat-number blue" id="collected-count">0</div>
+                            <div class="stamp-stat-number accent" id="collected-count">0</div>
                             <div class="stamp-stat-label">取得済み</div>
                         </div>
                         <div class="stamp-stat">
-                            <div class="stamp-stat-number green" id="total-points">0</div>
+                            <div class="stamp-stat-number success" id="total-points">0</div>
                             <div class="stamp-stat-label">ポイント</div>
                         </div>
                         <div class="stamp-stat">
-                            <div class="stamp-stat-number purple" id="achievement-rate">0%</div>
+                            <div class="stamp-stat-number plum" id="achievement-rate">0%</div>
                             <div class="stamp-stat-label">達成率</div>
                         </div>
                     </div>
@@ -1861,7 +1817,7 @@
                 <div class="card profile-card">
                     <div class="profile-header">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                         </svg>
                         <div>
                             <div class="profile-title">達成度 <span id="profile-achievement">0</span>%</div>
@@ -1982,12 +1938,20 @@
                         </div>
                         <div class="card-description">データのバックアップと復元</div>
                     </div>
-                    <button class="btn btn-outline" onclick="app.exportData()" style="width: 100%;">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                        </svg>
-                        データをエクスポート
-                    </button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" onclick="app.exportData()" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1rem; height: 1rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            エクスポート
+                        </button>
+                        <button class="btn btn-primary" onclick="app.resetData()" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #ef4444;">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 1rem; height: 1rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            リセット
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card">
@@ -2163,6 +2127,19 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script type="module">
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
         // Region Data
         const regions = {
             toyooka: {
@@ -2381,7 +2358,7 @@
             }
         ];
 
-        // Course Data
+        // Course Data with multiple images
         window.COURSES = [
             {
                 slug: "castle-town-walk",
@@ -2390,7 +2367,11 @@
                 duration_min: 60,
                 stamps_count: 5,
                 difficulty: 2,
-                thumbnail: "./images/course-castle.jpg",
+                thumbnails: [
+                    "./images/course1-1.jpg",
+                    "./images/course1-2.jpg",
+                    "./images/course1-3.jpg"
+                ],
                 description: "但馬の小京都・出石をめぐる定番コース。歴史ある建物と美しい街並みを楽しめます。",
                 poi_ids: ["izushi-castle", "shinkoro", "eirakukan", "karoyashiki", "meijikan"]
             },
@@ -2401,7 +2382,10 @@
                 duration_min: 90,
                 stamps_count: 4,
                 difficulty: 1,
-                thumbnail: "./images/course-onsen.jpg",
+                thumbnails: [
+                    "./images/course2-1.jpg",
+                    "./images/course2-2.jpg"
+                ],
                 description: "7つの外湯で有名な城崎温泉を巡るリラックスコース。",
                 poi_ids: ["kinosaki-onsen", "bungeikan", "gokurakuji", "marineworld"]
             },
@@ -2412,6 +2396,10 @@
                 duration_min: 120,
                 stamps_count: 2,
                 difficulty: 3,
+                thumbnails: [
+                    "/placeholder.svg?height=150&width=300",
+                    "/placeholder.svg?height=150&width=300"
+                ],
                 description: "日本海の絶景と海の生き物に出会える冒険コース。",
                 poi_ids: ["marineworld", "kinosaki-onsen"]
             }
@@ -2430,10 +2418,11 @@
                 this.stampCollection = JSON.parse(localStorage.getItem('stampCollection') || '{}');
                 this.courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
                 this.visitHistory = JSON.parse(localStorage.getItem('visitHistory') || '[]');
-                this.hasLocationPermission = false;
+                this.hasLocationPermission = JSON.parse(localStorage.getItem('locationPermissionGranted') || 'false');
                 this.permissionRequested = JSON.parse(localStorage.getItem('permissionRequested') || 'false');
                 this.openAccordions = new Set();
                 this.selectedSpot = null;
+                this.carouselIntervals = new Map();
 
                 this.init();
             }
@@ -2543,7 +2532,7 @@
             }
 
             startLocationWatch() {
-                if (navigator.geolocation) {
+                if (navigator.geolocation && this.hasLocationPermission) {
                     this.watchId = navigator.geolocation.watchPosition(
                         (position) => {
                             this.userLocation = {
@@ -2608,6 +2597,22 @@
 
                 // Update stamp distances and availability
                 this.updateStampAvailability();
+
+                // Update map if it exists
+                if (this.map && this.userLocation) {
+                    // Remove existing user marker
+                    this.map.eachLayer(layer => {
+                        if (layer.options && layer.options.isUserMarker) {
+                            this.map.removeLayer(layer);
+                        }
+                    });
+
+                    // Add new user marker
+                    L.marker([this.userLocation.lat, this.userLocation.lng], { isUserMarker: true })
+                        .addTo(this.map)
+                        .bindPopup('現在地')
+                        .openPopup();
+                }
             }
 
             updateStampAvailability() {
@@ -2795,12 +2800,48 @@
                 // Render content based on tab
                 if (tab === 'map') {
                     this.renderMapContent();
+                    this.initializeMap();
                 } else if (tab === 'nearby') {
                     this.renderNearbyContent();
                 } else if (tab === 'profile') {
                     this.updateProfileData();
                 } else if (tab === 'settings') {
                     this.updateSettingsData();
+                }
+            }
+
+            initializeMap() {
+                if (!this.map) {
+                    // Initialize Leaflet map
+                    this.map = L.map('map-container').setView([35.5456, 134.8203], 10);
+
+                    // Add tile layer
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(this.map);
+
+                    // Add POI markers
+                    window.POIS.forEach(poi => {
+                        const marker = L.marker([poi.lat, poi.lng])
+                            .addTo(this.map)
+                            .bindPopup(`
+                                <div style="text-align: center;">
+                                    <h4>${poi.name}</h4>
+                                    <p>${poi.description}</p>
+                                    <button onclick="app.showSpotDetails('${poi.id}')" style="background: var(--brand-primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">詳細を見る</button>
+                                </div>
+                            `);
+                    });
+
+                    // Add user location if available
+                    if (this.userLocation) {
+                        L.marker([this.userLocation.lat, this.userLocation.lng], { isUserMarker: true })
+                            .addTo(this.map)
+                            .bindPopup('現在地')
+                            .openPopup();
+
+                        this.map.setView([this.userLocation.lat, this.userLocation.lng], 12);
+                    }
                 }
             }
 
@@ -2972,11 +3013,12 @@
                                         ) : null;
 
                                         return `
-                                            <div class="stamp-stand ${!isCollected && distance > stamp.radius_m ? 'stamp-unavailable' : ''}"
-                                                 data-stamp-id="${stamp.id}">
+                                            <div class="stamp-stand ${!isCollected && (distance === null || distance > stamp.radius_m) ? 'stamp-unavailable' : ''}"
+                                                 data-stamp-id="${stamp.id}"
+                                                 onclick="app.collectStamp('${stamp.id}')">
                                                 <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
-                                                    <div class="stamp-stand-img">
-                                                        ${index + 1}
+                                                    <div class="stamp-stand-img" ${isCollected && stamp.imageUrl ? `style="background-image: url('${stamp.imageUrl}')"` : ''}>
+                                                        ${isCollected && stamp.imageUrl ? '' : index + 1}
                                                     </div>
                                                 </div>
                                                 <span class="stamp-stand-label">${stamp.name}</span>
@@ -3032,10 +3074,11 @@
 
                                                 return `
                                                     <div class="stamp-stand ${!isCollected && (distance === null || distance > stamp.radius_m) ? 'stamp-unavailable' : ''}"
-                                                         data-stamp-id="${stamp.id}">
+                                                         data-stamp-id="${stamp.id}"
+                                                         onclick="app.collectStamp('${stamp.id}')">
                                                         <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
-                                                            <div class="stamp-stand-img">
-                                                                ${this.getCategoryIcon(stamp.category)}
+                                                            <div class="stamp-stand-img" ${isCollected && stamp.imageUrl ? `style="background-image: url('${stamp.imageUrl}')"` : ''}>
+                                                                ${isCollected && stamp.imageUrl ? '' : this.getCategoryIcon(stamp.category)}
                                                             </div>
                                                         </div>
                                                         <span class="stamp-stand-label">${stamp.name}</span>
@@ -3119,7 +3162,7 @@
                     alert(`🎉 ${stamp.name}のスタンプを取得しました！\n+${stamp.points}ポイント`);
                 }, 100);
 
-                // Update UI
+                // Update UI immediately
                 this.renderNearbyContent();
                 this.updateProfileData();
                 this.updateSettingsData();
@@ -3258,7 +3301,7 @@
                 const badgesGrid = document.getElementById('badges-grid');
 
                 badgesGrid.innerHTML = badges.map(badge => `
-                    <div class="badge-item ${badge.color} ${badge.achieved ? '' : 'opacity-50'}"
+                    <div class="badge-item ${badge.color} ${badge.achieved ? '' : 'grayscale'}"
                          onclick="app.showBadgeInfo('${badge.id}')">
                         <div class="badge-emoji">${badge.emoji}</div>
                         <div class="badge-label ${badge.color}">${badge.name}</div>
@@ -3434,6 +3477,9 @@
 
                 if (courseGrid) courseGrid.innerHTML = courseHTML;
                 if (coursesGrid) coursesGrid.innerHTML = courseHTML;
+
+                // Initialize carousels
+                this.initializeCarousels();
             }
 
             renderCourseCard(course) {
@@ -3441,8 +3487,20 @@
 
                 return `
                     <div class="course-card" onclick="app.showCourseDetail('${course.slug}')">
-                        <div class="course-thumbnail">
-                            🏯
+                        <div class="course-carousel" id="carousel-${course.slug}">
+                            <div class="carousel-container">
+                                ${course.thumbnails.map((thumbnail, index) => `
+                                    <div class="carousel-slide" style="background-image: url('${thumbnail}')">
+                                        ${index === 0 ? '🏯' : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="carousel-indicators">
+                                ${course.thumbnails.map((_, index) => `
+                                    <div class="carousel-indicator ${index === 0 ? 'active' : ''}"
+                                         onclick="event.stopPropagation(); app.setCarouselSlide('${course.slug}', ${index})"></div>
+                                `).join('')}
+                            </div>
                         </div>
                         <div class="course-content">
                             <h3 class="course-title">${course.title}</h3>
@@ -3465,6 +3523,40 @@
                         </div>
                     </div>
                 `;
+            }
+
+            initializeCarousels() {
+                // Clear existing intervals
+                this.carouselIntervals.forEach(interval => clearInterval(interval));
+                this.carouselIntervals.clear();
+
+                // Initialize new carousels
+                window.COURSES.forEach(course => {
+                    if (course.thumbnails.length > 1) {
+                        let currentSlide = 0;
+                        const interval = setInterval(() => {
+                            currentSlide = (currentSlide + 1) % course.thumbnails.length;
+                            this.setCarouselSlide(course.slug, currentSlide);
+                        }, 3000);
+                        this.carouselIntervals.set(course.slug, interval);
+                    }
+                });
+            }
+
+            setCarouselSlide(courseSlug, slideIndex) {
+                const carousel = document.getElementById(`carousel-${courseSlug}`);
+                if (!carousel) return;
+
+                const container = carousel.querySelector('.carousel-container');
+                const indicators = carousel.querySelectorAll('.carousel-indicator');
+
+                if (container && indicators.length > 0) {
+                    container.style.transform = `translateX(-${slideIndex * 20}%)`;
+
+                    indicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index === slideIndex);
+                    });
+                }
             }
 
             showCourseDetail(courseSlug) {
@@ -3507,7 +3599,7 @@
             }
 
             closeCourseDetail() {
-                document.getElementById('modal-course-detail').classList.add('hidden');
+                document.getElementById('course-detail-modal').classList.add('hidden');
             }
 
             startCourse(courseSlug = null) {
@@ -3586,79 +3678,171 @@
                 const mode = params.get('mode');
                 const slug = params.get('slug');
 
+                if (mode) this.currentMode = mode;
+                if (slug) this.currentCourse = slug;
+
                 if (tab && tab !== this.currentTab) {
-                    this.switchTab(tab);
-                }
-                if (mode && mode !== this.currentMode) {
-                    this.currentMode = mode;
-                    this.updateModeGuidance();
-                }
-                if (slug && slug !== this.currentCourse) {
-                    this.currentCourse = slug;
-                    this.updateContinueSection();
-                }
-            }
-
-            exportData() {
-                const data = {
-                    nickname: this.nickname,
-                    stampCollection: this.stampCollection,
-                    visitHistory: this.visitHistory,
-                    courseProgress: this.courseProgress
-                };
-
-                const dataStr = JSON.stringify(data, null, 2);
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `toyooka-stamp-backup-${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
-                URL.revokeObjectURL(url);
-            }
-
-            saveData() {
-                localStorage.setItem('nickname', this.nickname);
-                localStorage.setItem('stampCollection', JSON.stringify(this.stampCollection));
-                localStorage.setItem('visitHistory', JSON.stringify(this.visitHistory));
-                localStorage.setItem('courseProgress', JSON.stringify(this.courseProgress));
-            }
-        }
-
-        // Global functions for onclick handlers
-        window.selectMode = (mode) => window.app.selectMode(mode);
-        window.showModeSelect = () => window.app.showModeSelect();
-        window.switchTab = (tab) => window.app.switchTab(tab);
-        window.continueCourse = () => window.app.continueCourse();
-        window.closeCourseDetail = () => window.app.closeCourseDetail();
-        window.closeSpotDetail = () => window.app.closeSpotDetail();
-        window.startCourse = () => window.app.startCourse();
-        window.toggleBrushBackground = () => {
-            const checkbox = document.getElementById('brush-bg-toggle');
-            if (checkbox.checked) {
-                document.body.classList.add('brush-bg');
-            } else {
-                document.body.classList.remove('brush-bg');
-            }
-            localStorage.setItem('brushBackground', checkbox.checked);
-        };
-
-        // Initialize app
-        window.app = new ToyookaStampApp();
-
-        // Load saved brush background setting
-        const savedBrushBg = localStorage.getItem('brushBackground');
-        if (savedBrushBg !== null) {
-            const checkbox = document.getElementById('brush-bg-toggle');
-            if (checkbox) {
-                checkbox.checked = savedBrushBg === 'true';
-                if (checkbox.checked) {
-                    document.body.classList.add('brush-bg');
+                    this.switchTab(tab, { suppressHash: true });
                 } else {
-                    document.body.classList.remove('brush-bg');
+                    // 同一タブの場合でも必要な再描画を行う
+                    if (this.currentTab === 'map') {
+                        this.renderMapContent();
+                        this.initializeMap();
+                    } else if (this.currentTab === 'nearby') {
+                        this.renderNearbyContent();
+                    } else if (this.currentTab === 'profile') {
+                        this.updateProfileData();
+                    } else if (this.currentTab === 'settings') {
+                        this.updateSettingsData();
+                    }
+                }
+
+                this.updateContinueSection();
+                this.updateModeGuidance();
+                }
+
+            // 永続化
+            saveData() {
+                localStorage.setItem('stampCollection', JSON.stringify(this.stampCollection));
+                localStorage.setItem('courseProgress', JSON.stringify(this.courseProgress));
+                localStorage.setItem('visitHistory', JSON.stringify(this.visitHistory));
+                if (this.nickname) localStorage.setItem('nickname', this.nickname);
+                if (typeof this.permissionRequested === 'boolean') {
+                    localStorage.setItem('permissionRequested', JSON.stringify(this.permissionRequested));
+                }
+                if (typeof this.hasLocationPermission === 'boolean') {
+                    localStorage.setItem('locationPermissionGranted', JSON.stringify(this.hasLocationPermission));
                 }
             }
-        }
-    </script>
+
+            // データ書き出し
+            exportData() {
+            const payload = {
+                exportedAt: new Date().toISOString(),
+                nickname: this.nickname,
+                mode: this.currentMode,
+                course: this.currentCourse,
+                stampCollection: this.stampCollection,
+                courseProgress: this.courseProgress,
+                visitHistory: this.visitHistory
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'toyooka-stamp-export.json';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            }
+
+            // データ初期化
+            resetData() {
+                if (!confirm('すべてのローカルデータを削除します。よろしいですか？')) return;
+
+                // 背景設定は残したい場合はここを保存
+                const brushBg = localStorage.getItem('brushBgEnabled');
+
+                localStorage.clear();
+
+                if (brushBg !== null) {
+                    localStorage.setItem('brushBgEnabled', brushBg);
+                }
+
+                // 内部状態も初期化
+                this.currentMode = null;
+                this.currentCourse = null;
+                this.currentTab = 'map';
+                this.nickname = null;
+                this.userLocation = null;
+                this.stampCollection = {};
+                this.courseProgress = {};
+                this.visitHistory = [];
+                this.hasLocationPermission = false;
+                this.permissionRequested = false;
+                this.openAccordions.clear();
+
+                // 画面をリロードしてクリーンに戻す
+                window.location.hash = '';
+                window.location.reload();
+            }
+
+            // 背景の筆ブラシ風トグル
+            setBrushBgEnabled(enabled) {
+                const body = document.body;
+                if (enabled) {
+                    body.classList.add('brush-bg');
+                } else {
+                    body.classList.remove('brush-bg');
+                }
+                localStorage.setItem('brushBgEnabled', JSON.stringify(enabled));
+                const toggle = document.getElementById('brush-bg-toggle');
+                if (toggle) toggle.checked = !!enabled;
+              }
+            }
+
+            // ====== アプリ起動とグローバル関数のエクスポート ======
+            const app = new ToyookaStampApp();
+            window.app = app;
+
+            // 背景設定の初期適用
+            (function initBrushBg() {
+                const saved = JSON.parse(localStorage.getItem('brushBgEnabled') || 'true');
+                app.setBrushBgEnabled(saved);
+            })();
+
+            // UI から呼ばれる関数をグローバルへ
+            window.switchTab = (tab) => app.switchTab(tab);
+            // switchTab をハッシュ更新抑制付きでも使えるように拡張
+            ToyookaStampApp.prototype.switchTab = function(tab, { suppressHash = false } = {}) {
+                // 全画面を非表示
+                document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+
+                // 対応スクリーンID
+                const screenMap = {
+                    'map': 'map-view',
+                    'nearby': 'nearby-view',
+                    'courses': 'courses-view',
+                    'profile': 'profile-view',
+                    'settings': 'settings-view'
+                };
+                const screenId = screenMap[tab] || 'landing';
+                const target = document.getElementById(screenId);
+                if (target) target.classList.add('active');
+
+                // タブバー状態
+                document.querySelectorAll('.tab').forEach(t => t.setAttribute('data-active', 'false'));
+                const btn = document.querySelector(`[data-tab="${tab}"]`);
+                if (btn) btn.setAttribute('data-active', 'true');
+
+                this.currentTab = tab;
+
+                // タブに応じた描画
+                if (tab === 'map') {
+                    this.renderMapContent();
+                    this.initializeMap();
+                } else if (tab === 'nearby') {
+                    this.renderNearbyContent();
+                } else if (tab === 'profile') {
+                    this.updateProfileData();
+                } else if (tab === 'settings') {
+                    this.updateSettingsData();
+                }
+
+                if (!suppressHash) this.updateHash();
+            };
+
+            window.selectMode = (mode) => app.selectMode(mode);
+            window.showModeSelect = () => app.showModeSelect();
+            window.continueCourse = () => app.continueCourse();
+            window.startCourse = (slug) => app.startCourse(slug);
+            window.closeCourseDetail = () => app.closeCourseDetail();
+            window.closeSpotDetail = () => app.closeSpotDetail();
+            window.toggleBrushBackground = () => {
+                const chk = document.getElementById('brush-bg-toggle');
+                app.setBrushBgEnabled(chk ? chk.checked : true);
+            };
+        </script>
 </body>
 </html>
