@@ -1567,6 +1567,27 @@
             outline-offset: 2px;
         }
 
+        /* === 現在地（パルス点） === */
+        .user-marker { position: relative; width: 16px; height: 16px; }
+        .user-marker .dot {
+          position: absolute; left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          width: 14px; height: 14px; border-radius: 50%;
+          background: #1e90ff; /* 青 */
+          box-shadow: 0 0 0 2px rgba(30,144,255,.35);
+        }
+        .user-marker .ring {
+          position: absolute; left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          width: 14px; height: 14px; border-radius: 50%;
+          background: rgba(30,144,255,.35);
+          animation: userPulse 1.8s ease-out infinite;
+        }
+        @keyframes userPulse {
+          0%   { transform: translate(-50%, -50%) scale(1);   opacity: .9; }
+          100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+        }
+
     </style>
 </head>
 <body class="brush-bg">
@@ -2423,6 +2444,33 @@
                 this.openAccordions = new Set();
                 this.selectedSpot = null;
                 this.carouselIntervals = new Map();
+                // --- 地図アイコン定義（現在地・スポット） ---
+                this.icons = {
+                  // 現在地: パルスする青い点（DivIcon）
+                  user: L.divIcon({
+                    className: 'user-marker',
+                    html: '<div class="dot"></div><div class="ring"></div>',
+                    iconSize: [16, 16],
+                    iconAnchor: [8, 8],
+                    popupAnchor: [0, -8]
+                  }),
+
+                  // スポット: 赤いピン（SVGアイコンをdata URIで埋め込み）
+                  poi: L.icon({
+                    iconUrl:
+                      'data:image/svg+xml;charset=UTF-8,' +
+                      encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="41" viewBox="0 0 25 41">
+                          <path fill="#D64545" d="M12.5 0C5.596 0 0 5.596 0 12.5 0 21.875 12.5 41 12.5 41S25 21.875 25 12.5C25 5.596 19.404 0 12.5 0z"/>
+                          <circle cx="12.5" cy="12.5" r="5.5" fill="white"/>
+                        </svg>
+                      `),
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [0, -36]
+                  })
+                };
+
 
                 this.init();
             }
@@ -2608,7 +2656,10 @@
                     });
 
                     // Add new user marker
-                    L.marker([this.userLocation.lat, this.userLocation.lng], { isUserMarker: true })
+                    L.marker([this.userLocation.lat, this.userLocation.lng], {
+                        icon: this.icons.user,
+                        isUserMarker: true
+                    })
                         .addTo(this.map)
                         .bindPopup('現在地')
                         .openPopup();
@@ -2822,7 +2873,7 @@
 
                     // Add POI markers
                     window.POIS.forEach(poi => {
-                        const marker = L.marker([poi.lat, poi.lng])
+                      const marker = L.marker([poi.lat, poi.lng], { icon: this.icons.poi })
                             .addTo(this.map)
                             .bindPopup(`
                                 <div style="text-align: center;">
@@ -2835,10 +2886,13 @@
 
                     // Add user location if available
                     if (this.userLocation) {
-                        L.marker([this.userLocation.lat, this.userLocation.lng], { isUserMarker: true })
-                            .addTo(this.map)
-                            .bindPopup('現在地')
-                            .openPopup();
+                      L.marker([this.userLocation.lat, this.userLocation.lng], {
+                          icon: this.icons.user,
+                          isUserMarker: true
+                      })
+                          .addTo(this.map)
+                          .bindPopup('現在地')
+                          .openPopup();
 
                         this.map.setView([this.userLocation.lat, this.userLocation.lng], 12);
                     }
