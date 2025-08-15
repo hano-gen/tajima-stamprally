@@ -244,7 +244,6 @@
             min-height: 100vh;
             padding: 2rem;
             text-align: center;
-            background: linear-gradient(135deg, #faf5ff, #eff6ff, #f0fdfa);
         }
 
         .setup-card {
@@ -312,15 +311,15 @@
         }
 
         .feature-item.blue {
-            background: #eff6ff;
+            background: #FFF1F1;
         }
 
         .feature-item.green {
-            background: #f0fdf4;
+            background: #ECFDF5;
         }
 
         .feature-item.purple {
-            background: #faf5ff;
+            background: #FCE7F3;
         }
 
         .feature-icon {
@@ -1146,7 +1145,6 @@
 
         .modal-image {
             width: 100%;
-            height: 8rem;
             object-fit: cover;
             border-radius: 0.75rem;
             margin-bottom: 1.5rem;
@@ -1178,6 +1176,12 @@
 
         .section-content {
             font-size: 0.875rem;
+            line-height: 1.5;
+            color: #374151;
+        }
+
+        .section-content-notice {
+            font-size: 0.82rem;
             line-height: 1.5;
             color: #374151;
         }
@@ -1587,6 +1591,9 @@
           0%   { transform: translate(-50%, -50%) scale(1);   opacity: .9; }
           100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
         }
+
+        /* Leaflet アイコンを拡大するときの基準点を足元に */
+        .leaflet-marker-icon { transform-origin: bottom center; }
 
     </style>
 </head>
@@ -2097,6 +2104,7 @@
                             住所
                         </h4>
                         <a href="#" target="_blank" class="section-content" id="spot-modal-address">〒668-0214 兵庫県豊岡市出石町内町</a>
+                        <p class="section-content-notice">住所をクリックするとgoogleマップが起動します</p>
                     </div>
 
                     <div class="modal-section">
@@ -2213,7 +2221,8 @@
                 highlights: ["歴史", "城跡", "桜", "眺望"],
                 address: "〒668-0214 兵庫県豊岡市出石町内町",
                 mapLink: "https://maps.app.goo.gl/rjvib5be2Y8pm2D9A",
-                imageUrl: "./images/joseki_stamp.png"
+                stampimageURL: "./images/joseki_stamp.png",
+                imageURL: "./images/joseki.jpg"
             },
             {
                 id: "shinkoro",
@@ -2231,7 +2240,9 @@
                 highlights: ["歴史", "建築", "シンボル", "写真撮影"],
                 address: "〒668-0214 兵庫県豊岡市出石町内町",
                 mapLink: "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
-                imageUrl: "./images/shinkoro_stamp.png"
+                stampimageURL: "./images/shinkoro_stamp.png",
+                imageURL: "./images/"
+
             },
             {
                 id: "eirakukan",
@@ -2249,7 +2260,8 @@
                 highlights: ["歴史", "芸能", "建築", "文化"],
                 address: "〒668-0214 兵庫県豊岡市出石町柳17-2",
                 mapLink: "https://maps.app.goo.gl/4KVAbEH2a8eGxmSAA",
-                imageUrl: "./images/eirakukan_stamp.png"
+                stampimageURL: "./images/eirakukan_stamp.png",
+                imageURL: "./images/"
             },
             {
                 id: "karoyashiki",
@@ -2267,7 +2279,8 @@
                 highlights: ["歴史", "武家屋敷", "文化", "建築"],
                 address: "〒668-0214 兵庫県豊岡市出石町内町",
                 mapLink: "https://maps.app.goo.gl/example",
-                imageUrl: "./images/karoyashiki_stamp.png"
+                stampimageURL: "./images/karoyashiki_stamp.png",
+                imageURL: "./images/"
             },
             {
                 id: "meijikan",
@@ -2285,7 +2298,8 @@
                 highlights: ["明治建築", "洋風", "歴史", "観光案内"],
                 address: "〒668-0214 兵庫県豊岡市出石町内町",
                 mapLink: "https://maps.app.goo.gl/uqXLP2SFSwAEr4MH6",
-                imageUrl: "./images/meijikan_stamp.png"
+                stampimageURL: "./images/meijikan_stamp.png",
+                imageURL: "./images/"
             },
             {
                 id: "kinosaki-onsen",
@@ -2303,7 +2317,8 @@
                 highlights: ["温泉", "外湯めぐり", "浴衣", "風情"],
                 address: "〒669-6103 兵庫県豊岡市城崎町今津283",
                 mapLink: "https://maps.app.goo.gl/D1zRR89spAfvSxs49",
-                imageUrl: "/placeholder.svg?height=80&width=80"
+                stampimageURL: "/placeholder.svg?height=80&width=80",
+                imageURL: "./images/"
             },
             {
                 id: "marineworld",
@@ -2321,7 +2336,8 @@
                 highlights: ["水族館", "イルカショー", "海の生き物", "体験"],
                 address: "〒669-6192 兵庫県豊岡市瀬戸1090番地",
                 mapLink: "https://maps.app.goo.gl/L2hnjNS7Yqf1pDHd8",
-                imageUrl: "/placeholder.svg?height=80&width=80"
+                stampimageURL: "/placeholder.svg?height=80&width=80",
+                imageURL: "./images/"
             },
             {
                 id: "bungeikan",
@@ -2339,7 +2355,8 @@
                 highlights: ["文学", "作家", "展示", "文化"],
                 address: "〒669-6101 兵庫県豊岡市城崎町湯島357-1",
                 mapLink: "https://maps.app.goo.gl/oDHWqkqWdKr9u6SN8",
-                imageUrl: "/placeholder.svg?height=80&width=80"
+                stampimageURL: "/placeholder.svg?height=80&width=80",
+                imageURL: "./images/"
             },
             {
                 id: "gokurakuji",
@@ -2357,7 +2374,8 @@
                 highlights: ["寺院", "禅宗", "石庭", "静寂"],
                 address: "〒669-6101 兵庫県豊岡市城崎町湯島８０１",
                 mapLink: "https://maps.app.goo.gl/HYU4VganVAzMqDjL9",
-                imageUrl: "/placeholder.svg?height=80&width=80"
+                stampimageURL: "/placeholder.svg?height=80&width=80",
+                imageURL: "./images/"
             },
             {
                 id: "toyooka-city",
@@ -2375,7 +2393,8 @@
                 highlights: ["行政", "建築", "中心地"],
                 address: "〒668-8666 兵庫県豊岡市中央町2-4",
                 mapLink: "https://maps.app.goo.gl/example",
-                imageUrl: "/placeholder.svg?height=80&width=80"
+                stampimageURL: "/placeholder.svg?height=80&width=80",
+                imageURL: "./images/"
             }
         ];
 
@@ -2470,7 +2489,8 @@
                     popupAnchor: [0, -36]
                   })
                 };
-
+                // マーカー参照用の索引
+                this.markerIndex = Object.create(null);
 
                 this.init();
             }
@@ -2479,6 +2499,8 @@
                 this.setupEventListeners();
                 this.checkInitialState();
             }
+
+
 
             checkInitialState() {
                 // Check location permission first
@@ -2863,41 +2885,75 @@
 
             initializeMap() {
                 if (!this.map) {
-                    // Initialize Leaflet map
-                    this.map = L.map('map-container').setView([35.5456, 134.8203], 10);
+                  // Initialize Leaflet map
+                  this.map = L.map('map-container').setView([35.5456, 134.8203], 10);
 
-                    // Add tile layer
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors'
-                    }).addTo(this.map);
+                  // Tile layer
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                  }).addTo(this.map);
 
-                    // Add POI markers
-                    window.POIS.forEach(poi => {
-                      const marker = L.marker([poi.lat, poi.lng], { icon: this.icons.poi })
-                            .addTo(this.map)
-                            .bindPopup(`
-                                <div style="text-align: center;">
-                                    <h4>${poi.name}</h4>
-                                    <p>${poi.description}</p>
-                                    <button onclick="app.showSpotDetails('${poi.id}')" style="background: var(--brand-primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">詳細を見る</button>
-                                </div>
-                            `);
-                    });
+                  // POI markers + 索引登録
+                  window.POIS.forEach(poi => {
+                    const marker = L.marker([poi.lat, poi.lng], { icon: this.icons.poi })
+                      .addTo(this.map)
+                      .bindPopup(`
+                        <div style="text-align: center;">
+                          <h4>${poi.name}</h4>
+                          <p>${poi.description}</p>
+                          <button onclick="app.showSpotDetails('${poi.id}')"
+                                  style="background: var(--brand-primary); color: white; border: none; padding: .5rem 1rem; border-radius: .25rem; cursor: pointer;">
+                            詳細を見る
+                          </button>
+                        </div>
+                      `);
 
-                    // Add user location if available
-                    if (this.userLocation) {
-                      L.marker([this.userLocation.lat, this.userLocation.lng], {
-                          icon: this.icons.user,
-                          isUserMarker: true
-                      })
-                          .addTo(this.map)
-                          .bindPopup('現在地')
-                          .openPopup();
+                    marker._poiId = poi.id;
+                    this.markerIndex[poi.id] = marker;
+                  });
 
-                        this.map.setView([this.userLocation.lat, this.userLocation.lng], 12);
-                    }
+                  // 現在地マーカー
+                  if (this.userLocation) {
+                    L.marker([this.userLocation.lat, this.userLocation.lng], {
+                      icon: this.icons.user,
+                      isUserMarker: true
+                    })
+                      .addTo(this.map)
+                      .bindPopup('現在地')
+                      .openPopup();
+
+                    this.map.setView([this.userLocation.lat, this.userLocation.lng], 12);
+                  }
+                } else {
+                  // 非表示→表示のサイズ崩れ対策
+                  this.map.invalidateSize();
                 }
             }
+
+            focusPoiOnMap(poiId, opts = {}) {
+              const marker = this.markerIndex?.[poiId];
+              if (!marker || !this.map) return;
+
+              const latlng = marker.getLatLng();
+              const zoom = Math.max(this.map.getZoom() || 0, opts.zoom || 16);
+
+              // ポップアップの autoPan を一時的に止めて、中央からズレるのを防ぐ
+              const popup = marker.getPopup && marker.getPopup();
+              let prevAutoPan;
+              if (popup) { prevAutoPan = popup.options.autoPan; popup.options.autoPan = false; }
+              marker.openPopup();
+
+              // きっちり中央へ
+              this.map.setView(latlng, zoom, { animate: true });
+
+              // 元に戻す
+              if (popup) popup.options.autoPan = prevAutoPan;
+
+              // ここから下の拡大系処理は不要なので入れません
+              // （.poi-pop 付与、ZIndexOffset の一時変更 等）
+            }
+
+
 
             renderMapContent() {
                 const mapContent = document.getElementById('map-content');
@@ -2924,12 +2980,17 @@
                     return `
                         <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
                             <div class="spot-left">
-                                <div class="spot-icon">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                </div>
+                            <button class="spot-icon" type="button"
+                                    onclick="event.stopPropagation(); app.focusPoiOnMap('${spot.id}')"
+                                    title="地図でこのスポットへ移動">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </button>
+
                                 <div class="spot-info">
                                     <h4>${index + 1}. ${spot.name}</h4>
                                     <p>${spot.description}</p>
@@ -2979,12 +3040,16 @@
                                     ${regionSpots.length > 0 ? regionSpots.map(spot => `
                                         <div class="tourist-spot" onclick="app.showSpotDetails('${spot.id}')">
                                             <div class="spot-left">
-                                                <div class="spot-icon">
-                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                    </svg>
-                                                </div>
+                                            <button class="spot-icon" type="button"
+                                                    onclick="event.stopPropagation(); app.focusPoiOnMap('${spot.id}')"
+                                                    title="地図でこのスポットへ移動">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                            </button>
                                                 <div class="spot-info">
                                                     <h4>${spot.name}</h4>
                                                     <p>${spot.description}</p>
@@ -3071,8 +3136,8 @@
                                                  data-stamp-id="${stamp.id}"
                                                  onclick="app.collectStamp('${stamp.id}')">
                                                 <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
-                                                    <div class="stamp-stand-img" ${isCollected && stamp.imageUrl ? `style="background-image: url('${stamp.imageUrl}')"` : ''}>
-                                                        ${isCollected && stamp.imageUrl ? '' : index + 1}
+                                                    <div class="stamp-stand-img" ${isCollected && stamp.stampimageURL ? `style="background-image: url('${stamp.stampimageURL}')"` : ''}>
+                                                        ${isCollected && stamp.stampimageURL ? '' : index + 1}
                                                     </div>
                                                 </div>
                                                 <span class="stamp-stand-label">${stamp.name}</span>
@@ -3131,8 +3196,8 @@
                                                          data-stamp-id="${stamp.id}"
                                                          onclick="app.collectStamp('${stamp.id}')">
                                                         <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
-                                                            <div class="stamp-stand-img" ${isCollected && stamp.imageUrl ? `style="background-image: url('${stamp.imageUrl}')"` : ''}>
-                                                                ${isCollected && stamp.imageUrl ? '' : this.getCategoryIcon(stamp.category)}
+                                                            <div class="stamp-stand-img" ${isCollected && stamp.stampimageURL ? `style="background-image: url('${stamp.stampimageURL}')"` : ''}>
+                                                                ${isCollected && stamp.stampimageURL ? '' : this.getCategoryIcon(stamp.category)}
                                                             </div>
                                                         </div>
                                                         <span class="stamp-stand-label">${stamp.name}</span>
@@ -3291,6 +3356,7 @@
                 // Populate modal content
                 document.getElementById('spot-modal-title').textContent = spot.name;
                 document.getElementById('spot-modal-description').textContent = spot.description;
+                document.getElementById('spot-modal-image').src = spot.imageURL;
                 document.getElementById('spot-modal-detailed').textContent = spot.detailedDescription;
                 document.getElementById('spot-modal-address').textContent = spot.address;
                 document.getElementById('spot-modal-address').href = spot.mapLink || '#';
