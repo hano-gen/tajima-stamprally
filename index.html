@@ -2380,8 +2380,8 @@
             {
                 id: "toyooka-city",
                 name: "豊岡市役所",
-                lat: 35.5456,
-                lng: 134.8203,
+                lat: 35.54458027614293,
+                lng: 134.82019192955596,
                 radius_m: 50,
                 description: "豊岡市の中心施設",
                 detailedDescription: "豊岡市の行政の中心となる市役所。現代的な建築が特徴です。",
@@ -2683,9 +2683,7 @@
                         isUserMarker: true
                     })
                         .addTo(this.map)
-                        .bindPopup('現在地')
-                        .openPopup();
-                }
+                        .bindPopup('現在地', { autoPan: false });                }
             }
 
             updateStampAvailability() {
