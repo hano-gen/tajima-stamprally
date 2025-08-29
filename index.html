@@ -1528,6 +1528,221 @@
             height: 1.25rem;
         }
 
+        /* Memory Modal Styles */
+        .memory-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 1rem;
+        }
+
+        .memory-modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .memory-modal-header {
+            background: linear-gradient(135deg, var(--brand-primary), #c53030);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem 1rem 0 0;
+            text-align: center;
+        }
+
+        .memory-modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-modal-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .memory-modal-body {
+            padding: 1.5rem;
+        }
+
+        .memory-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .memory-form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--brand-dark);
+        }
+
+        .memory-photo-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .memory-photo-input:hover {
+            border-color: var(--brand-primary);
+            background: #fef2f2;
+        }
+
+        .memory-photo-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .memory-comment-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.2s;
+        }
+
+        .memory-comment-textarea:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+        }
+
+        .memory-char-count {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+
+        .memory-modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .memory-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .memory-btn-primary {
+            background: var(--brand-primary);
+            color: white;
+        }
+
+        .memory-btn-primary:hover {
+            background: #c53030;
+        }
+
+        .memory-btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .memory-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        /* Memory Display Styles */
+        .memory-display {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .memory-display-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .memory-display-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: #f59e0b;
+        }
+
+        .memory-display-title {
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .memory-display-photo {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .memory-display-comment {
+            font-size: 0.875rem;
+            color: #92400e;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-display-date {
+            font-size: 0.75rem;
+            color: #a16207;
+            text-align: right;
+        }
+
+        .memory-record-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .memory-record-btn:hover {
+            background: linear-gradient(135deg, #d97706, #b45309);
+        }
+
+        .memory-record-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
         /* Utility Classes */
         .hidden {
             display: none !important;
@@ -1891,7 +2106,7 @@
                     <div class="card-header" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
                         <div class="card-title">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 713.138-3.138z"/>
                             </svg>
                             獲得バッジ
                         </div>
@@ -2087,6 +2302,20 @@
 
                     <img src="/placeholder.svg?height=128&width=384" alt="" class="modal-image" id="spot-modal-image">
 
+                    <!-- Memory Display Area -->
+                    <div id="spot-memory-display" class="hidden">
+                        <!-- Memory content will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Memory Record Button -->
+                    <button id="spot-memory-record-btn" class="memory-record-btn hidden" onclick="app.showMemoryModal(app.selectedSpot)">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        思い出を記録する
+                    </button>
+
                     <div class="modal-section">
                         <h4 class="section-title">
                             <div style="width: 1.25rem; height: 1.25rem; background: linear-gradient(135deg, #3b82f6, #a855f7); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">ℹ️</div>
@@ -2147,6 +2376,32 @@
                             <span class="points-text" id="spot-modal-points">1ポイント</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Modal -->
+        <div id="memory-modal" class="memory-modal">
+            <div class="memory-modal-content">
+                <div class="memory-modal-header">
+                    <h3 id="memory-modal-spot-name" class="memory-modal-title">辰鼓楼</h3>
+                    <p class="memory-modal-subtitle">思い出を記録しましょう</p>
+                </div>
+                <div class="memory-modal-body">
+                    <div class="memory-form-group">
+                        <label class="memory-form-label">写真を選択</label>
+                        <input type="file" id="memory-photo-input" class="memory-photo-input" accept="image/*" onchange="app.handlePhotoSelect(event)">
+                        <img id="memory-photo-preview" class="memory-photo-preview" alt="選択した写真のプレビュー">
+                    </div>
+                    <div class="memory-form-group">
+                        <label class="memory-form-label">コメント（最大150文字）</label>
+                        <textarea id="memory-comment-textarea" class="memory-comment-textarea" placeholder="この場所での思い出や感想を書いてください..." maxlength="150" oninput="app.updateCharCount()"></textarea>
+                        <div id="memory-char-count" class="memory-char-count">0/150</div>
+                    </div>
+                </div>
+                <div class="memory-modal-actions">
+                    <button class="memory-btn memory-btn-secondary" onclick="app.closeMemoryModal()">スキップ</button>
+                    <button class="memory-btn memory-btn-primary" onclick="app.saveMemory()">保存</button>
                 </div>
             </div>
         </div>
@@ -2463,6 +2718,8 @@
                 this.openAccordions = new Set();
                 this.selectedSpot = null;
                 this.carouselIntervals = new Map();
+                this.db = null;
+                this.currentMemorySpot = null;
                 // --- 地図アイコン定義（現在地・スポット） ---
                 this.icons = {
                   // 現在地: パルスする青い点（DivIcon）
@@ -2495,12 +2752,35 @@
                 this.init();
             }
 
-            init() {
+            async init() {
+                await this.initIndexedDB();
                 this.setupEventListeners();
                 this.checkInitialState();
             }
 
+            // IndexedDB initialization
+            async initIndexedDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open('ToyookaStampDB', 1);
 
+                    request.onerror = () => {
+                        console.error('IndexedDB error:', request.error);
+                        reject(request.error);
+                    };
+
+                    request.onsuccess = () => {
+                        this.db = request.result;
+                        resolve();
+                    };
+
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains('memories')) {
+                            const store = db.createObjectStore('memories', { keyPath: 'spotSlug' });
+                        }
+                    };
+                });
+            }
 
             checkInitialState() {
                 // Check location permission first
@@ -2653,7 +2933,7 @@
                     locationStatus.className = 'location-status success';
                     locationStatus.innerHTML = `
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 717.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
                         </svg>
                         位置情報取得済み
                         <button class="location-update-btn" onclick="app.updateLocation()" id="location-update-btn">
@@ -2662,7 +2942,7 @@
                             </svg>
                             更新
                         </button>
-                    `;
+                    ``;
                 }
 
                 // Update stamp distances and availability
@@ -2951,8 +3231,6 @@
               // （.poi-pop 付与、ZIndexOffset の一時変更 等）
             }
 
-
-
             renderMapContent() {
                 const mapContent = document.getElementById('map-content');
                 const mapDescription = document.getElementById('map-description');
@@ -3232,7 +3510,7 @@
                 return icons[category] || '📍';
             }
 
-            collectStamp(stampId) {
+            async collectStamp(stampId) {
                 if (!this.userLocation) {
                     alert('位置情報が取得できていません');
                     return false;
@@ -3289,7 +3567,112 @@
                     this.checkCourseCompletion();
                 }
 
+                // Show memory modal after successful stamp collection
+                setTimeout(() => {
+                    this.showMemoryModal(stampId);
+                }, 1000);
+
                 return true;
+            }
+
+            // Memory Modal Functions
+            showMemoryModal(spotSlug) {
+                const spot = window.POIS.find(s => s.id === spotSlug);
+                if (!spot) return;
+
+                this.currentMemorySpot = spotSlug;
+                document.getElementById('memory-modal-spot-name').textContent = spot.name;
+
+                // Reset form
+                document.getElementById('memory-photo-input').value = '';
+                document.getElementById('memory-photo-preview').style.display = 'none';
+                document.getElementById('memory-comment-textarea').value = '';
+                document.getElementById('memory-char-count').textContent = '0/150';
+
+                document.getElementById('memory-modal').style.display = 'flex';
+            }
+
+            closeMemoryModal() {
+                document.getElementById('memory-modal').style.display = 'none';
+                this.currentMemorySpot = null;
+            }
+
+            handlePhotoSelect(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.getElementById('memory-photo-preview');
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            updateCharCount() {
+                const textarea = document.getElementById('memory-comment-textarea');
+                const charCount = document.getElementById('memory-char-count');
+                charCount.textContent = `${textarea.value.length}/150`;
+            }
+
+            async saveMemory() {
+                if (!this.currentMemorySpot) return;
+
+                const photoInput = document.getElementById('memory-photo-input');
+                const commentTextarea = document.getElementById('memory-comment-textarea');
+
+                const memoryData = {
+                    spotSlug: this.currentMemorySpot,
+                    comment: commentTextarea.value.trim(),
+                    timestamp: new Date().toISOString()
+                };
+
+                // Handle photo if selected
+                if (photoInput.files[0]) {
+                    const file = photoInput.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = async (e) => {
+                        memoryData.photo = e.target.result; // Base64 data URL
+                        await this.saveMemoryToIndexedDB(memoryData);
+                        this.closeMemoryModal();
+                        alert('思い出を保存しました！');
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // Save without photo
+                    await this.saveMemoryToIndexedDB(memoryData);
+                    this.closeMemoryModal();
+                    alert('思い出を保存しました！');
+                }
+            }
+
+            async saveMemoryToIndexedDB(memoryData) {
+                if (!this.db) return;
+
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['memories'], 'readwrite');
+                    const store = transaction.objectStore('memories');
+                    const request = store.put(memoryData);
+
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async getMemoryFromIndexedDB(spotSlug) {
+                if (!this.db) return null;
+
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['memories'], 'readonly');
+                    const store = transaction.objectStore('memories');
+                    const request = store.get(spotSlug);
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
             }
 
             checkCourseCompletion() {
@@ -3345,7 +3728,7 @@
                 }
             }
 
-            showSpotDetails(spotId) {
+            async showSpotDetails(spotId) {
                 const spot = window.POIS.find(s => s.id === spotId);
                 if (!spot) return;
 
@@ -3367,6 +3750,40 @@
                 highlightsContainer.innerHTML = spot.highlights.map(highlight => `
                     <div class="highlight-tag">${highlight}</div>
                 `).join('');
+
+                // Check for existing memory
+                const memory = await this.getMemoryFromIndexedDB(spotId);
+                const memoryDisplay = document.getElementById('spot-memory-display');
+                const memoryRecordBtn = document.getElementById('spot-memory-record-btn');
+
+                if (memory) {
+                    // Show existing memory
+                    memoryDisplay.innerHTML = `
+                        <div class="memory-display">
+                            <div class="memory-display-header">
+                                <svg class="memory-display-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                                <span class="memory-display-title">あなたの思い出</span>
+                            </div>
+                            ${memory.photo ? `<img src="${memory.photo}" alt="思い出の写真" class="memory-display-photo">` : ''}
+                            ${memory.comment ? `<p class="memory-display-comment">${memory.comment}</p>` : ''}
+                            <div class="memory-display-date">${new Date(memory.timestamp).toLocaleDateString('ja-JP')}</div>
+                        </div>
+                    `;
+                    memoryDisplay.classList.remove('hidden');
+                    memoryRecordBtn.classList.add('hidden');
+                } else {
+                    // Show record button if stamp is collected
+                    const isCollected = this.isStampCollected(spotId);
+                    if (isCollected) {
+                        memoryDisplay.classList.add('hidden');
+                        memoryRecordBtn.classList.remove('hidden');
+                    } else {
+                        memoryDisplay.classList.add('hidden');
+                        memoryRecordBtn.classList.add('hidden');
+                    }
+                }
 
                 // Show modal
                 document.getElementById('spot-detail-modal').classList.remove('hidden');
