@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "https://hano-gen.github.io/tajima-stamprally/",
   "display": "standalone",
   "background_color": "#F6F0E6",
   "theme_color": "#D64545"
