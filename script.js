@@ -754,8 +754,8 @@
                 stamps_count: 2,
                 difficulty: 3,
                 thumbnails: [
-                    "/placeholder.svg?height=150&width=300",
-                    "/placeholder.svg?height=150&width=300"
+                    "./images/takenokaigan.jpg",
+                    "./images/hiyoriyamakaigan.jpg"
                 ],
                 description: "日本海の絶景と海の生き物に出会える冒険コース。",
                 poi_ids: ["marineworld", "kinosaki-onsen"]
