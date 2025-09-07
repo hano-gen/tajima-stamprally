@@ -52,7 +52,7 @@
                 name: "出石城跡",
                 lat: 35.46059,
                 lng: 134.87461,
-                radius_m: 50,
+                radius_m: 150,
                 description: "但馬の小京都を見下ろす城跡",
                 detailedDescription: "慶長9年に小出吉英によって築かれた城。現在は石垣と櫓が残り、桜の名所としても知られています。",
                 category: "culture",
@@ -727,10 +727,10 @@
                 thumbnails: [
                     "./images/joseki.png",
                     "./images/eirakukan.png",
-                    "./images/course1-3.jpg"
+                    "./images/shinkoro.jpg"
                 ],
                 description: "但馬の小京都・出石をめぐる定番コース。歴史ある建物と美しい街並みを楽しめます。",
-                poi_ids: ["izushi-castle", "shinkoro", "eirakukan", "karoyashiki", "meijikan"]
+                poi_ids: ["shinkoro", "izushi-castl", "eirakukan", "karoyashiki", "meijikan"]
             },
             {
                 slug: "kinosaki-hot-spring",
@@ -741,7 +741,8 @@
                 difficulty: 1,
                 thumbnails: [
                     "./images/onsengai.jpg",
-                    "./images/bungeikan.jpg"
+                    "./images/bungeikan.jpg",
+                    "./images/kinosakionsen.jpg"
                 ],
                 description: "7つの外湯で有名な城崎温泉を巡るリラックスコース。",
                 poi_ids: ["kinosaki-onsen", "bungeikan", "gokurakuji", "marineworld"]
@@ -755,7 +756,8 @@
                 difficulty: 3,
                 thumbnails: [
                     "./images/takenokaigan.jpg",
-                    "./images/hiyoriyamakaigan.jpg"
+                    "./images/hiyoriyamakaigan.jpg",
+                    "./images/keinohama.jpg"
                 ],
                 description: "日本海の絶景と海の生き物に出会える冒険コース。",
                 poi_ids: ["marineworld", "kinosaki-onsen"]
