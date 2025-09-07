@@ -730,7 +730,7 @@
                     "./images/shinkoro.jpg"
                 ],
                 description: "但馬の小京都・出石をめぐる定番コース。歴史ある建物と美しい街並みを楽しめます。",
-                poi_ids: ["shinkoro", "izushi-castl", "eirakukan", "karoyashiki", "meijikan"]
+                poi_ids: ["shinkoro", "izushi-castle", "eirakukan", "karoyashiki", "meijikan"]
             },
             {
                 slug: "kinosaki-hot-spring",
