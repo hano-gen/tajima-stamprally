@@ -740,8 +740,8 @@
                 stamps_count: 4,
                 difficulty: 1,
                 thumbnails: [
-                    "./images/course2-1.jpg",
-                    "./images/course2-2.jpg"
+                    "./images/onsengai.jpg",
+                    "./images/bungeikan.jpg"
                 ],
                 description: "7つの外湯で有名な城崎温泉を巡るリラックスコース。",
                 poi_ids: ["kinosaki-onsen", "bungeikan", "gokurakuji", "marineworld"]
