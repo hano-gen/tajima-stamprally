@@ -11,7 +11,7 @@
             });
         }
 
-        // アプリケーションの初期化
+        // === initializeApp を下記に置き換えてください ===
         async function initializeApp() {
             try {
                 // JSONデータの並行読み込み
@@ -21,38 +21,49 @@
                     fetch('./courses.json')
                 ]);
 
+                if (!regionsRes.ok || !poisRes.ok || !coursesRes.ok) {
+                    throw new Error('データの読み込みに失敗しました: ' + regionsRes.status + ', ' + poisRes.status + ', ' + coursesRes.status);
+                }
+
                 // 各レスポンスをJSONとして解析
                 const regionsData = await regionsRes.json();
                 const poisData = await poisRes.json();
                 const coursesData = await coursesRes.json();
 
-                // グローバル変数にデータを格納
+                // グローバル変数にデータを格納（既存コードが参照する名前に合わせて両方セット）
+                // 既存の参照は window.POIS / window.COURSES / regions（裸）などが混在しているため
                 window.regions = regionsData;
                 window.POIS = poisData;
-                window.courses = coursesData;
+                window.COURSES = coursesData;
 
-                // データ読み込み後に実行したい処理をここに記述
-                // (例：マップの初期化、コース一覧の表示など)
-                console.log('データの読み込みが完了しました。');
-                
-                // アプリケーションのメイン処理を開始する関数を呼び出す
+                // 既存コードで 'regions' といった裸の識別子を使っている箇所があるため、グローバルに直接セット
+                // （ブラウザの global は window なので以下で global 参照を確保）
+                regions = regionsData; // eslint-disable-line no-undef
+                POIS = poisData;       // eslint-disable-line no-undef
+                COURSES = coursesData; // eslint-disable-line no-undef
+
+                console.log('データの読み込みが完了しました。', { regionsData, poisData, coursesData });
+
+                // データ読み込み完了後にアプリを初期化（ここで new ToyookaStampApp() を作る）
+                // startApplication() は必要なら内部処理を呼び出しても良い
                 startApplication();
+
+                // アプリはデータがそろってから作成する（ここで唯一作成）
+                window.app = new ToyookaStampApp();
+
+                // 背景設定の初期適用（app が存在することを前提）
+                (function initBrushBg() {
+                    const saved = JSON.parse(localStorage.getItem('brushBgEnabled') || 'true');
+                    window.app.setBrushBgEnabled(saved);
+                })();
 
             } catch (error) {
                 console.error('データの読み込みに失敗しました:', error);
             }
         }
-
-        // データ読み込み完了後にアプリケーションのメイン処理を開始する関数
-        function startApplication() {
-            // ここに、これまでscript.jsにあったデータ定義以外のコードを配置します。
-            // 例えば、マップの描画処理やイベントリスナーの設定などです。
-            // (元のコードの app の初期化や、各種関数の定義など)
-        }
+        
 
 
-        // アプリケーションの初期化を実行
-        initializeApp();
         // App State
         class ToyookaStampApp {
             constructor() {
