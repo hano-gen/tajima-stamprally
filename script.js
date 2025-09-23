@@ -52,7 +52,7 @@
                 name: "出石城跡",
                 lat: 35.46059,
                 lng: 134.87461,
-                radius_m: 150,
+                radius_m: 50,
                 description: "但馬の小京都を見下ろす城跡",
                 detailedDescription: "慶長9年に小出吉英によって築かれた城。現在は石垣と櫓が残り、桜の名所としても知られています。",
                 category: "culture",
@@ -131,16 +131,35 @@
                 lng: 134.876885,
                 radius_m: 50,
                 description: "明治時代の洋風建築",
-                detailedDescription: "明治20年に郡役所として建てられた洋風建築。現在は観光案内所として利用されています。",
+                detailedDescription: "明治20年に郡役所として建てられた洋風建築。建物の中は出石の郷土資料館になっていて、出石の偉人展を常設展示しています。休憩サロンもあり、ゆったりとくつろげます。",
                 category: "culture",
                 region: "izushi",
                 points: 2,
                 accessInfo: "JR豊岡駅からバスで30分、出石営業所下車徒歩3分",
-                openingHours: "9:00-17:00",
-                highlights: ["明治建築", "洋風", "歴史", "観光案内"],
+                openingHours: "9:30-17:00",
+                highlights: ["明治建築", "洋風", "歴史"],
                 address: "〒668-0214 兵庫県豊岡市出石町内町",
                 mapLink: "https://maps.app.goo.gl/uqXLP2SFSwAEr4MH6",
                 stampimageURL: "./images/meijikan_stamp.png",
+                imageURL: "./images/"
+            },
+            {
+                id: "sukyoji",
+                name: "宗鏡寺（沢庵寺）",
+                lat: 35.463256316887936,
+                lng: 134.87979964306788,
+                radius_m: 75,
+                description: "沢庵和尚ゆかりの寺",
+                detailedDescription: "たくあん漬けの考案者ともいわれる沢庵和尚が多くの時間を過ごした場所。山名氏の菩提寺として、1392年に創建。現在は座禅や写経、写仏などの体験もできます。",
+                category: "culture",
+                region: "izushi",
+                points: 2,
+                accessInfo: "JR豊岡駅からバスで30分、全但バス「沢庵寺口」下車 徒歩12分",
+                openingHours: "9:00-17:00",
+                highlights: ["寺", "歴史", "伝統"],
+                address: "〒668-0214 兵庫県豊岡市出石町東條33",
+                mapLink: "https://maps.app.goo.gl/G4tDywEmFR7ttHsf9",
+                stampimageURL: "./images/sukyoji_stamp.png",
                 imageURL: "./images/"
             },
             {
@@ -667,7 +686,7 @@
                 category: "culture",
                 region: "tanto",
                 points: 1,
-                accessInfo: "●舞鶴若狭道　福知山ICより約40分（福知山IC⇒国9号⇒野花より国426号⇒小谷より県252号）/n ●京都縦貫道　与謝天橋立ICより約40分 （与謝天野橋立IC⇒国176号⇒亀山より府道76号⇒県2号⇒国482号⇒国426号⇒小谷より県252号）/n ●播但、北近畿道　八鹿氷ノ山ICより約40分 （八鹿氷ノ山IC⇒国9号⇒国312号⇒下小田より県2号⇒国426号⇒小谷より県252号）/n ●播但道　和田山ICより約45分 （和田山IC⇒国312号⇒国9号⇒夜久野より県道56号⇒国426号⇒小谷より県252号）", 
+                accessInfo: "●舞鶴若狭道　福知山ICより約40分（福知山IC⇒国9号⇒野花より国426号⇒小谷より県252号）/n ●京都縦貫道　与謝天橋立ICより約40分 （与謝天野橋立IC⇒国176号⇒亀山より府道76号⇒県2号⇒国482号⇒国426号⇒小谷より県252号）/n ●播但、北近畿道　八鹿氷ノ山ICより約40分 （八鹿氷ノ山IC⇒国9号⇒国312号⇒下小田より県2号⇒国426号⇒小谷より県252号）/n ●播但道　和田山ICより約45分 （和田山IC⇒国312号⇒国9号⇒夜久野より県道56号⇒国426号⇒小谷より県252号）",
                 openingHours: "【2023一般公開時】　2023年11月6日（月）～11月22日（水）＊平日のみ　8時00分～17時00分（受付16時30分）　　定休日　イベント期間中：土曜日、日曜日、祝日",
                 highlights: ["寺", "歴史"],
                 address: "〒668-0324 兵庫県豊岡市但東町相田327",
@@ -706,7 +725,7 @@
                 region: "tanto",
                 points: 1,
                 accessInfo: "自動車  中国自動車道（福崎I.C）→播但連絡道路（和田山I.C）→R312→R426→R482　　　または中国自動車道（吉川JCT）→舞鶴若狭自動車道（福知山I.C）→R9→R426→R482",
-                openingHours: "【１月・2月】 平　日　14時00分～21時00分（受付は20時30分まで） 土日祝　11時00分～21時00分（受付は20時30分まで）/n 【3月～12月】 平　日　14時00分～21時30分（受付は21時00分まで） 土日祝　11時00分～22時00分（受付は21時30分まで）　 定休日　火曜日（祝日の場合は営業）", 
+                openingHours: "【１月・2月】 平　日　14時00分～21時00分（受付は20時30分まで） 土日祝　11時00分～21時00分（受付は20時30分まで）/n 【3月～12月】 平　日　14時00分～21時30分（受付は21時00分まで） 土日祝　11時00分～22時00分（受付は21時30分まで）　 定休日　火曜日（祝日の場合は営業）",
                 highlights: ["温泉", "自然", "体験"],
                 address: "〒668-0334 兵庫県豊岡市但東町坂野470",
                 mapLink: "https://maps.app.goo.gl/Juqme7xZQZk4u7EG7",
@@ -730,7 +749,7 @@
                     "./images/shinkoro.jpg"
                 ],
                 description: "但馬の小京都・出石をめぐる定番コース。歴史ある建物と美しい街並みを楽しめます。",
-                poi_ids: ["shinkoro", "izushi-castle", "eirakukan", "karoyashiki", "meijikan"]
+                poi_ids: ["izushi-castle", "shinkoro", "eirakukan", "karoyashiki", "meijikan","sukyoji"]
             },
             {
                 slug: "kinosaki-hot-spring",
@@ -830,9 +849,6 @@
 
                 // Check if nickname exists
                 if (this.nickname) {
-                    document.getElementById('user-nickname').textContent = this.nickname;
-                    document.getElementById('user-nickname-hero').textContent = this.nickname;
-                    document.getElementById('profile-username').textContent = this.nickname;
 
                     // Check URL hash for state
                     const hash = window.location.hash.substring(1);
@@ -1110,9 +1126,6 @@
             setNickname(nickname) {
                 this.nickname = nickname;
                 localStorage.setItem('nickname', nickname);
-                document.getElementById('user-nickname').textContent = nickname;
-                document.getElementById('user-nickname-hero').textContent = nickname;
-                document.getElementById('profile-username').textContent = nickname;
             }
 
             showModeSelect() {
@@ -1930,7 +1943,7 @@
                             <div class="carousel-container">
                                 ${course.thumbnails.map((thumbnail, index) => `
                                     <div class="carousel-slide" style="background-image: url('${thumbnail}')">
-                                        ${index === 0 ? '🏯' : ''}
+                                        ${index === 0 ? '' : ''}
                                     </div>
                                 `).join('')}
                             </div>
