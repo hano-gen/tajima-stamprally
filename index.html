@@ -23,6 +23,76 @@
 </head>
 <body class="brush-bg">
     <div class="container">
+        <!-- Location Permission Screen (Fullscreen) -->
+        <div id="location-permission" class="permission-screen hidden">
+            <div class="setup-card">
+                <div class="setup-header">
+                    <div class="setup-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </div>
+                    <h1 class="setup-title">位置情報の使用許可</h1>
+                    <p class="setup-description">スタンプの取得のために位置情報が必要です</p>
+                </div>
+                <div class="setup-body">
+                    <div class="feature-list">
+                        <div class="feature-item blue">
+                            <div class="feature-icon blue">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4 class="blue">プライバシー保護</h4>
+                                <p class="blue">位置情報はスタンプ取得の確認にのみ使用され、外部に送信されることはありません。</p>
+                            </div>
+                        </div>
+                        <div class="feature-item green">
+                            <div class="feature-icon green">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4 class="green">スタンプ取得</h4>
+                                <p class="green">観光地の近くにいる時のみスタンプを取得できます。</p>
+                            </div>
+                        </div>
+                        <div class="feature-item purple">
+                            <div class="feature-icon purple">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                            </div>
+                            <div class="feature-content">
+                                <h4 class="purple">距離表示</h4>
+                                <p class="purple">現在地から各観光地までの距離を表示します。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-section">
+                        <button class="primary-button" onclick="app.handleLocationPermission()">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            位置情報の使用を許可
+                        </button>
+                        <button class="secondary-button" onclick="app.handleLocationDenied()">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            許可しない（一部機能が制限されます）
+                        </button>
+                    </div>
+                    <div class="notice">
+                        位置情報を許可しない場合、スタンプの取得や距離表示機能が利用できません。<br>
+                        設定はブラウザの設定からいつでも変更できます。
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Mode Select Screen (Fullscreen) -->
         <div id="mode-select" class="fullscreen hidden">
