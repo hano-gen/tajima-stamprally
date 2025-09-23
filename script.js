@@ -789,7 +789,6 @@
                 this.currentMode = null;
                 this.currentCourse = null;
                 this.currentTab = 'map';
-                this.nickname = localStorage.getItem('nickname') || null;
                 this.userLocation = null;
                 this.map = null;
                 this.watchId = null;
@@ -847,26 +846,19 @@
                     return;
                 }
 
-                // Check if nickname exists
-                if (this.nickname) {
+                // Check URL hash for state
+                const hash = window.location.hash.substring(1);
+                const params = new URLSearchParams(hash);
 
-                    // Check URL hash for state
-                    const hash = window.location.hash.substring(1);
-                    const params = new URLSearchParams(hash);
+                if (params.get('tab')) {
+                    this.currentTab = params.get('tab');
+                    this.currentMode = params.get('mode') || 'free';
+                    this.currentCourse = params.get('slug') || null;
 
-                    if (params.get('tab')) {
-                        this.currentTab = params.get('tab');
-                        this.currentMode = params.get('mode') || 'free';
-                        this.currentCourse = params.get('slug') || null;
-
-                        this.showMainApp();
-                        this.switchTab(this.currentTab);
-                    } else {
-                        // Show mode select first time
-                        this.showModeSelect();
-                    }
+                    this.showMainApp();
+                    this.switchTab(this.currentTab);
                 } else {
-                    // Show mode select for new users
+                    // Show mode select
                     this.showModeSelect();
                 }
 
@@ -1072,40 +1064,6 @@
             }
 
             setupEventListeners() {
-                // Nickname input
-                const nicknameInput = document.getElementById('nickname-input');
-                const startBtn = document.getElementById('start-btn');
-                const validation = document.getElementById('input-validation');
-
-                if (nicknameInput) {
-                    nicknameInput.addEventListener('input', (e) => {
-                        const value = e.target.value.trim();
-                        const isValid = value.length >= 1 && value.length <= 20;
-
-                        startBtn.disabled = !isValid;
-
-                        if (value.length === 0) {
-                            validation.textContent = '1〜20文字で入力してください（絵文字も使用可能）';
-                            validation.classList.remove('error');
-                        } else if (value.length > 20) {
-                            validation.textContent = '20文字以内で入力してください';
-                            validation.classList.add('error');
-                        } else {
-                            validation.textContent = `${value.length}/20文字`;
-                            validation.classList.remove('error');
-                        }
-                    });
-
-                    startBtn.addEventListener('click', () => {
-                        const nickname = nicknameInput.value.trim();
-                        if (nickname.length >= 1 && nickname.length <= 20) {
-                            this.setNickname(nickname);
-                            this.showMainApp();
-                            this.updateModeGuidance();
-                        }
-                    });
-                }
-
                 // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if (e.key >= '1' && e.key <= '5') {
@@ -1123,22 +1081,10 @@
                 });
             }
 
-            setNickname(nickname) {
-                this.nickname = nickname;
-                localStorage.setItem('nickname', nickname);
-            }
-
             showModeSelect() {
                 document.getElementById('location-permission').classList.add('hidden');
                 document.getElementById('mode-select').classList.remove('hidden');
                 document.getElementById('start-gate').classList.add('hidden');
-                document.getElementById('main-app').classList.add('hidden');
-            }
-
-            showStartGate() {
-                document.getElementById('location-permission').classList.add('hidden');
-                document.getElementById('mode-select').classList.add('hidden');
-                document.getElementById('start-gate').classList.remove('hidden');
                 document.getElementById('main-app').classList.add('hidden');
             }
 
@@ -1156,14 +1102,9 @@
 
             selectMode(mode) {
                 this.currentMode = mode;
-
-                if (this.nickname) {
-                    this.showMainApp();
-                    this.updateModeGuidance();
-                    this.updateHash();
-                } else {
-                    this.showStartGate();
-                }
+                this.showMainApp();
+                this.updateModeGuidance();
+                this.updateHash();
             }
 
             updateModeGuidance() {
@@ -2158,7 +2099,6 @@
                 localStorage.setItem('stampCollection', JSON.stringify(this.stampCollection));
                 localStorage.setItem('courseProgress', JSON.stringify(this.courseProgress));
                 localStorage.setItem('visitHistory', JSON.stringify(this.visitHistory));
-                if (this.nickname) localStorage.setItem('nickname', this.nickname);
                 if (typeof this.permissionRequested === 'boolean') {
                     localStorage.setItem('permissionRequested', JSON.stringify(this.permissionRequested));
                 }
@@ -2171,7 +2111,6 @@
             exportData() {
             const payload = {
                 exportedAt: new Date().toISOString(),
-                nickname: this.nickname,
                 mode: this.currentMode,
                 course: this.currentCourse,
                 stampCollection: this.stampCollection,
@@ -2206,7 +2145,6 @@
                 this.currentMode = null;
                 this.currentCourse = null;
                 this.currentTab = 'map';
-                this.nickname = null;
                 this.userLocation = null;
                 this.stampCollection = {};
                 this.courseProgress = {};
