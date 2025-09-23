@@ -871,7 +871,6 @@
             showLocationPermission() {
                 document.getElementById('location-permission').classList.remove('hidden');
                 document.getElementById('mode-select').classList.add('hidden');
-                document.getElementById('start-gate').classList.add('hidden');
                 document.getElementById('main-app').classList.add('hidden');
             }
 
@@ -1084,14 +1083,12 @@
             showModeSelect() {
                 document.getElementById('location-permission').classList.add('hidden');
                 document.getElementById('mode-select').classList.remove('hidden');
-                document.getElementById('start-gate').classList.add('hidden');
                 document.getElementById('main-app').classList.add('hidden');
             }
 
             showMainApp() {
                 document.getElementById('location-permission').classList.add('hidden');
                 document.getElementById('mode-select').classList.add('hidden');
-                document.getElementById('start-gate').classList.add('hidden');
                 document.getElementById('main-app').classList.remove('hidden');
 
                 this.renderCourses();
