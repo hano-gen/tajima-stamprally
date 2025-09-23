@@ -11,6 +11,7 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// === initializeApp の完全置き換え（これを既存の initializeApp 関数と差し替えてください） ===
 async function initializeApp() {
     try {
         // JSONデータの並行読み込み（パスが違う場合はここを修正）
@@ -29,26 +30,80 @@ async function initializeApp() {
         const poisData = await poisRes.json();
         const coursesData = await coursesRes.json();
 
-        // グローバル変数にデータを格納（既存コードが参照する名前に合わせて大文字小文字を揃える）
-        window.regions = regionsData;
-        window.POIS = poisData;
-        window.COURSES = coursesData;
+        // --- ここから正規化処理を行う（配列ラップ解除、配列→マップ変換、POI.region 名称→ID変換など） ---
+        (function normalizeRegionsAndPois() {
+          // unwrap single-item array that contains the regions map
+          let regionsMap;
+          if (Array.isArray(regionsData)) {
+            if (regionsData.length === 1 && regionsData[0] && typeof regionsData[0] === 'object' && !Array.isArray(regionsData[0])) {
+              // 例: [ { toyooka: {...}, kinosaki: {...} } ] -> 内側のオブジェクトを使う
+              regionsMap = regionsData[0];
+            } else {
+              // 例: [ { id: 'kinosaki', name: '城崎', icon: '🌊' }, ... ] -> id をキーに map に変換
+              regionsMap = {};
+              regionsData.forEach(r => {
+                if (!r) return;
+                const id = r.id || r.key || r.slug;
+                if (!id) return;
+                regionsMap[id] = {
+                  ...r,
+                  name: r.name || r.title || r.label || '',
+                  icon: r.icon || r.emoji || ''
+                };
+              });
+            }
+          } else {
+            // 既にオブジェクトマップならそのまま使いつつ name/icon を補正
+            regionsMap = regionsData || {};
+            Object.entries(regionsMap).forEach(([k, v]) => {
+              if (v && !v.name && (v.title || v.label)) v.name = v.title || v.label;
+              if (v && !v.icon && v.emoji) v.icon = v.emoji;
+            });
+          }
 
-        // 既存コードの一部が裸の識別子（regions / POIS / COURSES）で参照している可能性があるため、
-        // ブラウザグローバルに直接割り当てておく（safe fallback）
-        // eslint-disable-next-line no-undef
-        regions = regionsData;
-        // eslint-disable-next-line no-undef
-        POIS = poisData;
-        // eslint-disable-next-line no-undef
-        COURSES = coursesData;
+          // グローバルへ代入（既存コードが参照する名前に合わせる）
+          window.regions = regionsMap;
+          regions = regionsMap; // 裸参照のフォールバック
 
-        console.log('データの読み込みが完了しました。', { regionsData, poisData, coursesData });
+          // name -> id マップ（POI.region に表示名が入っているケースの逆引き用）
+          const nameToId = {};
+          Object.entries(regionsMap).forEach(([id, info]) => {
+            if (!info) return;
+            if (info.name) nameToId[String(info.name)] = id;
+            if (info.label) nameToId[String(info.label)] = id;
+            // さらに日本語/英語両方で入っている場合に備えて他のフィールドを追加することも可能
+          });
 
-        // ここで必要なら startApplication() 等を呼ぶ
+          // POI 側の region フィールドを正規化（display name -> regionId へ置換）
+          if (Array.isArray(poisData)) {
+            poisData.forEach(p => {
+              if (!p) return;
+              // 既に region が regionsMap のキーなら OK
+              if (p.region && regionsMap[p.region]) return;
+              // region が表示名だったら id に置換
+              if (p.region && nameToId[p.region]) {
+                p.region = nameToId[p.region];
+              }
+              // 他のケース（例えば p.region が null/空文字）には何もしない
+            });
+          }
+
+          // POI/Courses もグローバルにセット（既存コードから参照される名前）
+          window.POIS = poisData;
+          POIS = poisData;
+          window.COURSES = coursesData;
+          COURSES = coursesData;
+
+          // ログで確認しやすくする
+          console.log('normalized regions ->', window.regions);
+          console.log('sample POI after normalize ->', (window.POIS && window.POIS[0]) || null);
+        })();
+        // --- 正規化処理ここまで ---
+
+        // 必要なら startApplication() があれば呼ぶ
         if (typeof startApplication === 'function') startApplication();
 
-        // 初期化完了を呼び出し元に伝える（呼び出し元で then を待てるように）
+        // 初期化完了（呼び出し元で then を待てるように）
         return;
     } catch (error) {
         console.error('データの読み込みに失敗しました:', error);
