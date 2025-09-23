@@ -840,13 +840,7 @@
 
 
             checkInitialState() {
-                // Check location permission first
-                if (!this.permissionRequested) {
-                    this.showLocationPermission();
-                    return;
-                }
-
-                // Check URL hash for state
+                // URLハッシュから状態確認
                 const hash = window.location.hash.substring(1);
                 const params = new URLSearchParams(hash);
 
@@ -858,21 +852,37 @@
                     this.showMainApp();
                     this.switchTab(this.currentTab);
                 } else {
-                    // Show mode select first time
+                    // 最初はモード画面を表示
                     this.showModeSelect();
                 }
 
-                // Start location tracking if permission granted
+                // 位置情報の許可があれば自動的に監視を開始
                 if (this.hasLocationPermission) {
                     this.startLocationWatch();
                 }
             }
 
-            showLocationPermission() {
-                document.getElementById('location-permission').classList.remove('hidden');
-                document.getElementById('mode-select').classList.add('hidden');
-                document.getElementById('start-gate').classList.add('hidden');
-                document.getElementById('main-app').classList.add('hidden');
+            // 位置情報が必要になった時に許可を求める
+            requestLocationIfNeeded() {
+                if (!this.hasLocationPermission) {
+                    if (confirm('スタンプ取得や現在地表示には位置情報が必要です。位置情報を許可しますか？')) {
+                        return this.requestLocationPermission().then(granted => {
+                            if (granted) {
+                                this.hasLocationPermission = true;
+                                this.permissionRequested = true;
+                                localStorage.setItem('locationPermissionGranted', 'true');
+                                localStorage.setItem('permissionRequested', 'true');
+                                this.startLocationWatch();
+                                return true;
+                            } else {
+                                alert('位置情報の許可が必要です。設定から許可してください。');
+                                return false;
+                            }
+                        });
+                    }
+                    return Promise.resolve(false);
+                }
+                return Promise.resolve(true);
             }
 
             async handleLocationPermission() {
@@ -992,12 +1002,12 @@
                     `;
                 }
 
-                // Update stamp distances and availability
+                // スタンプとの距離、獲得可能か
                 this.updateStampAvailability();
 
                 // Update map if it exists
                 if (this.map && this.userLocation) {
-                    // Remove existing user marker
+                    // 現在地マーカーを動かす
                     this.map.eachLayer(layer => {
                         if (layer.options && layer.options.isUserMarker) {
                             this.map.removeLayer(layer);
@@ -2135,6 +2145,8 @@
             resetData() {
                 if (!confirm('すべてのローカルデータを削除します。よろしいですか？')) return;
 
+                // 背景設定は残したい場合はここを保存
+                const brushBg = localStorage.getItem('brushBgEnabled');
 
                 localStorage.clear();
 
@@ -2146,7 +2158,6 @@
                 this.currentMode = null;
                 this.currentCourse = null;
                 this.currentTab = 'map';
-                this.nickname = null;
                 this.userLocation = null;
                 this.stampCollection = {};
                 this.courseProgress = {};
