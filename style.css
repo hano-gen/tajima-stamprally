@@ -441,63 +441,6 @@
             line-height: 1.6;
         }
 
-        /* Start Gate Styles */
-        .start-gate-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            max-width: 400px;
-            margin: 0 auto;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nickname-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .nickname-input:focus {
-            outline: none;
-            border-color: var(--brand-primary);
-        }
-
-        .input-validation {
-            font-size: 0.875rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .input-validation.error {
-            color: var(--error);
-        }
-
-        .start-btn {
-            width: 100%;
-            background: var(--brand-primary);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .start-btn:hover:not(:disabled) {
-            background: #c53030;
-        }
-
-        .start-btn:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-
         /* Landing Styles */
         .hero-section {
             text-align: center;
