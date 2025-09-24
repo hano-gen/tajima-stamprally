@@ -587,5 +587,25 @@
     "mapLink": "https://maps.app.goo.gl/Juqme7xZQZk4u7EG7",
     "stampimageURL": "./images/tantan-onsen_stamp.png",
     "imageURL": "./images/tantan-onsen.jpg"
+  },
+  {
+    "id": "kindai-toyooka",
+    "name": "近畿大豊岡",
+    "lat": 35.53706727252718,
+    "lng": 134.80662422955962,
+    "radius_m": 50,
+    "description": "地下1,000mから湧き出る源泉かけ流しの天然温泉。美肌の湯として人気。",
+    "detailedDescription": "地下深くから湧き出る天然温泉で、やわらかな泉質が特徴です。地元の人々にも親しまれており、露天風呂や広々とした浴場で心地よいひとときを過ごせます。周辺観光と合わせて立ち寄れる癒しスポットとして人気です。",
+    "category": "leisure",
+    "region": "tanto",
+    "points": 1,
+    "accessInfo": "自動車  中国自動車道（福崎I.C）→播但連絡道路（和田山I.C）→R312→R426→R482　　　または中国自動車道（吉川JCT）→舞鶴若狭自動車道（福知山I.C）→R9→R426→R482",
+    "openingHours": "【１月・2月】\n平　日　14時00分～21時00分（受付は20時30分まで）\n土日祝　11時00分～21時00分（受付は20時30分まで）\n【3月～12月】\n平　日　14時00分～21時30分（受付は21時00分まで）\n土日祝　11時00分～22時00分（受付は21時30分まで）　\n定休日　火曜日（祝日の場合は営業）",
+    "highlights": ["天然温泉の魅力", "多彩な湯あみ体験", "観光とあわせて楽しめる立地"],
+    "address": "〒668-0334 兵庫県豊岡市但東町坂野470",
+    "mapLink": "https://maps.app.goo.gl/Juqme7xZQZk4u7EG7",
+    "stampimageURL": "./images/tantan-onsen_stamp.png",
+    "imageURL": "./images/tantan-onsen.jpg",
+    "audio": "./audio/guides/kindai-toyooka.mp3"
   }
 ]
