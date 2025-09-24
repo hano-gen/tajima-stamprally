@@ -810,13 +810,13 @@ class ToyookaStampApp {
                                         return `
                                             <div class="stamp-stand ${!isCollected && (distance === null || distance > stamp.radius_m) ? 'stamp-unavailable' : ''}"
                                                  data-stamp-id="${stamp.id}"
-                                                 onclick="app.collectStamp('${stamp.id}')">
-                                                <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
-                                                    <div class="stamp-stand-img" ${isCollected && stamp.stampimageURL ? `style="background-image: url('${stamp.stampimageURL}')"` : ''}>
-                                                        ${isCollected && stamp.stampimageURL ? '' : this.getCategoryIcon(stamp.category)}
-                                                    </div>
-                                                </div>
-                                                <span class="stamp-stand-label">${stamp.name}</span>
+                                                // renderRegionStamps (一部) — クリック可能な要素に一意の id を付与します
+                                                id="stamp-stand-${stamp.id}" onclick="app.collectStamp('${stamp.id}')">
+                                                    <div class="stamp-stand-circle ${isCollected ? 'stamp-stand-collected' : ''}">
+                                                        <div class="stamp-stand-img" ${isCollected && stamp.stampimageURL ? `style="background-image: url('${stamp.stampimageURL}')"` : ''}>
+                                                            ${isCollected && stamp.stampimageURL ? '' : this.getCategoryIcon(stamp.category)}
+                                                        </div>
+                                                    </div>                                                <span class="stamp-stand-label">${stamp.name}</span>
                                                 ${distance !== null ? `
                                                     <div class="distance-badge ${distance <= 1000 ? 'near' : 'far'}">
                                                         ${Math.round(distance)}m
