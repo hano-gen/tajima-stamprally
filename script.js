@@ -842,7 +842,7 @@ class ToyookaStampApp {
         return icons[category] || '📍';
     }
 
-    collectStamp(stampId) {
+    async collectStamp(stampId) {
         if (!this.userLocation) {
             alert('位置情報が取得できていません');
             return false;
@@ -884,15 +884,17 @@ class ToyookaStampApp {
         this.visitHistory.push(visit);
         this.saveData();
 
-        // Show success message
-        setTimeout(() => {
-            alert(`🎉 ${stamp.name}のスタンプを取得しました！\n+${stamp.points}ポイント`);
-        }, 100);
-
         // Update UI immediately
         this.renderNearbyContent();
         this.updateProfileData();
         this.updateSettingsData();
+
+        // Show modal animation and (録音音声があるなら) 再生
+        try {
+            await this.showStampGuideModalAndPlay(stamp);
+        } catch (e) {
+            console.warn('ガイド音声再生中にエラー', e);
+        }
 
         // Check course completion
         if (this.currentMode === 'course' && this.currentCourse) {
@@ -901,7 +903,7 @@ class ToyookaStampApp {
 
         return true;
     }
-
+    
     checkCourseCompletion() {
         const course = window.COURSES.find(c => c.slug === this.currentCourse);
         if (!course) return;
