@@ -757,7 +757,7 @@ class ToyookaStampApp {
                                         ${isCollected && (stamp.audio || stamp.audioURL) ? `
                                             <div class="stamp-audio-control">
                                                 <button id="play-audio-btn-${stamp.id}" class="play-audio-btn"
-                                                    onclick="event.stopPropagation(); app.playSpotAudio('${stamp.id}')">
+                                                    onclick="app.playSpotAudioHandler(event, '${stamp.id}')">
                                                     🔊 音声を再生
                                                 </button>
                                             </div>
@@ -825,12 +825,12 @@ class ToyookaStampApp {
                                                 ${isCollected && (stamp.audio || stamp.audioURL) ? `
                                                     <div class="stamp-audio-control">
                                                         <button id="play-audio-btn-${stamp.id}" class="play-audio-btn"
-                                                            onclick="event.stopPropagation(); app.playSpotAudio('${stamp.id}')">
+                                                            onclick="app.playSpotAudioHandler(event, '${stamp.id}')">
                                                             🔊 音声を再生
                                                         </button>
                                                     </div>
-                                                ` : ''}
-                                            </div>
+                                                ` : ''}                                        
+                                              </div>
                                         `;
                                     }).join('')}
                                 </div>
@@ -845,6 +845,25 @@ class ToyookaStampApp {
                 </div>
             `;
         }).join('');
+    }
+
+    // ボタンの inline onclick から安全に呼び出すためのラッパー
+    // event を受け取り親要素への伝播を止めた上で playSpotAudio を呼ぶ
+    playSpotAudioHandler(e, spotId) {
+        try {
+            if (e && typeof e.stopPropagation === 'function') {
+                e.stopPropagation();
+            }
+        } catch (err) {
+            // たまに event が未定義のブラウザがあるので保険
+            console.warn('playSpotAudioHandler: stopPropagation failed', err);
+        }
+        // 実際の再生処理へ渡す
+        if (typeof this.playSpotAudio === 'function') {
+            this.playSpotAudio(spotId);
+        } else {
+            console.warn('playSpotAudio is not defined on app');
+        }
     }
     
     getCategoryIcon(category) {
