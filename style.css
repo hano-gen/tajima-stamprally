@@ -1042,7 +1042,7 @@
         }
 
         .play-audio-btn {
-            background: linear-gradient(90deg, #06b6d4, #06b6a4);
+            background: linear-gradient(90deg, #d46506, #cf920e);
             color: white;
             border: none;
             padding: 0.4rem 0.6rem;
@@ -1069,7 +1069,7 @@
             opacity: 0.6;
             cursor: default;
         }
-        
+
         .stamp-stand {
             display: flex;
             flex-direction: column;
