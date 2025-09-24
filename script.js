@@ -754,6 +754,14 @@ class ToyookaStampApp {
                                                 ${Math.round(distance)}m
                                             </div>
                                         ` : ''}
+                                        ${isCollected && (stamp.audio || stamp.audioURL) ? `
+                                            <div class="stamp-audio-control">
+                                                <button id="play-audio-btn-${stamp.id}" class="play-audio-btn"
+                                                    onclick="event.stopPropagation(); app.playSpotAudio('${stamp.id}')">
+                                                    🔊 音声を再生
+                                                </button>
+                                            </div>
+                                        ` : ''}
                                     </div>
                                 `;
                             }).join('')}
@@ -814,6 +822,14 @@ class ToyookaStampApp {
                                                         ${Math.round(distance)}m
                                                     </div>
                                                 ` : ''}
+                                                ${isCollected && (stamp.audio || stamp.audioURL) ? `
+                                                    <div class="stamp-audio-control">
+                                                        <button id="play-audio-btn-${stamp.id}" class="play-audio-btn"
+                                                            onclick="event.stopPropagation(); app.playSpotAudio('${stamp.id}')">
+                                                            🔊 音声を再生
+                                                        </button>
+                                                    </div>
+                                                ` : ''}
                                             </div>
                                         `;
                                     }).join('')}
@@ -830,7 +846,7 @@ class ToyookaStampApp {
             `;
         }).join('');
     }
-
+    
     getCategoryIcon(category) {
         const icons = {
             'culture': '🏛️',
