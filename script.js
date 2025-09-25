@@ -1,14 +1,20 @@
-// Register Service Worker for PWA
+// sw登録
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
+  window.addEventListener('load', () => {
+    const swPath = './sw.js';
+    console.debug('Attempting to register service worker at', swPath, 'location:', location.href);
+    navigator.serviceWorker.register(swPath)
+      .then((registration) => {
+        console.log('SW registered:', registration);
+        console.log('SW scope:', registration.scope);
+      })
+      .catch((registrationError) => {
+        console.warn('SW registration failed:', registrationError);
+        if (registrationError && registrationError.name === 'SecurityError') {
+          console.warn('Service Worker requires HTTPS or localhost. Make sure you are serving over https or using localhost.');
+        }
+      });
+  });
 }
 
 // === initializeApp の完全置き換え（これを既存の initializeApp 関数と差し替えてください） ===

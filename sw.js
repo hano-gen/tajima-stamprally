@@ -1,14 +1,13 @@
 const CACHE_NAME = 'kounotrip-v1';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  // 可能なら画像やロゴ、POI 定義 JSON なども列挙
-  '/regions.json',
-  '/pois.json',
-  '/courses.json'
+  './',
+  './index.html',
+  './style.css',
+  './script.js',
+  './manifest.json',
+  './regions.json',
+  './pois.json',
+  './courses.json'
 ];
 
 // インストール時に静的アセットをキャッシュ
