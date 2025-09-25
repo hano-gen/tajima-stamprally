@@ -43,5 +43,20 @@
         ],
         "description": "日本海の絶景と海の生き物に出会える冒険コース。",
         "poi_ids": ["marineworld", "kinosaki-onsen"]
+    },
+    {
+        "slug": "nature-adventure",
+        "title": "自然と温泉で過ごす休日",
+        "distance_km": 4.2,
+        "duration_min": 180,
+        "stamps_count": 3,
+        "difficulty": 4,
+        "thumbnails": [
+            "./images/hanakoen.jpg",
+            "./images/mongoru.jpg",
+            ".images/tantan-onsen.jpg"
+        ],
+        "description": "京都府との境にある兵庫県豊岡市の「日本の原風景」が広がる但東エリア。京都北部（天橋立、伊根など）に向かう途中、帰りの途中の立ち寄りにおすすめのコースです。",
+        "poi_ids": ["tanto-hanakoen","mongoru","tantan-onsen"]
     }
 ]

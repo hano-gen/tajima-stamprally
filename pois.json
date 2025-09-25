@@ -36,7 +36,8 @@
     "address": "〒668-0214 兵庫県豊岡市出石町内町",
     "mapLink": "https://maps.app.goo.gl/2w9A7dghPr519Ajt9",
     "stampimageURL": "./images/shinkoro_stamp.png",
-    "imageURL": "./images/"
+    "imageURL": "./images/",
+    "audio": "./audio/guides/shinkoro.mp3"
   },
   {
     "id": "eirakukan",
@@ -226,7 +227,7 @@
     "address": "〒669-6122 兵庫県豊岡市瀬戸",
     "mapLink": "https://maps.app.goo.gl/ZDrPf784bt6PJaiU6",
     "stampimageURL": "./images/hiyoriyama_stamp.png",
-    "imageURL": "./images/hiyoriyama.jpg"
+    "imageURL": "./images/hiyoriyama.png"
   },
   {
     "id": "keinohama",
@@ -245,7 +246,7 @@
     "address": "〒669-6124 兵庫県豊岡市気比",
     "mapLink": "https://maps.app.goo.gl/m2GUPwh1Zv8vawzW7",
     "stampimageURL": "./images/keinohama_stamp.png",
-    "imageURL": "./images/keinohama.jpg"
+    "imageURL": "./images/keinohama.png"
   },
   {
     "id": "kaban-street",
@@ -283,7 +284,7 @@
     "address": "〒668-0801 兵庫県豊岡市赤石１３４７",
     "mapLink": "https://maps.app.goo.gl/odWrg1962jd1VcY96",
     "stampimageURL": "./images/genbudo_stamp.png",
-    "imageURL": "./images/genbudo.jpg"
+    "imageURL": "./images/genbudo.png"
   },
   {
     "id": "konotori",
@@ -302,7 +303,7 @@
     "address": "〒668-0814 兵庫県豊岡市祥雲寺１２７",
     "mapLink": "https://maps.app.goo.gl/RCn1MyWYQDoxJWXK6",
     "stampimageURL": "./images/konotori_stamp.png",
-    "imageURL": "./images/konotori.jpg"
+    "imageURL": "./images/konotori.png"
   },
   {
     "id": "tajima-airport",
@@ -683,5 +684,24 @@
     "mapLink": "https://maps.app.goo.gl/Juqme7xZQZk4u7EG7",
     "stampimageURL": "./images/tantan-onsen_stamp.png",
     "imageURL": "./images/tantan-onsen.jpg"
+  },
+  {
+    "id": "tanto-hanakoen",
+    "name": "たんとう花公園",
+    "lat": 35.484130967614476,
+    "lng": 135.00176223443722,
+    "radius_m": 200,
+    "description": "春のチューリップまつり、夏のひまわりまつりの会場",
+    "detailedDescription": "たんとう花公園は春のチューリップまつり、夏のひまわりまつりの会場です。イベント期間限定でオープンしています。チューリップまつりでは10万球のチューリップを使い、毎年異なるアートを表現します。",
+    "category": "nature",
+    "region": "tanto",
+    "points": 3,
+    "accessInfo": "ＪＲ豊岡駅→全但バス「奥藤行」で「モンゴル博物館前」下車。徒歩20分",
+    "openingHours": "9:00～17:00（最終受付:16:30）",
+    "highlights": ["チューリップ", "ひまわり", "アート"],
+    "address": "兵庫県豊岡市但東町畑山",
+    "mapLink": "https://maps.app.goo.gl/y7V1raKbM3kxmwt96",
+    "stampimageURL": "./images/hanakoen.png",
+    "imageURL": "./images/hanakoen.jpg"
   }
 ]
