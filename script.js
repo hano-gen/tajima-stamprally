@@ -1536,14 +1536,8 @@ class ToyookaStampApp {
     resetData() {
         if (!confirm('すべてのローカルデータを削除します。よろしいですか？')) return;
 
-        // 背景設定は残したい場合はここを保存
-        const brushBg = localStorage.getItem('brushBgEnabled');
-
+        // 背景設定の保存処理を削除
         localStorage.clear();
-
-        if (brushBg !== null) {
-            localStorage.setItem('brushBgEnabled', brushBg);
-        }
 
         // 内部状態も初期化
         this.currentMode = null;
@@ -1561,19 +1555,6 @@ class ToyookaStampApp {
         window.location.hash = '';
         window.location.reload();
     }
-
-    // 背景の筆ブラシ風トグル
-    setBrushBgEnabled(enabled) {
-        const body = document.body;
-        if (enabled) {
-            body.classList.add('brush-bg');
-        } else {
-            body.classList.remove('brush-bg');
-        }
-        localStorage.setItem('brushBgEnabled', JSON.stringify(enabled));
-        const toggle = document.getElementById('brush-bg-toggle');
-        if (toggle) toggle.checked = !!enabled;
-      }
 }
 
 // --- Prototype拡張: switchTab を suppressHash オプション対応にする ---
@@ -1623,11 +1604,14 @@ appInitPromise
     const app = new ToyookaStampApp();
     window.app = app;
 
-    // 背景設定の初期適用（app が存在することが前提）
+    // 背景設定の初期化処理を削除
+    // 以下のブロックを削除してください
+    /*
     (function initBrushBg() {
       const saved = JSON.parse(localStorage.getItem('brushBgEnabled') || 'true');
       app.setBrushBgEnabled(saved);
     })();
+    */
 
     // 安全ラッパの登録（app が存在しなければ呼ばれない）
     window.switchTab = (tab) => window.app && window.app.switchTab(tab);
@@ -1637,12 +1621,15 @@ appInitPromise
     window.startCourse = (slug) => window.app && window.app.startCourse(slug);
     window.closeCourseDetail = () => window.app && window.app.closeCourseDetail();
     window.closeSpotDetail = () => window.app && window.app.closeSpotDetail();
+    // toggleBrushBackground の登録を削除
+    /*
     window.toggleBrushBackground = () => {
       const chk = document.getElementById('brush-bg-toggle');
       if (window.app) window.app.setBrushBgEnabled(chk ? chk.checked : true);
     };
+    */
 
-    // 初期表示のハッシュ処理等が必要ならここで実行（app.checkInitialState() は constructor 内で既に呼ばれる）
+    // 初期表示のハッシュ処理等が必要ならここで実行
   })
   .catch(err => {
     // 初期化（データ読み込み）に失敗した場合のフォールバック表示

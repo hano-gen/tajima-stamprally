@@ -1,22 +1,22 @@
 [
     {
         "slug": "castle-town-walk",
-        "title": "出石 城下町散策コース",
-        "distance_km": 2.4,
-        "duration_min": 60,
-        "stamps_count": 5,
-        "difficulty": 2,
+        "title": "出石城下町の奥深くまで",
+        "distance_km": 2.0,
+        "duration_min": 180,
+        "stamps_count": 7,
+        "difficulty": 4,
         "thumbnails": [
             "./images/joseki.png",
             "./images/eirakukan.png",
             "./images/shinkoro.jpg"
         ],
         "description": "但馬の小京都・出石をめぐる定番コース。歴史ある建物と美しい街並みを楽しめます。",
-        "poi_ids": ["izushi-castle", "shinkoro", "eirakukan", "karoyashiki", "meijikan","sukyoji"]
+        "poi_ids": ["eirakukan", "karoyashiki", "izushi-castle", "mizunouta-koen", "kato-hiroyuki", "meijikan", "shinkoro"]
     },
     {
         "slug": "kinosaki-hot-spring",
-        "title": "城崎温泉 外湯めぐりコース",
+        "title": "城崎めぐり",
         "distance_km": 1.8,
         "duration_min": 90,
         "stamps_count": 4,
@@ -31,18 +31,18 @@
     },
     {
         "slug": "marine-adventure",
-        "title": "海の冒険コース",
-        "distance_km": 3.2,
-        "duration_min": 120,
-        "stamps_count": 2,
-        "difficulty": 3,
+        "title": "日本海の絶景と歴史",
+        "distance_km": 12.6,
+        "duration_min": 180,
+        "stamps_count": 5,
+        "difficulty": 5,
         "thumbnails": [
             "./images/takenokaigan.jpg",
             "./images/hiyoriyamakaigan.jpg",
             "./images/keinohama.jpg"
         ],
-        "description": "日本海の絶景と海の生き物に出会える冒険コース。",
-        "poi_ids": ["marineworld", "kinosaki-onsen"]
+        "description": "日本海の絶景と海の生き物に出会える冒険コース。城崎と竹野の移動には車をおすすめします。",
+        "poi_ids": ["marineworld", "hiyoriyamakaigan", "goyotikan", "kitamaekan", "takenokaigan"]
     },
     {
         "slug": "nature-adventure",
